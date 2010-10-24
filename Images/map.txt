@@ -1,0 +1,20 @@
+WALL
+10 10 | 80 S | F 80 E | F 60 N 
+340 500 | 60 S | D 40 E
+340 565 | 60 S | F 40 E
+385 500 | 60 E | F 40 S
+385 545 | 40 S | F 40 O
+
+
+ 
+
+
+SANDBAGS
+
+
+VEHICLES
+
+
+WATER
+
+
