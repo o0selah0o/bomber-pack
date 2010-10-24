@@ -31,7 +31,7 @@ private:
 	int team;
 	
 	
-}
+};
 
 
 #endif

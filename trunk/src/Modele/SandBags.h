@@ -12,7 +12,7 @@ public:
 	SandBags();
 	~SandBags();
 	
-}
+};
 
 
 #endif

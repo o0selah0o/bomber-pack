@@ -1,3 +1,5 @@
+
+
 #ifndef __MODEL
 #define __MODEL
 
@@ -19,8 +21,8 @@ public:
 	
 	//getters and setters
 	Node getWholeMap();
-	std::vector<Soldiers> getSoldiers();
-	std::vector<Vehicle> getVehicles()
+	std::vector<&Soldiers> getSoldiers();
+	std::vector<&Vehicle> getVehicles()
 	
 	
 	
@@ -30,10 +32,10 @@ private:
 	//Toute la carte de jeu. 
 	Node wholeMap;
 	//tableau contenant les personnages de la carte. Le premier est le joueur, le reste sont des bots
-	std::vector<Personnages> soldiers;
+	std::vector<&Personnages> soldiers;
 	// tableau contenant tous les vehicules de la carte
-	std::vector<Vehicle> vehicles;
+	std::vector<&Vehicle> vehicles;
 	
-}
+};
 
 #endif
