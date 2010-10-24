@@ -27,18 +27,24 @@ Node::Node(int _x, int _y, int _l, int _h)
 	symbole = 's';
 }
 
-Node::Node(int _x, int _y, int _l, int _h, std::string _nom)
+Node::Node(int _x, int _y, int _l, int _h,char _nom)
 {
 	x = _x;
 	y = _y;
 	longueur = _l;
 	hauteur = _h;
-	c_nom = _nom;
+	symbole = _nom;
 }
 
 Node::~Node()
 {
-	//ToDo
+	
+	int i;
+	int size= child.size();
+	for (i=0; i<size; i++) {
+		delete(child.at(i));
+	}
+	 
 }
 
 void Node::addChild(Node &rchild)

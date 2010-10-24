@@ -29,7 +29,7 @@ private:
 	int hp;
 	
 	
-}
+};
 
 
 #endif

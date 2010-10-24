@@ -10,4 +10,4 @@ public:
 	Obus();
 	~Obus();	
 	
-}
+};

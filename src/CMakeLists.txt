@@ -42,7 +42,7 @@ ADD_EXECUTABLE(Battlefield2D ${Battlefield2D_inc} ${Battlefield2D_src})
 
 # On lie l'executable avec la librairie 'liste'
 TARGET_LINK_LIBRARIES(Battlefield2D
-	Model
+	Modele
 	Vue
 	Controller
 )

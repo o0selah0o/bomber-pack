@@ -10,6 +10,6 @@ public:
 	Bullet();
 	~Bullet();	
 	
-}
+};
 
 #endif

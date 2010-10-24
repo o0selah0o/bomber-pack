@@ -39,5 +39,5 @@ protected:
 	int power;
 	
 	
-}
+};
 #endif

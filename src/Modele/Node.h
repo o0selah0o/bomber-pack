@@ -28,7 +28,7 @@ public:
 protected:
 	Node* parent;
 	std::vector<Node*> child;
-	char c_nom;
+	char symbole;
 	int x;
 	int y;
 	int longueur;
