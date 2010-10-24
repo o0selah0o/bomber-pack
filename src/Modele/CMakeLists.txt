@@ -22,6 +22,7 @@ SET(Modele_inc
 	Node.h
 	SandBags.h
 	Vehicle.h
+	Aircraft.h
 	
 )
 
@@ -41,6 +42,7 @@ SET(Modele_src
 	Node.cpp
 	SandBags.cpp
 	Vehicle.cpp
+	Aircraft.cpp
 )
 
 # On cree une librairie
