@@ -13,5 +13,4 @@ Bullet::Bullet(int _dx, int _dy): Projectile(_dx,_dy)
 	power=20;
 }
 
-Bullet:
 
