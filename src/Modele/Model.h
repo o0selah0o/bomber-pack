@@ -9,6 +9,7 @@
 #include "Soldier.h"
 #include "Vehicle.h"
 #include "Map.h"
+#include "Projectile.h"
 
 /**
  Model a une map ( un arbre de nodes) et un vecteur de personnages
@@ -43,6 +44,8 @@ private:
 	std::vector<Soldier*> soldiers;
 	// tableau contenant tous les vehicules de la carte
 	std::vector<Vehicle*> vehicles;
+	
+	std::vector<Projectile*> projectiles;
 	
 };
 
