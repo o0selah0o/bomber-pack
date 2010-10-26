@@ -9,16 +9,16 @@ Model::Model(){
 Model::~Model()
 {
 	unsigned int i;
-	for(i=0;i<vehicles.size();i++){
+	for(i = 0; i < vehicles.size() ; i++){
 		delete vehicles.at(i);
 	}
-	for(i=0;i<soldiers.size();i++){
+	for(i = 0 ; i < soldiers.size() ; i++){
 		delete soldiers.at(i);
 	}
 }
 
 Model::Model(std::string fichier){
-	wholeMap= Map();
+	wholeMap = Map();
 	wholeMap.ReadFileMap(fichier);
 	wholeMap.ReadFileVehicles(fichier);
 	wholeMap.ReadFileSoldiers(fichier);
