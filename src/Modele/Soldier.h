@@ -2,6 +2,7 @@
 #define __SOLDIER
 #include "Node.h"
 #include <vector>
+#include "Bullet.h"
 /** 
  Sous classe de node, représentant un soldat **/
 
@@ -22,7 +23,7 @@ public:
 	//fait avancer l'élément vers l'Est
 	void moveRight();
 	//fait tirer un projectile à l'élément
-	void fire(int _dx,int _dy);
+	Bullet fire(int _dx,int _dy);
 	
 	bool isActiv();
 	
