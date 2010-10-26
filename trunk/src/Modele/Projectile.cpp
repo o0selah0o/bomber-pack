@@ -4,6 +4,9 @@ Projectile::Projectile(){
 	
 }
 
+Projectile::~Projectile(){
+	
+}
 Projectile::Projectile(int _dx,int _dy){
 	dx=_dx;
 	dy=_dy;
