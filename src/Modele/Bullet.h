@@ -10,7 +10,7 @@ public:
 	
 	Bullet();
 	~Bullet();
-	Bullet(int _dx, int _dy);
+	Bullet(int _x,int _y,int _dx, int _dy);
 	
 };
 

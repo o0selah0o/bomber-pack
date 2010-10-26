@@ -1,5 +1,5 @@
-#ifndef __OBUS
-#define __OBUS
+#ifndef __OBUS__
+#define __OBUS__
 #include "Projectile.h"
 
 //classe représentant un obus tiré par un char
@@ -11,3 +11,5 @@ public:
 	~Obus();	
 	
 };
+
+#endif

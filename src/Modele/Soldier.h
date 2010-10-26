@@ -39,6 +39,9 @@ public:
 	
 	void setActiv(bool b);
 	
+	void hit(int damages){
+		hp=hp-damages;
+	}
 private:
 	// sa vitesse de déplacement
 	int speed;

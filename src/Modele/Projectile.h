@@ -10,7 +10,7 @@ class Projectile: public Node
 {
 public:
 	Projectile();
-	Projectile(int _dx,int _dy);
+	Projectile(int _x,int _y,int _dx,int _dy);
 	~Projectile();
 	
 	//fonction qui déplace la balle
@@ -27,8 +27,11 @@ public:
 	int getDx();
 	//void setDx(int _dx);
 	int getDy();
+	std::pair<int,int> getMaxPoint();
 	//void setDy(int _dy);
 	std::pair<double,double> getTrajectoryAB();
+	int getParcouru();
+
 
 	
 protected:
@@ -41,6 +44,8 @@ protected:
 	int speed;
 	// la puissance du projectile : le nombre de points de vie qu'il enlève
 	int power;
+	
+	int parcouru;
 	
 	
 };

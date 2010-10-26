@@ -122,12 +122,40 @@ bool Model::moveRight(){
 
 
 
+
+
 void Model::update()
 {
     //Todo
     // 1 - Faire avancer les balles. Pour chaque balle :
     //        - Verifier que les elements autour ne genent pas
     //        - Verifier que si elle est proche d'un soldat, retirer un point de vie au soldat
+	Projectile *tempPointer;
+	for(int i=(int) projectiles.size();i >= 0;i--){
+		projectiles.at(i)->parcourir();
+		if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
+			projectiles.erase(projectiles.begin()+i);
+		}
+		char terrainNode = wholeMap.getNodeAtPosXY(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second);
+		if(terrainNode == 's'  or terrainNode == 'w'){
+			projectiles.erase(projectiles.begin()+i);
+		}
+	}
+	
+	for(int i=(int) projectiles.size();i >= 0;i--){
+		projectiles.at(i)->parcourir();
+		for (int j=0;(int)soldiers.size();j++) {
+			float x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
+			float y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
+			float distance = sqrt( x + y );
+			if (distance < 5){
+				soldiers.at(j)->hit(projectiles.at(i)->getPower());
+				tempPointer= projectiles.at(i);
+				projectiles.erase(projectiles.begin()+i);
+				delete tempPointer;
+			}
+		}
+	}
 	
     // 2 - Pour chaque Bot :
     //        - Verifier position, ajuster pour se rapprocher de l'ennemi le plus proche
@@ -145,9 +173,10 @@ void Model::update()
                     float x = pow(soldiers.at(i)->getPosition().first - soldiers.at(j)->getPosition().first, 2);
                     float y = pow(soldiers.at(i)->getPosition().second - soldiers.at(j)->getPosition().second, 2);
                     float distance = sqrt( x + y );
-                    if(distance < 400)
+                    if(distance < 400 and i != j)
                         soldiers.at(i)->fire((int)x, (int)y);
-                    if(distance < distanceMax)
+                    
+					if(distance < distanceMax)
                     {
                         distanceMax = (int) distance;
                         direction = j;
