@@ -6,6 +6,15 @@
 # Pour definir la version minimum de CMake requise
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+# Pour SFML
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
+
+# Pour le verbose
+#SET(CMAKE_CXX_FLAGS "-WALL -W -Werror -ansi -pedantic -g")
+
+# Trouver SFML
+find_package(SFML REQUIRED)
+
 # Pour définir le repertoire racine du projet
 SET(PROJECT_ROOT "..")
 
@@ -45,5 +54,6 @@ TARGET_LINK_LIBRARIES(Battlefield2D
 	Modele
 	Vue
 	Controller
+	${SFML_LIBRARY}
 )
 
