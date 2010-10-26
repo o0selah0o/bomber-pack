@@ -20,7 +20,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     sf::String Menu3;
     int menu = 0;
  
-    if (!Image.LoadFromFile("bf2.jpg"))
+    if (!Image.LoadFromFile("../../Images/bf2.jpg"))
     {
         std::cerr << "Error loading bf2.jpg" << std::endl;
         return (-1);
@@ -30,7 +30,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     Sprite.SetImage(Image);
     //Sprite.SetColor(sf::Color(255, 255, 255, alpha));
  
-	if (!Font.LoadFromFile("GUNPLA3D.ttf"))
+	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
         std::cerr << "Error loading font" << std::endl;
     }
