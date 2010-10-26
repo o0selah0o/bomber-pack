@@ -18,7 +18,10 @@ class Map:public Node
 		bool ReadFileVehicles(std::string fichier);
 		void addSpecificNode(int posx, int posy,int longueur,int hauteur,char type);
 		bool ReadFileSoldiers(std::string fichier);
-	void addSoldier(int coorx,int coory,char type, int team, int nujoueur );
+		void addSoldier(int coorx,int coory,char type, int team, int nujoueur );
+		std::vector<Soldier*> getSoldiers(); 
+		std::vector<Vehicle*> getVehicles(); 
+		
 	private:
 		std::vector<Vehicle*> vehicles;
 		std::vector<Soldier*> soldiers;

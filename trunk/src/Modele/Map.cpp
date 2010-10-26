@@ -181,6 +181,15 @@ void Map::addSoldier(int coorx,int coory,char type, int team, int nujoueur ){
 	}
 }
 
+std::vector<Soldier*> Map::getSoldiers(){
+	return soldiers;
+}
+
+
+std::vector<Vehicle*> Map::getVehicles(){
+	return vehicles;
+} 
+
 
 
 

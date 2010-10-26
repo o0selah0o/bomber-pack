@@ -21,7 +21,9 @@ Model::Model(std::string fichier){
 	wholeMap= Map();
 	wholeMap.ReadFileMap(fichier);
 	wholeMap.ReadFileVehicles(fichier);
-	//wholeMap.ReadFileSoldiers(fichier);
+	wholeMap.ReadFileSoldiers(fichier);
+	vehicles=wholeMap.getVehicles();
+	soldiers=wholeMap.getSoldiers();
 }
 
 Map Model::getMap(){
