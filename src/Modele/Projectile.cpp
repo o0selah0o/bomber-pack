@@ -9,7 +9,7 @@ Projectile::Projectile(int _dx,int _dy){
 	dy=_dy;
 }
 
-Projectile::parcourir(){
+void Projectile::parcourir(){
 	
 	
 }
