@@ -23,6 +23,7 @@ public:
 	std::pair<int,int> getBoundingBox();
 	void setParent(Node* _parent);
 	char getNodeAtPosXY(int _x,int _y);
+	char getSymbole();
 	std::vector< std::vector<int> >  cross(int x, int y, int dvue);
 	
 protected:

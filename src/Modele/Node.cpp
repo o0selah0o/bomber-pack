@@ -98,6 +98,9 @@ void Node::setBoundingBox(int _h, int _l)
 	
 }
 
+char Node::getSymbole(){
+	return symbole;
+}
 std::pair<int,int> Node::getBoundingBox()
 {
 	std::pair<int,int> p (hauteur, longueur); 

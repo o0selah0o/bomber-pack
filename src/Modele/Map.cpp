@@ -8,6 +8,8 @@
 #include "Jeep.h"
 #include "Sandbags.h"
 #include "Grass.h"
+#include "Soldier.h"
+#include "BotSoldier.h"
 
 #include <fstream>
 #include <iostream>
@@ -104,8 +106,44 @@ bool Map::ReadFileVehicles(std::string fichier){
 }
 
 
+bool Map::ReadFileSoldiers(std::string fichier){
+	std::ifstream loadedFile(fichier.c_str());
+	std::vector<std::string> parse;
+	if ( loadedFile )
+	{
+		std::string ligne;
+		std::string soldier="SOLDIER";
+		std::string bot="BOT";
+		char typeToAdd='b';
+		while (std::getline(loadedFile,ligne))
+		{	
+			if(ligne.find(soldier)){
+				typeToAdd='c';
+			}
+			if(ligne.find(bot)){
+				typeToAdd='b';
+			}
+			parse= tokenize(ligne,'|');
+			int coorx;
+			int coory;
+			std::vector<std::string> caseInf;
+			caseInf=tokenize(parse.at(0),' ');
+			coorx=std::atoi(caseInf.at(0).c_str());
+			coory=std::atoi(caseInf.at(1).c_str());
+			caseInf=tokenize(parse.at(1),' ');
+			int team= std::atoi(caseInf.at(0).c_str());
+			caseInf=tokenize(parse.at(2),' ');
+			int nujoueur=std::atoi(caseInf.at(0).c_str());
+			addSoldier(coorx,coory,typeToAdd,team,nujoueur);
+		}
+	}
 	
-void Map::addSpecificNode(int coorx,int coory, int hauteur, int longueur, char type){
+	return true;
+}
+
+
+	
+void Map::addSpecificNode(int coorx,int coory, int hauteur, int longueur, char type ){
 	if (type=='t'){
 		Tank tank= Tank(coorx,coory);
 		vehicles.push_back(&tank);
@@ -129,6 +167,17 @@ void Map::addSpecificNode(int coorx,int coory, int hauteur, int longueur, char t
 	if (type=='j'){
 		Jeep jeep =Jeep(coorx,coory);
 		vehicles.push_back(&jeep);
+	}
+}
+
+void Map::addSoldier(int coorx,int coory,char type, int team, int nujoueur ){
+	if (type=='b'){
+		BotSoldier bot= BotSoldier(nujoueur,team,coorx,coory);
+		soldiers.push_back(&bot);
+	}
+	if (type=='c'){
+		Soldier soldier = Soldier(nujoueur,team,coorx,coory);
+		soldiers.push_back(&soldier);
 	}
 }
 
