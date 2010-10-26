@@ -20,21 +20,21 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     sf::String Menu3;
     int menu = 0;
  
-	/*
-    if (!Image.LoadFromFile("presentation.png"))
+    if (!Image.LoadFromFile("bf2.jpg"))
     {
-        std::cerr<<"Error loading presentation.gif"<<std::endl;
+        std::cerr << "Error loading bf2.jpg" << std::endl;
         return (-1);
     }
 	 
+	Sprite.SetScale(1.3f, 1.3f);
     Sprite.SetImage(Image);
-    Sprite.SetColor(sf::Color(255, 255, 255, alpha));
-	 */
-    if (!Font.LoadFromFile("secret.ttf"))
+    //Sprite.SetColor(sf::Color(255, 255, 255, alpha));
+ 
+	if (!Font.LoadFromFile("GUNPLA3D.ttf"))
     {
-        std::cerr<<"Error loading verdanab.ttf"<<std::endl;
-        //return (-1);
+        std::cerr << "Error loading font" << std::endl;
     }
+	
     Menu1.SetFont(Font);
     Menu1.SetSize(20);
     Menu1.SetText("Play");
@@ -102,7 +102,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
         {
             alpha++;
         }
-        Sprite.SetColor(sf::Color(255, 255, 255, alpha/alpha_div));
+        //Sprite.SetColor(sf::Color(255, 255, 255, alpha/alpha_div));
         if (menu==0)
         {
             Menu1.SetColor(sf::Color(255, 0, 0, 255));

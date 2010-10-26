@@ -1,6 +1,8 @@
 #ifndef __SCREEN
 #define __SCREEN
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Audio.hpp>
 #include "../Controller/Controleur.h"
 #include "../Modele/Model.h"
 #include <string>

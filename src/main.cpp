@@ -1,6 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Network.hpp>
-#include <SFML/Audio.hpp>
+#include "Vue/View.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,5 +6,7 @@
 
 int main()
 {
+	View* view = new View("","Fenetre principale", 640, 480);
+	view->Run();
 	return 0;
 }
