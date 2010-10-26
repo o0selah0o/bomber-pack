@@ -65,7 +65,7 @@ int Soldier::getSpeed(){
 
 
 Bullet Soldier::fire(int _dx,int _dy){
-	Bullet bul=Bullet(_dx,_dy);
+	Bullet bul=Bullet(x,y,_dx,_dy);
 	return bul;
 	
 }

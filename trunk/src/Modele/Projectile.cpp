@@ -7,9 +7,47 @@ Projectile::Projectile(){
 Projectile::~Projectile(){
 	
 }
-Projectile::Projectile(int _dx,int _dy){
+Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	dx=_dx;
 	dy=_dy;
+	parcouru=0;
+	double xb,yb,facteur,distanceDA;
+	if( ( _x < _dx) and (_y < _dy)){
+		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
+		distanceDA=sqrt(distanceDA);
+		facteur= 10/distanceDA;
+		xb= ((_dx-_x)* facteur)+_x;
+		yb= ((_dy-_y)* facteur)+_y;
+		x=xb;
+		y=yb;
+	}
+	if( ( _x > dx) and (_y < _dy)){
+		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
+		distanceDA=sqrt(distanceDA);
+		facteur= 10/distanceDA;
+		xb= ((_x-_dx)* facteur)-_x;
+		yb= ((_dy-_y)* facteur)+_y;
+		x=xb;
+		y=yb;
+	}
+	if( ( _x > _dx) and (_y > _dy)){
+		distanceDA= pow(dx - x,2) + pow(_dy - _y,2);
+		distanceDA=sqrt(distanceDA);
+		facteur= 10/distanceDA;
+		xb= ((_x-_dx)* facteur)-_x;
+		yb= ((_y-_dy)* facteur)-_y;
+		x=xb;
+		y=yb;
+	}
+	if( ( _x < _dx) and (_y > _dy)){
+		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
+		distanceDA=sqrt(distanceDA);
+		facteur= 10/distanceDA;
+		xb= ((_x-_x)* facteur)+_x;
+		yb= ((_y-_dy)* facteur)-_y;
+		x=xb;
+		y=yb;
+	}
 }
 
 void Projectile::parcourir(){
@@ -50,6 +88,13 @@ void Projectile::parcourir(){
 		x=xb;
 		y=yb;
 	}
+	parcouru+=speed;
+	
+}
+
+
+int Projectile::getParcouru(){
+	return parcouru;
 }
 
 int Projectile::getSpeed(){
@@ -59,6 +104,7 @@ int Projectile::getSpeed(){
 int Projectile::getRange(){
 	return range;
 }
+
 
 int Projectile::getPower(){
 	return power;
