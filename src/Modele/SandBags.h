@@ -6,10 +6,11 @@
  **/
 
 
-public class SandBags: public Node
+class SandBags: public Node
 {
 public:
 	SandBags();
+	SandBags(int _x, int _y, int longueur, int hauteur);
 	~SandBags();
 	
 };

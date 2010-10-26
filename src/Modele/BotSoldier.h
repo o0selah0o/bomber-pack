@@ -6,7 +6,7 @@
  Sous classe de Soldier. Un soldat géré par l'ordinateur
 **/
 
-public class BotSoldier: public Soldier
+class BotSoldier: public Soldier
 {
 public:
 	BotSoldier();
