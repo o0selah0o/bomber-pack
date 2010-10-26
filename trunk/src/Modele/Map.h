@@ -3,6 +3,7 @@
 #include "Node.h"
 #include <String.h>
 #include "Vehicle.h"
+#include "Soldier.h"
 
 /**
  Classe représentant la map.
@@ -16,9 +17,11 @@ class Map:public Node
 		bool ReadFileMap(std::string fichier);
 		bool ReadFileVehicles(std::string fichier);
 		void addSpecificNode(int posx, int posy,int longueur,int hauteur,char type);
+		bool ReadFileSoldiers(std::string fichier);
+	void addSoldier(int coorx,int coory,char type, int team, int nujoueur );
 	private:
 		std::vector<Vehicle*> vehicles;
-
+		std::vector<Soldier*> soldiers;
 	
 };
 #endif

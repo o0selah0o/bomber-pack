@@ -31,6 +31,7 @@ public:
 	bool moveBack();
 	bool moveRight();
 	bool moveLeft();
+	void update();
 	
 	
 	

@@ -28,6 +28,8 @@ public:
 	//void setDx(int _dx);
 	int getDy();
 	//void setDy(int _dy);
+	std::pair<double,double> getTrajectoryAB();
+
 	
 protected:
 	// les coordonnées de la direction dans laquelle va le projectile.
