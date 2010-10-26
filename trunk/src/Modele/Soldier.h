@@ -1,15 +1,17 @@
 #ifndef __SOLDIER
 #define __SOLDIER
 #include "Node.h"
+#include <vector>
 /** 
  Sous classe de node, représentant un soldat **/
 
 
-public class Soldier: public Node
+class Soldier: public Node
 {
 public:
 	Soldier();
 	~Soldier();
+	Soldier(int _nujoueur,int _team,int _x,int _y);
 	
 	//fait avancer l'élément vers le Nord
 	void moveUp();
@@ -22,6 +24,20 @@ public:
 	//fait tirer un projectile à l'élément
 	void fire(int _dx,int _dy);
 	
+	bool isActiv();
+	
+	int getNuJoueur();
+	
+	int getTeam();
+	
+	int getSpeed();
+	
+	void setTeam(int t);
+	
+	void setNuJoueur(int nu);
+	
+	void setActiv(bool b);
+	
 private:
 	// sa vitesse de déplacement
 	int speed;
@@ -30,6 +46,10 @@ private:
 	//son équipe
 	int team;
 	
+	bool activ;
+	
+	int nujoueur;
+		
 	
 };
 

@@ -3,12 +3,14 @@
 #include "Projectile.h"
 
 //classe représentant une balle
-public class Bullet:public Projectile
+class Bullet:public Projectile
 {
+	
 public:
 	
 	Bullet();
-	~Bullet();	
+	~Bullet();
+	Bullet(int _dx, int _dy);
 	
 };
 

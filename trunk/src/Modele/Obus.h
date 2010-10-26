@@ -3,7 +3,7 @@
 #include "Projectile.h"
 
 //classe représentant un obus tiré par un char
-public class Obus:public Projectile
+class Obus:public Projectile
 {
 public:
 	

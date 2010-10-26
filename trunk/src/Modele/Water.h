@@ -6,10 +6,11 @@
  **/
 
 
-public class Water: public Node
+class Water: public Node
 {
 public:
 	Water();
+	Water(int _x, int _y, int longueur, int hauteur);
 	~Water();
 	
 }

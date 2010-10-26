@@ -5,9 +5,10 @@
  Sous classe de vehicle, représentant une jeep**/
 
 
-public class Jeep: public Vehicle
+class Jeep: public Vehicle
 {
 public:
+	Jeep(int _x, int _y);
 	Jeep();
 	~Jeep();	
 	

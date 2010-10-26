@@ -23,6 +23,8 @@ SET(Modele_inc
 	SandBags.h
 	Vehicle.h
 	Aircraft.h
+	tokenize.h
+	Grass.h
 	
 )
 
@@ -30,6 +32,7 @@ SET(Modele_inc
 SET(Modele_src
 	BotSoldier.cpp
 	Map.cpp
+	tokenize.cpp
 	Obus.cpp
 	Soldier.cpp
 	Wall.cpp
@@ -43,6 +46,7 @@ SET(Modele_src
 	SandBags.cpp
 	Vehicle.cpp
 	Aircraft.cpp
+	Grass.cpp
 )
 
 # On cree une librairie

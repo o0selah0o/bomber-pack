@@ -15,7 +15,6 @@ Node::Node(int _x, int _y)
 	y = _y;
 	longueur = 0;
 	hauteur = 0;
-	symbole = 'z';
 }
 
 Node::Node(int _x, int _y, int _l, int _h)
@@ -24,7 +23,6 @@ Node::Node(int _x, int _y, int _l, int _h)
 	y = _y;
 	longueur = _l;
 	hauteur = _h;
-	symbole = 's';
 }
 
 Node::Node(int _x, int _y, int _l, int _h,char _nom)
@@ -151,3 +149,16 @@ std::vector< std::vector<int> > Node::cross(int _x, int _y, int distanceVue)
 	
 	return res;
 }
+
+char Node::getNodeAtPosXY(int _x,int _y){
+	unsigned int i;
+	unsigned int length= child.size();
+	Node * ahead;
+	for(i=0;i<length;i++){
+		if( (child.at(i)->x) < _x and (child.at(i)->y) < _y and (child.at(i)->x + child.at(i)->longueur) > _x and (child.at(i)->y + child.at(i)->longueur) > _y and child.at(i)->symbole != 'g'){
+			ahead= child.at(i);
+		}  
+	}
+	return ahead->symbole;
+}	
+
