@@ -12,8 +12,6 @@ public:
 	BotSoldier();
 	~BotSoldier();
 	BotSoldier(int _nujoueur,int _team,int _x,int _y);
-	//méthode gérant le comportement d'un soldat ennemi
-	void agir();
 
 	
 	
