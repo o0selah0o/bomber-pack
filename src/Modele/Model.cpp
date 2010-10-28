@@ -54,13 +54,13 @@ bool Model::moveUp(){
 	if(soldiers.at(0)->isActiv()){
 		int posy=soldiers.at(0)->getPosition().second;
 		int nextPosy=posy-soldiers.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(vehicles.at(0)->getPosition().first, nextPosy);
+		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);
 		
 	}
 	else {
 		int posy=vehicles.at(0)->getPosition().second;
 		int nextPosy=posy-vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(vehicles.at(0)->getPosition().first, nextPosy);		
+		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);		
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
 		return false;
@@ -80,7 +80,7 @@ bool Model::moveBack(){
 	else {
 		int posy=vehicles.at(0)->getPosition().second;
 		int nextPosy=posy+vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(vehicles.at(0)->getPosition().first, nextPosy);		
+		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);		
 	}
 	
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
@@ -100,7 +100,7 @@ bool Model::moveLeft(){
 	else {
 		int posx=vehicles.at(0)->getPosition().first;
 		int nextPosx=posx-vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(0)->getPosition().second);
+		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
 	}
 	
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
@@ -121,7 +121,7 @@ bool Model::moveRight(){
 	else {
 		int posx=vehicles.at(0)->getPosition().first;
 		int nextPosx=posx+vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(0)->getPosition().second);
+		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
 		return false;
