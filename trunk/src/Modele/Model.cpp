@@ -1,7 +1,7 @@
 #include "Model.h"
 #include "Map.h"
 #include "math.h"
-
+#include <iostream>
 Model::Model(){
 	
 }
@@ -19,9 +19,20 @@ Model::~Model()
 
 Model::Model(std::string fichier){
 	wholeMap = Map();
-	wholeMap.ReadFileMap(fichier);
-	wholeMap.ReadFileVehicles(fichier);
-	wholeMap.ReadFileSoldiers(fichier);
+	
+	if(!wholeMap.ReadFileMap(fichier + "_map.txt")){
+		std::cout << "echec chargement fichier map" << std::endl;
+	}
+	
+	if(!wholeMap.ReadFileVehicles(fichier + "_vehicles.txt")){
+		std::cout << "echec chargement fichier vehicles" << std::endl;
+	}
+	 
+	if(!wholeMap.ReadFileSoldiers(fichier + "_soldiers.txt")){
+		std::cout << "echec chargement fichier soldiers" << std::endl;
+	}
+	
+	
 	vehicles=wholeMap.getVehicles();
 	soldiers=wholeMap.getSoldiers();
 }
@@ -134,11 +145,15 @@ void Model::update()
 	for(int i=(int) projectiles.size();i >= 0;i--){
 		projectiles.at(i)->parcourir();
 		if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
+			tempPointer= projectiles.at(i);
 			projectiles.erase(projectiles.begin()+i);
+			delete tempPointer;
 		}
 		char terrainNode = wholeMap.getNodeAtPosXY(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second);
 		if(terrainNode == 's'  or terrainNode == 'w'){
+			tempPointer= projectiles.at(i);
 			projectiles.erase(projectiles.begin()+i);
+			delete tempPointer;
 		}
 	}
 	
@@ -197,4 +212,8 @@ void Model::update()
                 soldiers.at(i)->moveUp();
         }
     }
-}	
+}
+
+Node* Model::FieldOfView(int _x,int _y,int fov){
+	
+}

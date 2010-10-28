@@ -25,6 +25,7 @@ public:
 	char getNodeAtPosXY(int _x,int _y);
 	char getSymbole();
 	std::vector< std::vector<int> >  cross(int x, int y, int dvue);
+	std::vector<Node*> getChild();
 	
 protected:
 	Node* parent;

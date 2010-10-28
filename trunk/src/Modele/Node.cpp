@@ -156,12 +156,22 @@ std::vector< std::vector<int> > Node::cross(int _x, int _y, int distanceVue)
 char Node::getNodeAtPosXY(int _x,int _y){
 	unsigned int i;
 	unsigned int length= child.size();
-	Node * ahead;
+	char c= 'g';
+	int xno,yno,xse,yse;
 	for(i=0;i<length;i++){
-		if( (child.at(i)->x) < _x and (child.at(i)->y) < _y and (child.at(i)->x + child.at(i)->longueur) > _x and (child.at(i)->y + child.at(i)->longueur) > _y and child.at(i)->symbole != 'g'){
-			ahead= child.at(i);
+		xno=child.at(i)->getPosition().first;
+		yno=child.at(i)->getPosition().second;
+		xse=child.at(i)->getPosition().first+ child.at(i)->getBoundingBox().second;
+		yse=child.at(i)->getPosition().second + child.at(i)->getBoundingBox().first;
+		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y and child.at(i)->getSymbole() != 'g'){
+			c= child.at(i)->getSymbole();
 		}  
 	}
-	return ahead->symbole;
-}	
+	return c;
+}
+
+
+std::vector<Node*> Node::getChild(){
+	return child;
+}
 

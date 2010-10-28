@@ -7,3 +7,7 @@ Jeep::Jeep(int _x, int _y): Vehicle(_x,_y,longueur,hauteur)
 	hauteur=70;
 	longueur=110;
 }
+
+Jeep::~Jeep(){
+	
+}

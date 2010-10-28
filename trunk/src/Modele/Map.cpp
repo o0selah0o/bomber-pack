@@ -22,6 +22,10 @@ Map::Map():Node()
 	symbole='m';
 }
 
+Map::~Map(){
+	
+}
+
 bool Map::ReadFileMap(std::string fichier){
 	std::ifstream loadedFile(fichier.c_str());
 	std::vector<std::string> parse;
@@ -32,38 +36,44 @@ bool Map::ReadFileMap(std::string fichier){
 		std::string water="WATER";
 		std::string sandbags="SANDBAGS";
 		std::string size="SIZE";
+		int longueur;
+		int hauteur;
 		char typeToAdd='w';
-
 		while (std::getline(loadedFile,ligne))
 		{	
-			if (ligne.find(size)){
+			if (ligne.find(size)!=std::string::npos){
+				std::getline(loadedFile,ligne);
 				parse=tokenize(ligne,'|');
-				longueur= atoi(parse.at(0).c_str());
-				hauteur= atoi(parse.at(1).c_str());
-				addSpecificNode(0, 0, longueur, hauteur, 'g');
+				hauteur= std::atoi(parse.at(0).c_str());
+				longueur= std::atoi(parse.at(1).c_str());
+				addSpecificNode(0, 0,hauteur,longueur, 'g');
 				std::getline(loadedFile,ligne);
 			}
-			if(ligne.find(wall)){
+			if(ligne.find(wall)!=std::string::npos){
 				typeToAdd='w';
 			}
-			if(ligne.find(water)){
+			if(ligne.find(water)!=std::string::npos){
 				typeToAdd='a';
 			}
-			if(ligne.find(sandbags)){
+			if(ligne.find(sandbags)!=std::string::npos){
 				typeToAdd='s';
 			}
 			
-			parse= tokenize(ligne,'|');
-			int coorx;
-			int coory;
-			std::vector<std::string> caseInf;
-			caseInf=tokenize(parse.at(0),' ');
-			coorx=std::atoi(caseInf.at(0).c_str());
-			coory=std::atoi(caseInf.at(1).c_str());
-			caseInf=tokenize(parse.at(1),' ');
-			int hauteur=std::atoi(caseInf.at(0).c_str());
-			int longueur=std::atoi(caseInf.at(1).c_str());
-			addSpecificNode(coorx,coory,hauteur,longueur,typeToAdd);
+			if(ligne.find('|')!=std::string::npos){
+				parse= tokenize(ligne,'|');
+				int coorx;
+				int coory;
+				
+				std::vector<std::string> caseInf;
+				
+				caseInf=tokenize(parse.at(0),' ');
+				coorx=std::atoi(caseInf.at(0).c_str());
+				coory=std::atoi(caseInf.at(1).c_str());
+				caseInf=tokenize(parse.at(1),' ');
+				hauteur=std::atoi(caseInf.at(1).c_str());
+				longueur=std::atoi(caseInf.at(2).c_str());
+				addSpecificNode(coorx,coory,hauteur,longueur,typeToAdd);
+			}
 						
 		}
 	}
@@ -74,31 +84,36 @@ bool Map::ReadFileMap(std::string fichier){
 bool Map::ReadFileVehicles(std::string fichier){
 	std::ifstream loadedFile(fichier.c_str());
 	std::vector<std::string> parse;
+	int sizecase=0;
 	if ( loadedFile )
-	{
+	{	
 		std::string ligne;
-		std::string jeep="JEEP";
 		std::string tank="TANK";
-		char typeToAdd='w';
-		
+		std::string jeep="JEEP";
+		char typeToAdd='b';
 		while (std::getline(loadedFile,ligne))
-		{
-			if(ligne.find(tank)){
+		{	
+			if(ligne.find(tank)!=std::string::npos){
 				typeToAdd='t';
+				std::getline(loadedFile,ligne);
 			}
-			if(ligne.find(jeep)){
+			if(ligne.find(jeep)!=std::string::npos){
 				typeToAdd='j';
+				std::getline(loadedFile,ligne);
 			}
-			
-			parse= tokenize(ligne,'|');
-			int coorx;
-			int coory;
-			std::vector<std::string> caseInf;
-			int sizeCase= 10;
-			caseInf=tokenize(parse.at(0),' ');
-			coorx=std::atoi(caseInf.at(0).c_str());
-			coory=std::atoi(caseInf.at(1).c_str());
-			addSpecificNode(coorx,coory,sizeCase,sizeCase,typeToAdd);
+			if(ligne.find('|')!=std::string::npos){
+				parse= tokenize(ligne,'|');
+				int coorx;
+				int coory;
+				
+				std::vector<std::string> caseInf;
+				
+				caseInf=tokenize(parse.at(0),' ');
+				coorx=std::atoi(caseInf.at(0).c_str());
+				caseInf=tokenize(parse.at(1),' ');
+				coory=std::atoi(caseInf.at(1).c_str());
+				addSpecificNode(coorx,coory,sizecase,sizecase,typeToAdd);
+			}	
 		}
 	}
 	
@@ -110,31 +125,37 @@ bool Map::ReadFileSoldiers(std::string fichier){
 	std::ifstream loadedFile(fichier.c_str());
 	std::vector<std::string> parse;
 	if ( loadedFile )
-	{
+	{	
 		std::string ligne;
 		std::string soldier="SOLDIER";
 		std::string bot="BOT";
 		char typeToAdd='b';
 		while (std::getline(loadedFile,ligne))
 		{	
-			if(ligne.find(soldier)){
+			if(ligne.find(soldier)!=std::string::npos){
 				typeToAdd='c';
+				std::getline(loadedFile,ligne);
 			}
-			if(ligne.find(bot)){
+			if(ligne.find(bot)!=std::string::npos){
 				typeToAdd='b';
+				std::getline(loadedFile,ligne);
 			}
-			parse= tokenize(ligne,'|');
-			int coorx;
-			int coory;
-			std::vector<std::string> caseInf;
-			caseInf=tokenize(parse.at(0),' ');
-			coorx=std::atoi(caseInf.at(0).c_str());
-			coory=std::atoi(caseInf.at(1).c_str());
-			caseInf=tokenize(parse.at(1),' ');
-			int team= std::atoi(caseInf.at(0).c_str());
-			caseInf=tokenize(parse.at(2),' ');
-			int nujoueur=std::atoi(caseInf.at(0).c_str());
-			addSoldier(coorx,coory,typeToAdd,team,nujoueur);
+			if(ligne.find('|')!=std::string::npos){
+				parse= tokenize(ligne,'|');
+				int coorx;
+				int coory;
+				
+				std::vector<std::string> caseInf;
+				
+				caseInf=tokenize(parse.at(0),' ');
+				coorx=std::atoi(caseInf.at(0).c_str());
+				coory=std::atoi(caseInf.at(1).c_str());
+				
+				int team= std::atoi(parse.at(1).c_str());
+				int nujoueur=std::atoi(parse.at(2).c_str());
+				
+				addSoldier(coorx,coory,typeToAdd,team,nujoueur);
+			}	
 		}
 	}
 	
@@ -145,39 +166,39 @@ bool Map::ReadFileSoldiers(std::string fichier){
 	
 void Map::addSpecificNode(int coorx,int coory, int hauteur, int longueur, char type ){
 	if (type=='t'){
-		Tank tank= Tank(coorx,coory);
-		vehicles.push_back(&tank);
+		Tank* tank= new Tank(coorx,coory);
+		vehicles.push_back(tank);
 	}
 	if (type=='w'){
-		Wall wall = Wall(coorx,coory,hauteur,longueur);
-		child.push_back(&wall);
+		Wall* wall = new Wall(coorx,coory,longueur,hauteur);
+		child.push_back(wall);
 	}
 	if (type=='g'){
-		Grass grass = Grass(coorx,coory,hauteur,longueur);
-		child.push_back(&grass);
+		Grass* grass = new Grass(coorx,coory,longueur,hauteur);
+		child.push_back(grass);
 	}
 	if (type=='a'){
-		Water water = Water(coorx,coory,hauteur,longueur);
-		child.push_back(&water);
+		Water* water = new Water(coorx,coory,longueur,hauteur);
+		child.push_back(water);
 	}
 	if (type=='s'){
-		SandBags sand =SandBags(coorx,coory,hauteur,longueur);
-		child.push_back(&sand);
+		SandBags* sand = new SandBags(coorx,coory,longueur,hauteur);
+		child.push_back(sand);
 	}
 	if (type=='j'){
-		Jeep jeep =Jeep(coorx,coory);
-		vehicles.push_back(&jeep);
+		Jeep* jeep =new Jeep(coorx,coory);
+		vehicles.push_back(jeep);
 	}
 }
 
 void Map::addSoldier(int coorx,int coory,char type, int team, int nujoueur ){
 	if (type=='b'){
-		BotSoldier bot= BotSoldier(nujoueur,team,coorx,coory);
-		soldiers.push_back(&bot);
+		BotSoldier* bot= new BotSoldier(nujoueur,team,coorx,coory);
+		soldiers.push_back(bot);
 	}
 	if (type=='c'){
-		Soldier soldier = Soldier(nujoueur,team,coorx,coory);
-		soldiers.push_back(&soldier);
+		Soldier* soldier = new Soldier(nujoueur,team,coorx,coory);
+		soldiers.push_back(soldier);
 	}
 }
 

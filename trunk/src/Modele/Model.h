@@ -33,6 +33,7 @@ public:
 	bool moveRight();
 	bool moveLeft();
 	void update();
+	Node* FieldOfView(int _x,int _y,int fov);
 	
 	
 	
@@ -48,5 +49,6 @@ private:
 	std::vector<Projectile*> projectiles;
 	
 };
+
 
 #endif
