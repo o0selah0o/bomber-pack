@@ -113,7 +113,7 @@ void Node::setParent(Node* _parent)
 	parent = _parent;
 }
 
-std::vector< std::vector<int> > Node::cross(int _x, int _y, int distanceVue)
+std::vector< std::vector<int> > Node::cross(int _x, int _y, int hauteur,int longueur)
 {
 	std::vector< std::vector<int> > res;
 	std::vector<int> temp;
@@ -128,25 +128,17 @@ std::vector< std::vector<int> > Node::cross(int _x, int _y, int distanceVue)
 	
 	int nbChild=child.size();
 	int i;
-	float nox;
-	float sdEx;
-	
-	float noy;
-	float sey;
-	
+	int xno,yno,xse,yse,xne,yne,xso,yso;
+	xno=_x-longueur;
 	for (i=0; i < nbChild;i++)
 	{
-		nox=abs(_x - child.at(i)->x);
-		sdEx=abs(_x  - (child.at(i)->x+ child.at(i)->longueur));
 		
-		noy=abs(_x - child.at(i)->x);
-		sey=abs(_y - (child.at(i)->y - child.at(i)->hauteur));
 		
-		if(nox<=(distanceVue + _x) || noy<=(distanceVue+_y) || sdEx<=(distanceVue+_x) || sey<=(distanceVue+_y))
+		/*if(nox<=(distanceVue + _x) || noy<=(distanceVue+_y) || sdEx<=(distanceVue+_x) || sey<=(distanceVue+_y))
 		{
 			std::vector< std::vector<int> > vector2 = child.at(i)->cross(_x,_y,distanceVue);
 			res.insert( res.end(), vector2.begin(), vector2.end() );
-		}
+		}*/
 	}
 	
 	
