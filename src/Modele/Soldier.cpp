@@ -13,6 +13,8 @@ Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	longueur=20;
 	hauteur=10;
 	speed=2;
+	activ=true;
+	symbole='c';
 }
 
 Soldier::~Soldier(){

@@ -9,3 +9,6 @@ Tank::Tank(int _x, int _y): Vehicle(_x,_y,longueur,hauteur)
 }
 
 
+Tank::~Tank(){
+	
+}
