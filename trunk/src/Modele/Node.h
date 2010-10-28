@@ -3,6 +3,7 @@
 #include <vector>
 #include <utility>
 #include <string>
+
 /**
  Classe modélisant un noeud dans l'arbre des éléments à afficher dans notre jeu.
  **/
@@ -24,7 +25,7 @@ public:
 	void setParent(Node* _parent);
 	char getNodeAtPosXY(int _x,int _y);
 	char getSymbole();
-	std::vector< std::vector<int> >  cross(int x, int y, int hauteur,int longueur);
+	std::vector<Node*>  cross(int x, int y, int hauteur,int longueur,Node* carte);
 	std::vector<Node*> getChild();
 	
 protected:

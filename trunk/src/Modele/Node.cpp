@@ -1,6 +1,7 @@
 #include <vector>
 #include "Node.h"
 #include "math.h"
+#include "Map.h"
 #include <iostream>
 
 Node::Node()
@@ -113,26 +114,23 @@ void Node::setParent(Node* _parent)
 	parent = _parent;
 }
 
-std::vector< std::vector<int> > Node::cross(int _x, int _y, int hauteur,int longueur)
+std::vector<Node *> Node::cross(int _x, int _y, int hauteur,int longueur,Node* map)
 {
-	std::vector< std::vector<int> > res;
-	std::vector<int> temp;
-	temp.push_back(x);
-	temp.push_back(y);
-	temp.push_back(longueur);
-	temp.push_back(hauteur);
-	temp.push_back((int)symbole);
-	res.push_back(temp);
-	
-	std::cout << "Cross : " << symbole << std::endl;
-	
+	std::vector<Node *> res;
 	int nbChild=child.size();
 	int i;
 	int xno,yno,xse,yse,xne,yne,xso,yso;
 	xno=_x-longueur;
+	yno=_y-hauteur;
+	xso=_x-longueur;
+	yso=_y-hauteur;
+	xse=_x+longueur;
+	yse=_y-hauteur;
+	xne=_x+longueur;
+	yne=_y+hauteur;
+	
 	for (i=0; i < nbChild;i++)
-	{
-		
+	{	
 		
 		/*if(nox<=(distanceVue + _x) || noy<=(distanceVue+_y) || sdEx<=(distanceVue+_x) || sey<=(distanceVue+_y))
 		{
@@ -140,8 +138,6 @@ std::vector< std::vector<int> > Node::cross(int _x, int _y, int hauteur,int long
 			res.insert( res.end(), vector2.begin(), vector2.end() );
 		}*/
 	}
-	
-	
 	return res;
 }
 
