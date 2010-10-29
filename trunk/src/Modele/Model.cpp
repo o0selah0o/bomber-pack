@@ -199,24 +199,24 @@ void Model::update(float coeff){
 			int dx = soldiers.at(direction)->getPosition().first;
 			int dy = soldiers.at(direction)->getPosition().second;
 			
-			/*if (distanceMax < 200){
-				
-				if(x < dx)
+			if (distanceMax < 200){
+				if(alea < 0.25)
 					soldiers.at(i)->moveRight(coeff);
-				if(x > dx)
+				if(alea >= 0.25 and alea < 0.5)
 					soldiers.at(i)->moveLeft(coeff);
-				if(y > dy)
+				if(alea >= 0.5 and alea < 0.75)
 					soldiers.at(i)->moveUp(coeff);
-				if(y < dy)
+				if(alea >= 0.75 and alea <= 1.0)
 					soldiers.at(i)->moveBack(coeff);
+				
 			}
-			else{*/
+			else{
 				if(x < dx){
-					if(alea < 0.4)
+					if(alea < 0.5)
 						soldiers.at(i)->moveRight(coeff);
-					if(alea >= 0.5 and alea < 0.625)
+					if(alea >= 0.5 and alea < 0.75)
 						soldiers.at(i)->moveLeft(coeff);
-					if(alea >= 0.625 and alea < 0.75)
+					if(alea >= 0.75 and alea < 0.75)
 						soldiers.at(i)->moveUp(coeff);
 					if(alea >= 0.875 and alea <= 1.0)
 						soldiers.at(i)->moveBack(coeff);
@@ -259,4 +259,5 @@ void Model::update(float coeff){
             
         }
     }
+}	
 	
