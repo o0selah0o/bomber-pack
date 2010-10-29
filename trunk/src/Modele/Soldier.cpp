@@ -12,7 +12,7 @@ Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	nujoueur=_nujoueur;
 	longueur=20;
 	hauteur=10;
-	speed=200;
+	speed=600;
 	activ=true;
 	symbole='c';
 }
@@ -22,19 +22,23 @@ Soldier::~Soldier(){
 }
 
 void Soldier::moveUp(float coeff){
-	y=y-(speed * coeff);
+	float deca=(int)	(speed * coeff);
+	y= y - deca;
 }
 
 void Soldier::moveBack(float coeff){
-	y=y+(-1 * speed * coeff);
+	float deca=(int)	(speed * coeff);
+	y=y + deca;
 }
 
 void Soldier::moveLeft(float coeff){
-	x=x-(speed * coeff);
+	float deca=(int)	(speed * coeff )	;
+	x=x - deca ;
 }
 
 void Soldier::moveRight(float coeff){
-	x=x+(-1 * speed * coeff);
+	float deca=	(int)(speed* coeff )	;
+	x=x + deca;
 }
 
 bool Soldier::isActiv(){
