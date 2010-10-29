@@ -35,6 +35,7 @@ public:
 	void update(float coeff);
 	std::vector<Node*> FieldOfView(int _x,int _y,int hauteurfov,int longueurfov);
 	std::vector<Projectile*> getProjectiles();
+	void addProjectiles(Projectile* _projectile);
 
 	
 	
