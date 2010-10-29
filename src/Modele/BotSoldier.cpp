@@ -10,5 +10,6 @@ BotSoldier::~BotSoldier(){
 BotSoldier::BotSoldier(int _nujoueur,int _team,int _x,int _y):Soldier(_nujoueur,_team,_x,_y)
 {
 	symbole='b';
+	speed = 1;
 }
 

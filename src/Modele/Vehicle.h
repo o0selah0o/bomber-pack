@@ -13,13 +13,13 @@ public:
 	~Vehicle();
 	
 	//fait avancer l'élément vers le Nord
-	void moveUp();
+	void moveUp(float coeff);
 	//fait avancer l'élément vers le Sud
-	void moveBack();
+	void moveBack(float coeff);
 	//fait avancer l'élément vers l'Ouest
-	void moveLeft();
+	void moveLeft(float coeff);
 	//fait avancer l'élément vers l'Est
-	void moveRight();
+	void moveRight(float coeff);
 	//fait tirer un projectile à l'élément
 	void fire(int _dx,int _dy);
 	

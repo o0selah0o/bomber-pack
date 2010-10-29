@@ -12,19 +12,19 @@ Vehicle::~Vehicle()
 	
 }
 
-void Vehicle::moveUp(){
+void Vehicle::moveUp(float coeff){
 	y=y-speed;
 }
 
-void Vehicle::moveBack(){
+void Vehicle::moveBack(float coeff){
 	y=y+speed;
 }
 
-void Vehicle::moveLeft(){
+void Vehicle::moveLeft(float coeff){
 	x=x-speed;
 }
 
-void Vehicle::moveRight(){
+void Vehicle::moveRight(float coeff){
 	x=x+speed;
 }
 

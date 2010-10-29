@@ -2,25 +2,37 @@
 
 Screen_Jeux::Screen_Jeux (void)
 {
-    movement_step = 5;
-    posx = 320;
-    posy = 240;
-    //Setting sprite
-    Sprite.SetColor(sf::Color(255, 255, 255, 150));
-    Sprite.SetSubRect(sf::IntRect(0, 0, 10, 10));
 }
- 
+
 int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
 {
     sf::Event Event;
     bool Running = true;
- 
- 
-    //Clearing screen
-	App.Clear();
- 
+	
+	sf::Image Image;
+	
+	if (!Image.LoadFromFile("../../Images/grass3.jpg"))
+	{
+		App.Close();
+	}
+	
+	sf::Sprite Sprite;
+	Sprite.SetImage(Image);
+	Sprite.Scale(.35f,.37f);
+	Sprite.SetPosition(0.f, 0.f);
+	Sprite.SetCenter(App.GetView().GetRect().GetWidth() / 2 , App.GetView().GetRect().GetHeight() / 2);
+	
+	
+	
     while (Running)
     {
+		//Key pressed			
+		if (App.GetInput().IsKeyDown(sf::Key::Q)) _controleur->Event("Left");
+		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right");
+		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up");
+		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down");
+		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
+		
         //Verifying events
         while (App.GetEvent(Event))
         {
@@ -29,48 +41,35 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
             {
                 return (-1);
             }
-            //Key pressed
-            if (Event.Type == sf::Event::KeyPressed)
-            {
-                switch (Event.Key.Code)
-                {
-                    case sf::Key::Escape:
-                        return (0);
-                        break;
-                    case sf::Key::Up:
-                        posy -= movement_step;
-                        break;
-                    case sf::Key::Down:
-                        posy += movement_step;
-                        break;
-                    case sf::Key::Left:
-                        posx -= movement_step;
-                        break;
-                    case sf::Key::Right:
-                        posx += movement_step;
-                        break;
-                    default:
-                        break;
-                }
-            }
+			
         }
- 
-        //Updating
-        if (posx>630)
-            posx = 630;
-        if (posx<0)
-            posx = 0;
-        if (posy>470)
-            posy = 470;
-        if (posy<0)
-            posy = 0;
-        Sprite.SetPosition(posx, posy);
- 
+		
+		
+		//Clearing screen
+		App.Clear();
+		
+		_model->update(0.5);
+		
+		App.Draw(Sprite);
+		
         //Drawing
-        App.Draw(Sprite);
-        App.Display();
+		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+		{
+			int x = (int)_model->getSoldiers().at(i)->getPosition().first;
+			int y = (int) _model->getSoldiers().at(i)->getPosition().second;
+			if(_model->getSoldiers().at(i)->getTeam() == 1)
+				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
+			if(_model->getSoldiers().at(i)->getTeam() == 2)
+				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+		}
+		
+		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
+			if(_model->getProjectiles().size() > 0)
+				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 3, sf::Color::Blue, 1, sf::Color::Black));
+		
+		App.Display();
     }
- 
+	
     //Never reaching this point normally, but just in case, exit the application
     return -1;
 }
