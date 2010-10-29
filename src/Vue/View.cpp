@@ -25,7 +25,7 @@ void View::Run()
     sf::RenderWindow App(sf::VideoMode(x, y, 32), name);
 	
     //Mouse cursor no more visible
-    App.ShowMouseCursor(false);
+    //App.ShowMouseCursor(false);
 	
     //Screens preparations
     Screen_0 s0;

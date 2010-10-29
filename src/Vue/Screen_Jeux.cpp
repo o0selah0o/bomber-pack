@@ -27,12 +27,15 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
     while (Running)
     {
 		float Time = App.GetFrameTime();
+		unsigned int dx = App.GetInput().GetMouseX();
+		unsigned int dy = App.GetInput().GetMouseY();
 		//Key pressed			
 		if (App.GetInput().IsKeyDown(sf::Key::Q)) _controleur->Event("Left",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
+		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
 		
         //Verifying events
         while (App.GetEvent(Event))

@@ -1,4 +1,5 @@
 #include "Controleur.h"
+#include <iostream>
 
 Controleur::Controleur(Model* _model)
 {
@@ -40,8 +41,10 @@ void Controleur::Event(std::string _action, int _dx, int _dy)
 {
 	if(_action == "lClick")
 	{
-		model->getSoldiers().at(0)->fire(_dx,_dy);
-	}
+		//model->getProjectiles().push_back(model->getSoldiers().at(0)->fire(_dx,_dy));
+		model->addProjectiles(model->getSoldiers().at(0)->fire(_dx,_dy));
+		std::cout << "Taille projectile : " << (int) model->getProjectiles().size() << std::endl;
+ 	}
 	if(_action == "rClick")
 	{
 		//model->getVehicles().at(0)->

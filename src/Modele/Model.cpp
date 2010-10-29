@@ -136,6 +136,11 @@ std::vector<Projectile*> Model::getProjectiles()
 	return projectiles;
 }
 
+void Model::addProjectiles(Projectile* _projectile)
+{
+	projectiles.push_back(_projectile);
+}
+
 std::vector<Node*> Model::FieldOfView(int _x,int _y,int hauteurfov,int longueurfov){
 	return wholeMap.cross(_x,_y,hauteurfov,longueurfov);
 }
@@ -154,7 +159,6 @@ void Model::update(float coeff){
 			projectiles.at(i)->parcourir();
 			if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
 				//tempPointer= projectiles.at(i);
-				std::cout << "Parcouru : " << i << std::endl;
 				projectiles.erase(projectiles.begin()+i);
 				//delete tempPointer;
 			}
