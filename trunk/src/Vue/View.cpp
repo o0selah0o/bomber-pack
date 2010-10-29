@@ -6,14 +6,10 @@
 
 View::View(std::string _path, std::string _name, int _x, int _y)
 {
-	/*
 	Model* _model = new Model(_path);
 	model = _model;
 	Controleur* _controleur = new Controleur(model);
 	controleur = _controleur;
-	 */
-	controleur = NULL;
-	model = NULL;
 	name = _name;
 	x = _x;
 	y = _y;

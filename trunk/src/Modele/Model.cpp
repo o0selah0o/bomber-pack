@@ -49,84 +49,84 @@ std::vector<Vehicle*> Model::getVehicles(){
 	return vehicles;
 }
 
-bool Model::moveUp(){
+bool Model::moveUp(float coeff){
 	char typepred;
 	if(soldiers.at(0)->isActiv()){
 		int posy=soldiers.at(0)->getPosition().second;
-		int nextPosy=posy-soldiers.at(0)->getSpeed();
+		int nextPosy=posy-soldiers.at(0)->getSpeed()+soldiers.at(0)->getBoundingBox().first;
 		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);
 		
 	}
 	else {
 		int posy=vehicles.at(0)->getPosition().second;
-		int nextPosy=posy-vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);		
+		int nextPosy=posy-vehicles.at(0)->getSpeed()+vehicles.at(0)->getBoundingBox().first;
+		typepred= wholeMap.getNodeAtPosXY(vehicles.at(0)->getPosition().first, nextPosy);		
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
 		return false;
 	} 
-	vehicles.at(0)->moveUp();
+	soldiers.at(0)->moveUp(coeff);
 	return true;
 }
 
-bool Model::moveBack(){
+bool Model::moveBack(float coeff){
 	char typepred;
 	if(soldiers.at(0)->isActiv()){
-		int posy=soldiers.at(0)->getPosition().second;
+		int posy=soldiers.at(0)->getPosition().second+soldiers.at(0)->getBoundingBox().first;
 		int nextPosy=posy+soldiers.at(0)->getSpeed();
 		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);
 		
 	}
 	else {
 		int posy=vehicles.at(0)->getPosition().second;
-		int nextPosy=posy+vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(soldiers.at(0)->getPosition().first, nextPosy);		
+		int nextPosy=posy+vehicles.at(0)->getSpeed()+vehicles.at(0)->getBoundingBox().first;
+		typepred= wholeMap.getNodeAtPosXY(vehicles.at(0)->getPosition().first, nextPosy);		
 	}
 	
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
 		return false;
 	} 
-	vehicles.at(0)->moveBack();
+	soldiers.at(0)->moveBack(coeff);
 	return true;
 }
 
-bool Model::moveLeft(){
+bool Model::moveLeft(float coeff){
 	char typepred;
 	if(soldiers.at(0)->isActiv()){
 		int posx=soldiers.at(0)->getPosition().first;
-		int nextPosx=posx-soldiers.at(0)->getSpeed();
+		int nextPosx=posx-soldiers.at(0)->getSpeed()+soldiers.at(0)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
 	}
 	else {
 		int posx=vehicles.at(0)->getPosition().first;
-		int nextPosx=posx-vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
+		int nextPosx=posx-vehicles.at(0)->getSpeed()+vehicles.at(0)->getBoundingBox().second;
+		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(0)->getPosition().second);
 	}
 	
-	if (typepred == 's' or typepred== 'w' or typepred =='a'){
+	if (typepred == 's' or typepred== 'w' or typepred =='a' or typepred=='s' or typepred=='b'){
 		return false;
 	} 
-	vehicles.at(0)->moveRight();
+	soldiers.at(0)->moveLeft(coeff);
 	return true;
 	
 }
 
-bool Model::moveRight(){
+bool Model::moveRight(float coeff){
 	char typepred;
 	if(soldiers.at(0)->isActiv()){
 		int posx=soldiers.at(0)->getPosition().first;
-		int nextPosx=posx+soldiers.at(0)->getSpeed();
+		int nextPosx=posx+soldiers.at(0)->getSpeed()+soldiers.at(0)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
 	}
 	else {
 		int posx=vehicles.at(0)->getPosition().first;
-		int nextPosx=posx+vehicles.at(0)->getSpeed();
-		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(0)->getPosition().second);
+		int nextPosx=posx+vehicles.at(0)->getSpeed()+vehicles.at(0)->getBoundingBox().second;
+		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(0)->getPosition().second);
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
 		return false;
 	} 
-	vehicles.at(0)->moveRight();
+	soldiers.at(0)->moveRight(coeff);
 	return true;
 	
 }
@@ -135,42 +135,52 @@ bool Model::moveRight(){
 
 
 
-void Model::update()
+void Model::update(float coeff)
 {
+	std::cout << (int)projectiles.size() << std::endl;
     //Todo
     // 1 - Faire avancer les balles. Pour chaque balle :
     //        - Verifier que les elements autour ne genent pas
     //        - Verifier que si elle est proche d'un soldat, retirer un point de vie au soldat
-	Projectile *tempPointer;
-	for(int i=(int) projectiles.size();i >= 0;i--){
-		projectiles.at(i)->parcourir();
-		if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
-			tempPointer= projectiles.at(i);
-			projectiles.erase(projectiles.begin()+i);
-			delete tempPointer;
-		}
-		char terrainNode = wholeMap.getNodeAtPosXY(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second);
-		if(terrainNode == 's'  or terrainNode == 'w'){
-			tempPointer= projectiles.at(i);
-			projectiles.erase(projectiles.begin()+i);
-			delete tempPointer;
-		}
-	}
-	
-	for(int i=(int) projectiles.size();i >= 0;i--){
-		projectiles.at(i)->parcourir();
-		for (int j=0;(int)soldiers.size();j++) {
-			float x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
-			float y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
-			float distance = sqrt( x + y );
-			if (distance < 5){
-				soldiers.at(j)->hit(projectiles.at(i)->getPower());
-				tempPointer= projectiles.at(i);
+	//Projectile* tempPointer;
+	for(int i=(int) projectiles.size() - 1;i >= 0;i--){
+		if(projectiles.size() > 0)
+		{
+			projectiles.at(i)->parcourir();
+			if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
+				//tempPointer= projectiles.at(i);
+				std::cout << "Parcouru : " << i << std::endl;
 				projectiles.erase(projectiles.begin()+i);
-				delete tempPointer;
+				//delete tempPointer;
 			}
+			/*
+			 char terrainNode = wholeMap.getNodeAtPosXY(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second);
+			 if(terrainNode == 's'  or terrainNode == 'w'){
+			 tempPointer= projectiles.at(i);
+			 std::cout << "W ou S : " << i << std::endl;
+			 //projectiles.erase(projectiles.begin()+i);
+			 //delete tempPointer;
+			 }*/
 		}
 	}
+	/*
+	 for(int i=(int) projectiles.size() - 1;i >= 0;i--){
+	 if(projectiles.size() > 0)
+	 {
+	 projectiles.at(i)->parcourir();
+	 for (int j=0;j < (int)soldiers.size();j++) {
+	 float x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
+	 float y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
+	 float distance = sqrt( x + y );
+	 if (distance < 5){
+	 soldiers.at(j)->hit(projectiles.at(i)->getPower());
+	 tempPointer= projectiles.at(i);
+	 //projectiles.erase(projectiles.begin()+i);
+	 //delete tempPointer;
+	 }
+	 }
+	 }
+	 }*/
 	
     // 2 - Pour chaque Bot :
     //        - Verifier position, ajuster pour se rapprocher de l'ennemi le plus proche
@@ -188,9 +198,13 @@ void Model::update()
                     float x = pow(soldiers.at(i)->getPosition().first - soldiers.at(j)->getPosition().first, 2);
                     float y = pow(soldiers.at(i)->getPosition().second - soldiers.at(j)->getPosition().second, 2);
                     float distance = sqrt( x + y );
-                    if(distance < 400 and i != j)
-                        soldiers.at(i)->fire((int)x, (int)y);
-                    
+                    if(distance < 200 and i != j)
+					{
+						if(projectiles.size() < 100)
+						{
+							projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first, (int)soldiers.at(j)->getPosition().second));
+						}
+                    }
 					if(distance < distanceMax)
                     {
                         distanceMax = (int) distance;
@@ -203,17 +217,22 @@ void Model::update()
             int dx = soldiers.at(direction)->getPosition().first;
             int dy = soldiers.at(direction)->getPosition().second;
             if(x < dx)
-                soldiers.at(i)->moveRight();
+                soldiers.at(i)->moveRight(coeff);
             if(x > dx)
-                soldiers.at(i)->moveLeft();
+                soldiers.at(i)->moveLeft(coeff);
             if(y > dy)
-                soldiers.at(i)->moveBack();
+                soldiers.at(i)->moveUp(coeff);
             if(y < dy)
-                soldiers.at(i)->moveUp();
+                soldiers.at(i)->moveBack(coeff);
         }
     }
 }
 
-Node* Model::FieldOfView(int _x,int _y,int fov){
-	
+std::vector<Projectile*> Model::getProjectiles()
+{
+	return projectiles;
+}
+
+std::vector<Node*> Model::FieldOfView(int _x,int _y,int hauteurfov,int longueurfov){
+	return wholeMap.cross(_x,_y,hauteurfov,longueurfov);
 }

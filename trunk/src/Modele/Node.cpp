@@ -114,30 +114,45 @@ void Node::setParent(Node* _parent)
 	parent = _parent;
 }
 
-std::vector<Node *> Node::cross(int _x, int _y, int hauteur,int longueur,Node* map)
+std::vector<Node *> Node::cross(int _x, int _y, int hauteur,int longueur)
 {
 	std::vector<Node *> res;
 	int nbChild=child.size();
 	int i;
-	int xno,yno,xse,yse,xne,yne,xso,yso;
-	xno=_x-longueur;
-	yno=_y-hauteur;
-	xso=_x-longueur;
-	yso=_y-hauteur;
-	xse=_x+longueur;
-	yse=_y-hauteur;
-	xne=_x+longueur;
-	yne=_y+hauteur;
+	int xnoFov,ynoFov,xseFov,yseFov, xnoC,ynoC,xseC,yseC,xneC,yneC,xsoC,ysoC;
+	
+	xnoFov=_x-longueur;
+	ynoFov=_y+hauteur;
+	
+	xseFov=_x+longueur;
+	yseFov=_y-hauteur;
+	
 	
 	for (i=0; i < nbChild;i++)
 	{	
-		
-		/*if(nox<=(distanceVue + _x) || noy<=(distanceVue+_y) || sdEx<=(distanceVue+_x) || sey<=(distanceVue+_y))
-		{
-			std::vector< std::vector<int> > vector2 = child.at(i)->cross(_x,_y,distanceVue);
-			res.insert( res.end(), vector2.begin(), vector2.end() );
-		}*/
-	}
+		char c=child.at(i)->getSymbole();
+		if( c != 'g'){
+			xnoC=child.at(i)->getPosition().first;
+			ynoC=child.at(i)->getPosition().second + child.at(i)->getBoundingBox().first;
+			
+			xseC=child.at(i)->getPosition().first + child.at(i)->getBoundingBox().second;
+			yseC=child.at(i)->getPosition().second ;
+			
+			xneC=child.at(i)->getPosition().first + child.at(i)->getBoundingBox().second;
+			yneC=child.at(i)->getPosition().second + child.at(i)->getBoundingBox().first;
+			
+			xsoC=child.at(i)->getPosition().first;
+			ysoC=child.at(i)->getPosition().second;
+			
+			if ( (xnoC > xnoFov  and ynoC < ynoFov and xnoC < xseFov and ynoC > yseFov) || (xneC > xnoFov  and yneC < ynoFov and xneC < xseFov and yneC > yseFov) || (xsoC > xnoFov  and ysoC < ynoFov and xsoC < xseFov and ysoC > yseFov) || (xseC > xnoFov  and yseC < ynoFov and xseC < xseFov and yseC > yseFov)) {
+				res.push_back(child.at(i));
+			}
+		}
+		else{
+				res.push_back(child.at(i));
+		}
+			   
+	}	
 	return res;
 }
 

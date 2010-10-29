@@ -48,26 +48,36 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 		x=xb;
 		y=yb;
 	}
-	if (_x==_dx){
+	if (_x==_dx and  _y < _dy){
 		x=_dx;
 		y=_y+10;
 	}
-	if (_y==_dy){
+	if (_y==_dy and _x <_dx){
 		x=_x+10;
 		y=_dy;
+	}
+	
+	if (_y==_dy and _dx < _x){
+		x=_x-10;
+		y=_dy;
+	}
+	
+	if (_x==_dx and _dy < _y){
+		x=_dx;
+		y=_y-10;
 	}
 }
 
 void Projectile::parcourir(){
 	double xb,yb,facteur,distanceDA;
 	if( ( x < dx) and (y < dy)){
-	   distanceDA= pow(dx - x,2) + pow(dy - y,2);
-	   distanceDA=sqrt(distanceDA);
-	   facteur= speed/distanceDA;
-	   xb= ((dx-x)* facteur)+x;
-	   yb= ((dy-y)* facteur)+y;
-	   x=xb;
-	   y=yb;
+		distanceDA= pow(dx - x,2) + pow(dy - y,2);
+		distanceDA=sqrt(distanceDA);
+		facteur= speed/distanceDA;
+		xb= ((dx-x)* facteur)+x;
+		yb= ((dy-y)* facteur)+y;
+		x=xb;
+		y=yb;
 	}
 	if( ( x > dx) and (y < dy)){
 		distanceDA= pow(dx - x,2) + pow(dy - y,2);
@@ -96,11 +106,24 @@ void Projectile::parcourir(){
 		x=xb;
 		y=yb;
 	}
-	if (x==dx){
-		y=y+speed;
+	
+	if (x==dx and  y < dy){
+		x=dx;
+		y=y+10;
 	}
-	if (y==dy){
-		x=x+speed;
+	if (y==dy and x <dx){
+		x=x+10;
+		y=dy;
+	}
+	
+	if (y==dy and dx < x){
+		x=x-10;
+		y=dy;
+	}
+	
+	if (x==dx and dy < y){
+		x=dx;
+		y=y-10;
 	}
 	parcouru+=speed;
 	

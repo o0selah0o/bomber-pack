@@ -15,15 +15,15 @@ public:
 	Soldier(int _nujoueur,int _team,int _x,int _y);
 	
 	//fait avancer l'élément vers le Nord
-	void moveUp();
+	void moveUp(float coeff);
 	//fait avancer l'élément vers le Sud
-	void moveBack();
+	void moveBack(float coeff);
 	//fait avancer l'élément vers l'Ouest
-	void moveLeft();
+	void moveLeft(float coeff);
 	//fait avancer l'élément vers l'Est
-	void moveRight();
+	void moveRight(float coeff);
 	//fait tirer un projectile à l'élément
-	Bullet fire(int _dx,int _dy);
+	Bullet* fire(int _dx,int _dy);
 	
 	bool isActiv();
 	
@@ -39,10 +39,8 @@ public:
 	
 	void setActiv(bool b);
 	
-	void hit(int damages){
-		hp=hp-damages;
-	}
-private:
+	void hit(int damages);
+protected:
 	// sa vitesse de déplacement
 	int speed;
 	// ses points de vie 

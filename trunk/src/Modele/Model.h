@@ -28,13 +28,14 @@ public:
 	std::vector<Soldier*> getSoldiers();
 	std::vector<Vehicle*> getVehicles();
 	
-	bool moveUp();
-	bool moveBack();
-	bool moveRight();
-	bool moveLeft();
-	void update();
-	Node* FieldOfView(int _x,int _y,int fov);
-	
+	bool moveUp(float coeff);
+	bool moveBack(float coeff);
+	bool moveRight(float coeff);
+	bool moveLeft(float coeff);
+	void update(float coeff);
+	std::vector<Node*> FieldOfView(int _x,int _y,int hauteurfov,int longueurfov);
+	std::vector<Projectile*> getProjectiles();
+
 	
 	
 
