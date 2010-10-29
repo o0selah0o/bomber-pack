@@ -131,12 +131,17 @@ bool Model::moveRight(float coeff){
 	
 }
 
-
-
-
-
-void Model::update(float coeff)
+std::vector<Projectile*> Model::getProjectiles()
 {
+	return projectiles;
+}
+
+std::vector<Node*> Model::FieldOfView(int _x,int _y,int hauteurfov,int longueurfov){
+	return wholeMap.cross(_x,_y,hauteurfov,longueurfov);
+}
+
+void Model::update(float coeff){
+	srand(time(NULL));
 	std::cout << (int)projectiles.size() << std::endl;
     //Todo
     // 1 - Faire avancer les balles. Pour chaque balle :
@@ -153,38 +158,11 @@ void Model::update(float coeff)
 				projectiles.erase(projectiles.begin()+i);
 				//delete tempPointer;
 			}
-			/*
-			 char terrainNode = wholeMap.getNodeAtPosXY(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second);
-			 if(terrainNode == 's'  or terrainNode == 'w'){
-			 tempPointer= projectiles.at(i);
-			 std::cout << "W ou S : " << i << std::endl;
-			 //projectiles.erase(projectiles.begin()+i);
-			 //delete tempPointer;
-			 }*/
 		}
-	}	/*
-	 for(int i=(int) projectiles.size() - 1;i >= 0;i--){
-	 if(projectiles.size() > 0)
-	 {
-	 projectiles.at(i)->parcourir();
-	 for (int j=0;j < (int)soldiers.size();j++) {
-	 float x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
-	 float y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
-	 float distance = sqrt( x + y );
-	 if (distance < 5){
-	 soldiers.at(j)->hit(projectiles.at(i)->getPower());
-	 tempPointer= projectiles.at(i);
-	 //projectiles.erase(projectiles.begin()+i);
-	 //delete tempPointer;
-	 }
-	 }
-	 }
-	 }*/
+	}
 	
-    // 2 - Pour chaque Bot :
-    //        - Verifier position, ajuster pour se rapprocher de l'ennemi le plus proche
-    //        - Si ennemi assez proche, tirer
-    int distanceMax = 10000;
+	
+	int distanceMax = 10000;
     int direction = 0;
     for(int i = 0; i < (int)soldiers.size(); i++)
     {
@@ -209,29 +187,72 @@ void Model::update(float coeff)
                         distanceMax = (int) distance;
                         direction = j;
                     }
-                }
+				}
             }
-            int x = soldiers.at(i)->getPosition().first;
-            int y = soldiers.at(i)->getPosition().second;
-            int dx = soldiers.at(direction)->getPosition().first;
-            int dy = soldiers.at(direction)->getPosition().second;
-            if(x < dx)
-                soldiers.at(i)->moveRight(coeff);
-            if(x > dx)
-                soldiers.at(i)->moveLeft(coeff);
-            if(y > dy)
-                soldiers.at(i)->moveUp(coeff);
-            if(y < dy)
-                soldiers.at(i)->moveBack(coeff);
+			float alea= (rand()/(double)RAND_MAX);
+			int x = soldiers.at(i)->getPosition().first;
+			int y = soldiers.at(i)->getPosition().second;
+			int dx = soldiers.at(direction)->getPosition().first;
+			int dy = soldiers.at(direction)->getPosition().second;
+			
+			/*if (distanceMax < 200){
+				
+				if(x < dx)
+					soldiers.at(i)->moveRight(coeff);
+				if(x > dx)
+					soldiers.at(i)->moveLeft(coeff);
+				if(y > dy)
+					soldiers.at(i)->moveUp(coeff);
+				if(y < dy)
+					soldiers.at(i)->moveBack(coeff);
+			}
+			else{*/
+				if(x < dx){
+					if(alea < 0.4)
+						soldiers.at(i)->moveRight(coeff);
+					if(alea >= 0.5 and alea < 0.625)
+						soldiers.at(i)->moveLeft(coeff);
+					if(alea >= 0.625 and alea < 0.75)
+						soldiers.at(i)->moveUp(coeff);
+					if(alea >= 0.875 and alea <= 1.0)
+						soldiers.at(i)->moveBack(coeff);
+				}
+					
+				if(x > dx){
+					if(alea < 0.5)
+						soldiers.at(i)->moveLeft(coeff);
+					if(alea >= 0.5 and alea < 0.625)
+						soldiers.at(i)->moveRight(coeff);
+					if(alea >= 0.625 and alea < 0.75)
+						soldiers.at(i)->moveUp(coeff);
+					if(alea >= 0.875 and alea <= 1.0)
+						soldiers.at(i)->moveBack(coeff);
+				}
+				if(y > dy){
+					if(alea < 0.5)
+						soldiers.at(i)->moveUp(coeff);
+					if(alea >= 0.5 and alea < 0.625)
+						soldiers.at(i)->moveLeft(coeff);
+					if(alea >= 0.625 and alea < 0.75)
+						soldiers.at(i)->moveRight(coeff);
+					if(alea >= 0.875 and alea <= 1.0)
+						soldiers.at(i)->moveBack(coeff);
+					
+				}
+				if(y < dy){
+					if(alea < 0.5)
+						soldiers.at(i)->moveBack(coeff);
+					if(alea >= 0.5 and alea < 0.625)
+						soldiers.at(i)->moveLeft(coeff);
+					if(alea >= 0.625 and alea < 0.75)
+						soldiers.at(i)->moveUp(coeff);
+					if(alea >= 0.875 and alea <= 1.0)
+						soldiers.at(i)->moveRight(coeff);
+					
+				}
+											
+			}
+            
         }
     }
-}
-
-std::vector<Projectile*> Model::getProjectiles()
-{
-	return projectiles;
-}
-
-std::vector<Node*> Model::FieldOfView(int _x,int _y,int hauteurfov,int longueurfov){
-	return wholeMap.cross(_x,_y,hauteurfov,longueurfov);
-}
+	
