@@ -31,7 +31,7 @@ public:
 	
 	int getTeam();
 	
-	int getSpeed();
+	float getSpeed();
 	
 	void setTeam(int t);
 	
@@ -42,7 +42,7 @@ public:
 	void hit(int damages);
 protected:
 	// sa vitesse de déplacement
-	int speed;
+	float speed;
 	// ses points de vie 
 	int hp;
 	//son équipe

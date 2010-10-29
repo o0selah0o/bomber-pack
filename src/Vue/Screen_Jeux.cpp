@@ -26,11 +26,12 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 	
     while (Running)
     {
+		float Time = App.GetFrameTime();
 		//Key pressed			
-		if (App.GetInput().IsKeyDown(sf::Key::Q)) _controleur->Event("Left");
-		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right");
-		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up");
-		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down");
+		if (App.GetInput().IsKeyDown(sf::Key::Q)) _controleur->Event("Left",Time);
+		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
+		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up",Time);
+		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
 		
         //Verifying events
@@ -48,7 +49,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		//Clearing screen
 		App.Clear();
 		
-		_model->update(0.5);
+		_model->update(Time);
 		
 		App.Draw(Sprite);
 		

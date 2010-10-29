@@ -12,7 +12,7 @@ public:
 	~Controleur();
 	
 	// Events
-	void Event(std::string _action);
+	void Event(std::string _action,float Time);
 	void Event(std::string _action, int _dx, int _dy);
 	
 private:

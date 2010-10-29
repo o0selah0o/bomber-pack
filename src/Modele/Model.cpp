@@ -162,8 +162,7 @@ void Model::update(float coeff)
 			 //delete tempPointer;
 			 }*/
 		}
-	}
-	/*
+	}	/*
 	 for(int i=(int) projectiles.size() - 1;i >= 0;i--){
 	 if(projectiles.size() > 0)
 	 {
