@@ -22,6 +22,7 @@ private:
 	std::string name;
 	int x;
 	int y;
+	std::string path;
 	
 };
 

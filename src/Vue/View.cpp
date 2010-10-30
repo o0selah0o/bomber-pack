@@ -24,6 +24,7 @@ View::View(std::string _path, std::string _name)
 	name = _name;
 	x = model->getMap().getBoundingBox().first;
 	y = model->getMap().getBoundingBox().second;
+	path = _path;
 }
 
 void View::Run()
@@ -39,8 +40,8 @@ void View::Run()
     //App.ShowMouseCursor(false);
 	
     //Screens preparations
-    Screen_0 s0;
-    screens.push_back(&s0);
+    Screen_0* s0 = new Screen_0(path);
+    screens.push_back(s0);
     Screen_Jeux s1;
     screens.push_back(&s1);
 	
@@ -48,5 +49,11 @@ void View::Run()
     while (screen >= 0)
     {
         screen = screens[screen]->Run(App,model,controleur);
+		if(screen == 2)
+		{
+			model = new Model(path);
+			controleur = new Controleur(model);
+			screen = 1;
+		}
     }
 }
