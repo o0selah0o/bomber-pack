@@ -121,8 +121,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
-			//if(!_model->getSoldiers().at(i)->isDead())
-			//{
+			if(!_model->getSoldiers().at(i)->isDead())
+			{
 				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
 				
@@ -136,7 +136,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 					default:
 						break;
 				}
-			//}
+			}
 		}
 		
 		//Affichage des balles

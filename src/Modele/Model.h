@@ -28,10 +28,10 @@ public:
 	std::vector<Soldier*> getSoldiers();
 	std::vector<Vehicle*> getVehicles();
 	
-	bool moveUp(float coeff);
-	bool moveBack(float coeff);
-	bool moveRight(float coeff);
-	bool moveLeft(float coeff);
+	bool moveUp(int i,float coeff);
+	bool moveBack(int i,float coeff);
+	bool moveRight(int i,float coeff);
+	bool moveLeft(int i,float coeff);
 	void update(float coeff);
 	std::vector<Node*> FieldOfView(int _x,int _y,int hauteurfov,int longueurfov);
 	std::vector<Projectile*> getProjectiles();

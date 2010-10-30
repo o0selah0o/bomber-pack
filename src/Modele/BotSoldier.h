@@ -12,13 +12,7 @@ public:
 	BotSoldier();
 	~BotSoldier();
 	BotSoldier(int _nujoueur,int _team,int _x,int _y);
-	void moveUp(float coeff);
-	
-	void moveBack(float coeff);
-	
-	void moveLeft(float coeff);
-	
-	void moveRight(float coeff);
+
 	
 };
 

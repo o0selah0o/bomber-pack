@@ -17,19 +17,19 @@ void Controleur::Event(std::string _action, float Time)
 {
 	if(_action == "Up") 
 	{
-		model->getSoldiers().at(0)->moveUp(Time); 
+		model->moveUp(0,Time); 
 	}
 	if(_action == "Down") 
 	{
-		model->getSoldiers().at(0)->moveBack(Time);
+		model->moveBack(0,Time);
 	}
 	if(_action == "Left")
 	{
-		model->getSoldiers().at(0)->moveLeft(Time);
+		model->moveLeft(0,Time);
 	}
 	if(_action == "Right")
 	{
-		model->getSoldiers().at(0)->moveRight(Time);
+		model->moveRight(0,Time);
 	}
 	if(_action == "E")
 	{
@@ -39,7 +39,7 @@ void Controleur::Event(std::string _action, float Time)
 
 void Controleur::Event(std::string _action, int _dx, int _dy)
 {
-	if(_action == "lClick")
+	if(_action == "lClick" and !model->getSoldiers().at(0)->isDead())
 	{
 		//model->getProjectiles().push_back(model->getSoldiers().at(0)->fire(_dx,_dy));
 		model->addProjectiles(model->getSoldiers().at(0)->fire(_dx,_dy));
