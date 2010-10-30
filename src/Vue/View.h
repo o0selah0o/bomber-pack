@@ -13,6 +13,7 @@ class View
 {
 public:
 	View(std::string _path, std::string _name, int _x, int _y);
+	View(std::string _path, std::string _name);
 	void Run();
 	
 private:

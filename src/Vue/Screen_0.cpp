@@ -6,7 +6,7 @@ Screen_0::Screen_0(void)
     alpha_div = 3;
     playing = false;
 }
- 
+
 int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
 {
     sf::Event Event;
@@ -19,45 +19,44 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     sf::String Menu2;
     sf::String Menu3;
     int menu = 0;
- 
+	
     if (!Image.LoadFromFile("../../Images/bf2.jpg"))
     {
         std::cerr << "Error loading bf2.jpg" << std::endl;
         return (-1);
     }
-	 
-	Sprite.SetScale(1.3f, 1.3f);
+	
+	Sprite.SetScale((App.GetView().GetRect().GetWidth() / 500), (App.GetView().GetRect().GetHeight() / 375));
     Sprite.SetImage(Image);
-    //Sprite.SetColor(sf::Color(255, 255, 255, alpha));
- 
+	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
         std::cerr << "Error loading font" << std::endl;
     }
 	
     Menu1.SetFont(Font);
-    Menu1.SetSize(20);
+    Menu1.SetSize(25);
     Menu1.SetText("Play");
-    Menu1.SetX(280);
-    Menu1.SetY(160);
+    Menu1.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
+    Menu1.SetY(App.GetView().GetRect().GetHeight() / 2 - 30);
     Menu2.SetFont(Font);
-    Menu2.SetSize(20);
+    Menu2.SetSize(25);
     Menu2.SetText("Exit");
-    Menu2.SetX(280);
-    Menu2.SetY(220);
+    Menu2.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
+    Menu2.SetY(App.GetView().GetRect().GetHeight() / 2 + 50 - 30);
     Menu3.SetFont(Font);
-    Menu3.SetSize(20);
+    Menu3.SetSize(25);
     Menu3.SetText("Continue");
-    Menu3.SetX(280);
-    Menu3.SetY(160);
- 
+    Menu3.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
+    Menu3.SetY(App.GetView().GetRect().GetHeight() / 2 - 30);
+	
 	App.Clear();
 	
     if (playing)
     {
         alpha = alpha_max;
     }
- 
+	
     while (Running)
     {
         //Verifying events
@@ -73,10 +72,10 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
             {
                 switch (Event.Key.Code)
                 {
-                    case sf::Key::Up:
+                    case sf::Key::Z:
                         menu = 0;
                         break;
-                    case sf::Key::Down:
+                    case sf::Key::S:
                         menu = 1;
                         break;
                     case sf::Key::Return:
@@ -102,7 +101,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
         {
             alpha++;
         }
-        //Sprite.SetColor(sf::Color(255, 255, 255, alpha/alpha_div));
+        Sprite.SetColor(sf::Color(255, 255, 255, alpha/alpha_div));
         if (menu==0)
         {
             Menu1.SetColor(sf::Color(255, 0, 0, 255));
@@ -115,24 +114,23 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
             Menu2.SetColor(sf::Color(255, 0, 0, 255));
             Menu3.SetColor(sf::Color(255, 255, 255, 255));
         }
- 
+		
         //Drawing
         App.Draw(Sprite);
-        if (alpha==alpha_max)
-        {
-            if (playing)
-            {
-                App.Draw(Menu3);
-            }
-            else
-            {
-                App.Draw(Menu1);
-            }
-            App.Draw(Menu2);
-        }
+
+		if (playing)
+		{
+			App.Draw(Menu3);
+		}
+		else
+		{
+			App.Draw(Menu1);
+		}
+		App.Draw(Menu2);
+		
         App.Display();
     }
- 
+	
     //Never reaching this point normally, but just in case, exit the application
     return (-1);
 }
