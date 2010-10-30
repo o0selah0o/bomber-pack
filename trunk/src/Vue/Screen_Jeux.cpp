@@ -9,19 +9,51 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
     sf::Event Event;
     bool Running = true;
 	
-	sf::Image Image;
+	sf::Image grass;
 	
-	if (!Image.LoadFromFile("../../Images/grass3.jpg"))
+	if (!grass.LoadFromFile("../../Images/grass3.jpg"))
 	{
 		App.Close();
 	}
 	
-	sf::Sprite Sprite;
-	Sprite.SetImage(Image);
-	Sprite.Scale(.35f,.37f);
-	Sprite.SetPosition(0.f, 0.f);
-	Sprite.SetCenter(App.GetView().GetRect().GetWidth() / 2 , App.GetView().GetRect().GetHeight() / 2);
+	sf::Sprite sGrass;
+	sGrass.SetScale((App.GetView().GetRect().GetWidth() / 2400), (App.GetView().GetRect().GetHeight() / 1600));
+	sGrass.SetImage(grass);
 	
+	sf::Image sand;
+	
+	if (!sand.LoadFromFile("../../Images/sand.jpg"))
+	{
+		App.Close();
+	}
+	
+	sf::Image water;
+	
+	if (!water.LoadFromFile("../../Images/water.jpg"))
+	{
+		App.Close();
+	}
+	
+	sf::Image beton;
+	
+	if (!beton.LoadFromFile("../../Images/beton.jpg"))
+	{
+		App.Close();
+	}
+	
+	sf::Image plane;
+	
+	if (!plane.LoadFromFile("../../Images/aircraft.png"))
+	{
+		App.Close();
+	}
+	
+	sf::Image jeep;
+	
+	if (!jeep.LoadFromFile("../../Images/jeep.png"))
+	{
+		App.Close();
+	}
 	
 	
     while (Running)
@@ -54,31 +86,64 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		
 		_model->update(Time);
 		
-		App.Draw(Sprite);
+		App.Draw(sGrass);
 		
-        //Drawing
-		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+		// Affichage des textures que voit le soldat
+		// WARNING : unfinished
+		for(int i = 0; i < 1; i++)
 		{
-			int x = (int)_model->getSoldiers().at(i)->getPosition().first;
-			int y = (int) _model->getSoldiers().at(i)->getPosition().second;
-			if(_model->getSoldiers().at(i)->getTeam() == 1)
-				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
-			if(_model->getSoldiers().at(i)->getTeam() == 2)
-				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
-			if(_model->getSoldiers().at(i)->getTeam() == 3)
-				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Black, 1, sf::Color::Black));
-			if(_model->getSoldiers().at(i)->getTeam() == 4)
-				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Yellow, 1, sf::Color::Black));
+			int x = 0;
+			int y = 0;
+			int h = 0;
+			int l = 0;
+			
+			sf::Sprite temp;
+			char symbol = 'w'; 
+			switch (symbol) {
+				case 'w':
+					temp.SetImage(beton);
+					break;
+				case 's':
+					temp.SetImage(sand);
+					break;
+				case 'a':
+					temp.SetImage(water);
+					break;
+				default:
+					break;
+			}
+			temp.SetPosition(x,y);
+			
+			App.Draw(temp);
+			
 		}
 		
+        //Affichage des soldats
+		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+		{
+			//if(!_model->getSoldiers().at(i)->isDead())
+			//{
+				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
+				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
+				
+				switch (_model->getSoldiers().at(i)->getTeam()) {
+					case 1:
+						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
+						break;
+					case 2:
+						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+						break;
+					default:
+						break;
+				}
+			//}
+		}
+		
+		//Affichage des balles
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 3, sf::Color::Blue, 1, sf::Color::Black));
 		
-		/*for(int i = 0; i < (int) _model->FieldView().size(); i++)
-		{
-			std::cout << "Symbole " << _model->FieldView().at(i).getSymbole() << std::endl;
-		}*/
 		
 		App.Display();
     }

@@ -15,6 +15,17 @@ View::View(std::string _path, std::string _name, int _x, int _y)
 	y = _y;
 }
 
+View::View(std::string _path, std::string _name)
+{
+	Model* _model = new Model(_path);
+	model = _model;
+	Controleur* _controleur = new Controleur(model);
+	controleur = _controleur;
+	name = _name;
+	x = model->getMap().getBoundingBox().first;
+	y = model->getMap().getBoundingBox().second;
+}
+
 void View::Run()
 {
 	//Applications variables
