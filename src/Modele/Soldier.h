@@ -29,6 +29,8 @@ public:
 	
 	int getNuJoueur();
 	
+	
+	bool isDead();
 	int getTeam();
 	
 	float getSpeed();
@@ -49,7 +51,7 @@ protected:
 	int team;
 	
 	bool activ;
-	
+	bool dead;
 	int nujoueur;
 		
 	
