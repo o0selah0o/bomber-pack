@@ -39,6 +39,7 @@ public:
 	
 	void setTeam(int t);
 	
+	
 	void setNuJoueur(int nu);
 	
 	void setActiv(bool b);

@@ -33,7 +33,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x > _dx) and (_y > _dy)){
 		distanceDA= pow(dx - x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= 5/distanceDA;
+		facteur= 10/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;

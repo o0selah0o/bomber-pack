@@ -13,5 +13,6 @@ BotSoldier::BotSoldier(int _nujoueur,int _team,int _x,int _y):Soldier(_nujoueur,
 	symbole='b';
 	speed = 400;
 	dead=false;
+	hp=100;
 }
 

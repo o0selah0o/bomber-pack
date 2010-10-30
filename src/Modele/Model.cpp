@@ -52,13 +52,13 @@ bool Model::moveUp(int i,float coeff){
 	char typepred;
 	if(soldiers.at(i)->isActiv()){
 		int posy=soldiers.at(i)->getPosition().second;
-		int nextPosy=posy-(soldiers.at(i)->getSpeed()*coeff)+soldiers.at(i)->getBoundingBox().first;
+		int nextPosy=posy-(soldiers.at(i)->getSpeed()*coeff+10)+soldiers.at(i)->getBoundingBox().first;
 		typepred= wholeMap.getNodeAtPosXY(soldiers.at(i)->getPosition().first, nextPosy);
 		
 	}
 	else {
 		int posy=vehicles.at(i)->getPosition().second;
-		int nextPosy=posy-(vehicles.at(i)->getSpeed()*coeff)+vehicles.at(i)->getBoundingBox().first;
+		int nextPosy=posy-(vehicles.at(i)->getSpeed()*coeff+10)+vehicles.at(i)->getBoundingBox().first;
 		typepred= wholeMap.getNodeAtPosXY(vehicles.at(i)->getPosition().first, nextPosy);		
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
@@ -72,13 +72,13 @@ bool Model::moveBack(int i,float coeff){
 	char typepred;
 	if(soldiers.at(i)->isActiv()){
 		int posy=soldiers.at(i)->getPosition().second+soldiers.at(i)->getBoundingBox().first;
-		int nextPosy=posy+(soldiers.at(i)->getSpeed()*coeff);
+		int nextPosy=posy+(soldiers.at(i)->getSpeed()*coeff-10);
 		typepred= wholeMap.getNodeAtPosXY(soldiers.at(i)->getPosition().first, nextPosy);
 		
 	}
 	else {
 		int posy=vehicles.at(i)->getPosition().second;
-		int nextPosy=posy+(vehicles.at(i)->getSpeed()*coeff)+vehicles.at(i)->getBoundingBox().first;
+		int nextPosy=posy+(vehicles.at(i)->getSpeed()*coeff-10)+vehicles.at(i)->getBoundingBox().first;
 		typepred= wholeMap.getNodeAtPosXY(vehicles.at(i)->getPosition().first, nextPosy);		
 	}
 	
@@ -93,12 +93,12 @@ bool Model::moveLeft(int i,float coeff){
 	char typepred;
 	if(soldiers.at(i)->isActiv()){
 		int posx=soldiers.at(i)->getPosition().first;
-		int nextPosx=posx-(soldiers.at(i)->getSpeed()*coeff)+soldiers.at(i)->getBoundingBox().second;
+		int nextPosx=posx-(soldiers.at(i)->getSpeed()*coeff+25)+soldiers.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(i)->getPosition().second);
 	}
 	else {
 		int posx=vehicles.at(i)->getPosition().first;
-		int nextPosx=posx-(vehicles.at(i)->getSpeed()*coeff)+vehicles.at(i)->getBoundingBox().second;
+		int nextPosx=posx-(vehicles.at(i)->getSpeed()*coeff+25)+vehicles.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(i)->getPosition().second);
 	}
 	
@@ -114,12 +114,12 @@ bool Model::moveRight(int i,float coeff){
 	char typepred;
 	if(soldiers.at(i)->isActiv()){
 		int posx=soldiers.at(i)->getPosition().first;
-		int nextPosx=posx+(soldiers.at(i)->getSpeed()*coeff)+soldiers.at(i)->getBoundingBox().second;
+		int nextPosx=posx+(soldiers.at(i)->getSpeed()*coeff-10)+soldiers.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,soldiers.at(i)->getPosition().second);
 	}
 	else {
 		int posx=vehicles.at(i)->getPosition().first;
-		int nextPosx=posx+(vehicles.at(i)->getSpeed()*coeff)+vehicles.at(i)->getBoundingBox().second;
+		int nextPosx=posx+(vehicles.at(i)->getSpeed()*coeff-10)+vehicles.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(i)->getPosition().second);
 	}
 	if (typepred == 's' or typepred== 'w' or typepred =='a'){
@@ -148,31 +148,42 @@ void Model::update(float coeff){
 	srand(time(NULL));	
 	bool testrange = false;
 	bool testhit = false;
+	bool testblock = false;
 	float x,y,distance;
 	for(int i=(int) projectiles.size() - 1;i >= 0;i--){
 		if(projectiles.size() > 0)
 		{	testrange = false;
 			testhit = false;
+			testblock = false;
 			for (int j=0;j < (int)soldiers.size();j++) {
 				if( !soldiers.at(j)->isDead()){
-					if (!testhit and !testrange) {
+					if (!testhit and !testrange and !testblock) {
 						x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
 						y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
 						distance = sqrt( x + y );				
 					}
-					if (distance < 1 and !testhit and !testrange){
+					if (distance < 5 and !testhit and !testrange and !testblock){
 						soldiers.at(j)->hit(projectiles.at(i)->getPower());
 						projectiles.erase(projectiles.begin()+i);
 						testhit=true;
 					}
 				}
-				if(!testhit and !testrange){
+				if(!testhit and !testrange and !testblock){
 					if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
 						projectiles.erase(projectiles.begin()+i);
 						testrange=true;
 					}
 				}
-				if(!testrange and !testhit){
+				
+				if(!testrange and !testhit and !testblock){
+					char typepred= wholeMap.getNodeAtPosXY( projectiles.at(i)->getPosition().first, projectiles.at(i)->getPosition().second);
+					if (typepred == 's' or typepred== 'w'){
+						projectiles.erase(projectiles.begin()+i);
+						testblock=true;
+					} 
+				}
+				
+				if(!testrange and !testhit and !testblock){
 					projectiles.at(i)->parcourir();
 				}
 			}	
@@ -203,11 +214,12 @@ void Model::update(float coeff){
 						if(projectiles.size() < 100)
 						{	
 							temps1=clock()/1000;
-							if((temps1-temps0) > 0.00005){
+							if((temps1-temps0) > 0.0005){
 								float devia= (rand()/(double)RAND_MAX);
 								projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first+(devia * 10.0), (int)soldiers.at(j)->getPosition().second-(devia * 10.0)));
 								temps0=clock()/1000;
-							}	
+							}
+							
 						}   
 						
                     }
@@ -250,6 +262,7 @@ void Model::update(float coeff){
 						if(x > dx){
 							if(alea < 0.7)
 								moveLeft(i,coeff);
+							
 							if(alea >= 0.7 and alea < 0.8)
 								moveRight(i,coeff);
 							if(alea >= 0.8 and alea < 0.9)
