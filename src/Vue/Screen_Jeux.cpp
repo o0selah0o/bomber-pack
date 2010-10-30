@@ -65,11 +65,20 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
 			if(_model->getSoldiers().at(i)->getTeam() == 2)
 				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+			if(_model->getSoldiers().at(i)->getTeam() == 3)
+				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Black, 1, sf::Color::Black));
+			if(_model->getSoldiers().at(i)->getTeam() == 4)
+				App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Yellow, 1, sf::Color::Black));
 		}
 		
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 3, sf::Color::Blue, 1, sf::Color::Black));
+		
+		/*for(int i = 0; i < (int) _model->FieldView().size(); i++)
+		{
+			std::cout << "Symbole " << _model->FieldView().at(i).getSymbole() << std::endl;
+		}*/
 		
 		App.Display();
     }
