@@ -55,6 +55,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image tank;
+	
+	if(!tank.LoadFromFile("../../Images/tankbox.png"))
+	{
+		App.Close();
+	}
+	
 	
     while (Running)
     {
@@ -101,7 +108,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			char symbol = vNode.at(i)->getSymbole(); 
 			if(symbol != 'g')
 			{
-				std::cout << symbol << std::endl;
+				std::cout << symbol << " at " << x << " , " << y << std::endl;
 				switch (symbol) {
 					case 'w':
 						temp.SetImage(beton);
@@ -150,6 +157,36 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 3, sf::Color::Blue, 1, sf::Color::Black));
 		
+		//Affichage des vehicules
+		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
+		{
+			int x = _model->getVehicles().at(i)->getPosition().first;
+			int y = _model->getVehicles().at(i)->getPosition().second;
+			int h = _model->getVehicles().at(i)->getBoundingBox().first;
+			int l = _model->getVehicles().at(i)->getBoundingBox().second;
+			
+			sf::Sprite temp;
+			char symbol = _model->getVehicles().at(i)->getSymbole(); 
+			switch (symbol) {
+				case 'j':
+					temp.SetImage(jeep);
+					break;
+				case 'p':
+					temp.SetImage(plane);
+					break;
+				case 't':
+					temp.SetImage(tank);
+					break;
+				default:
+					break;
+			}
+			temp.Resize(l,h);
+			temp.SetPosition(x-1,y);
+			
+			
+			App.Draw(temp);
+			
+		}
 		
 		App.Display();
     }
