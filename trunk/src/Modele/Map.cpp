@@ -36,17 +36,19 @@ bool Map::ReadFileMap(std::string fichier){
 		std::string water="WATER";
 		std::string sandbags="SANDBAGS";
 		std::string size="SIZE";
-		int longueur;
-		int hauteur;
+		int l;
+		int h;
 		char typeToAdd='w';
 		while (std::getline(loadedFile,ligne))
 		{	
 			if (ligne.find(size)!=std::string::npos){
 				std::getline(loadedFile,ligne);
 				parse=tokenize(ligne,'|');
-				hauteur= std::atoi(parse.at(0).c_str());
-				longueur= std::atoi(parse.at(1).c_str());
-				addSpecificNode(0, 0,hauteur,longueur, 'g');
+				h= std::atoi(parse.at(0).c_str());
+				l= std::atoi(parse.at(1).c_str());
+				hauteur=h;
+				longueur=l;
+				addSpecificNode(0, 0,h,l, 'g');
 				std::getline(loadedFile,ligne);
 			}
 			if(ligne.find(wall)!=std::string::npos){
@@ -70,9 +72,9 @@ bool Map::ReadFileMap(std::string fichier){
 				coorx=std::atoi(caseInf.at(0).c_str());
 				coory=std::atoi(caseInf.at(1).c_str());
 				caseInf=tokenize(parse.at(1),' ');
-				hauteur=std::atoi(caseInf.at(1).c_str());
-				longueur=std::atoi(caseInf.at(2).c_str());
-				addSpecificNode(coorx,coory,hauteur,longueur,typeToAdd);
+				h=std::atoi(caseInf.at(1).c_str());
+				l=std::atoi(caseInf.at(2).c_str());
+				addSpecificNode(coorx,coory,h,l,typeToAdd);
 			}
 						
 		}
@@ -164,25 +166,25 @@ bool Map::ReadFileSoldiers(std::string fichier){
 
 
 	
-void Map::addSpecificNode(int coorx,int coory, int hauteur, int longueur, char type ){
+void Map::addSpecificNode(int coorx,int coory, int _hauteur, int _longueur, char type ){
 	if (type=='t'){
 		Tank* tank= new Tank(coorx,coory);
 		vehicles.push_back(tank);
 	}
 	if (type=='w'){
-		Wall* wall = new Wall(coorx,coory,longueur,hauteur);
+		Wall* wall = new Wall(coorx,coory,_longueur,_hauteur);
 		child.push_back(wall);
 	}
 	if (type=='g'){
-		Grass* grass = new Grass(coorx,coory,longueur,hauteur);
+		Grass* grass = new Grass(coorx,coory,_longueur,_hauteur);
 		child.push_back(grass);
 	}
 	if (type=='a'){
-		Water* water = new Water(coorx,coory,longueur,hauteur);
+		Water* water = new Water(coorx,coory,_longueur,_hauteur);
 		child.push_back(water);
 	}
 	if (type=='s'){
-		SandBags* sand = new SandBags(coorx,coory,longueur,hauteur);
+		SandBags* sand = new SandBags(coorx,coory,_longueur,_hauteur);
 		child.push_back(sand);
 	}
 	if (type=='j'){
