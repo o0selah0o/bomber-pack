@@ -3,6 +3,8 @@
 #include "Node.h"
 #include <vector>
 #include "Bullet.h"
+
+
 /** 
  Sous classe de node, représentant un soldat **/
 
@@ -15,13 +17,13 @@ public:
 	Soldier(int _nujoueur,int _team,int _x,int _y);
 	
 	//fait avancer l'élément vers le Nord
-	void moveUp(float coeff);
+	void moveUp(float coeff,int h,int l);
 	//fait avancer l'élément vers le Sud
-	void moveBack(float coeff);
+	void moveBack(float coeff,int h,int l);
 	//fait avancer l'élément vers l'Ouest
-	void moveLeft(float coeff);
+	void moveLeft(float coeff,int h,int l);
 	//fait avancer l'élément vers l'Est
-	void moveRight(float coeff);
+	void moveRight(float coeff,int h,int l);
 	//fait tirer un projectile à l'élément
 	Bullet* fire(int _dx,int _dy);
 	
