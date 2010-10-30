@@ -114,9 +114,9 @@ void Node::setParent(Node* _parent)
 	parent = _parent;
 }
 
-std::vector<Node *> Node::cross(int _x, int _y, int hauteur,int longueur)
+std::vector<Node*> Node::cross(int _x, int _y, int hauteur,int longueur)
 {
-	std::vector<Node *> res;
+	std::vector<Node*> res;
 	int nbChild=child.size();
 	int i;
 	int xnoFov,ynoFov,xseFov,yseFov, xnoC,ynoC,xseC,yseC,xneC,yneC,xsoC,ysoC;

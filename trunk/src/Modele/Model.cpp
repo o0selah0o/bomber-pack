@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "Map.h"
 #include "math.h"
+#include "time.h"
 #include <iostream>
 Model::Model(){
 	
@@ -27,12 +28,10 @@ Model::Model(std::string fichier){
 	if(!wholeMap.ReadFileVehicles(fichier + "_vehicles.txt")){
 		std::cout << "echec chargement fichier vehicles" << std::endl;
 	}
-	 
+	
 	if(!wholeMap.ReadFileSoldiers(fichier + "_soldiers.txt")){
 		std::cout << "echec chargement fichier soldiers" << std::endl;
 	}
-	
-	
 	vehicles=wholeMap.getVehicles();
 	soldiers=wholeMap.getSoldiers();
 }
@@ -146,35 +145,54 @@ std::vector<Node*> Model::FieldOfView(int _x,int _y,int hauteurfov,int longueurf
 }
 
 void Model::update(float coeff){
-	srand(time(NULL));
-	std::cout << (int)projectiles.size() << std::endl;
-    //Todo
-    // 1 - Faire avancer les balles. Pour chaque balle :
-    //        - Verifier que les elements autour ne genent pas
-    //        - Verifier que si elle est proche d'un soldat, retirer un point de vie au soldat
-	//Projectile* tempPointer;
+	srand(time(NULL));	
+	bool testrange = false;
+	bool testhit = false;
+	float x,y,distance;
 	for(int i=(int) projectiles.size() - 1;i >= 0;i--){
 		if(projectiles.size() > 0)
-		{
-			projectiles.at(i)->parcourir();
-			if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
-				//tempPointer= projectiles.at(i);
-				projectiles.erase(projectiles.begin()+i);
-				//delete tempPointer;
-			}
+		{	testrange = false;
+			testhit = false;
+			for (int j=0;j < (int)soldiers.size();j++) {
+				if( !soldiers.at(j)->isDead()){
+					if (!testhit and !testrange) {
+						x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
+						y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
+						distance = sqrt( x + y );				
+					}
+					if (distance < 1 and !testhit and !testrange){
+						soldiers.at(j)->hit(projectiles.at(i)->getPower());
+						projectiles.erase(projectiles.begin()+i);
+						testhit=true;
+					}
+				}
+				if(!testhit and !testrange){
+					if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
+						projectiles.erase(projectiles.begin()+i);
+						testrange=true;
+					}
+				}
+				if(!testrange and !testhit){
+					projectiles.at(i)->parcourir();
+				}
+			}	
 		}
-	}
+	}	
 	
 	
 	int distanceMax = 10000;
     int direction = 0;
+	int temps0= clock()/1000;
+	int temps1;
     for(int i = 0; i < (int)soldiers.size(); i++)
-    {
-        if(soldiers.at(i)->getSymbole() == 'b')
+    {	
+        if(soldiers.at(i)->getSymbole() == 'b'  and !soldiers.at(i)->isDead())
         {
+			float alea= (rand()/(double)RAND_MAX);
+			
             for(int j = 0; j < (int)soldiers.size(); j++)
             {
-                if(soldiers.at(i)->getTeam() != soldiers.at(j)->getTeam())
+                if(soldiers.at(i)->getTeam() != soldiers.at(j)->getTeam() and !soldiers.at(j)->isDead())
                 {
                     float x = pow(soldiers.at(i)->getPosition().first - soldiers.at(j)->getPosition().first, 2);
                     float y = pow(soldiers.at(i)->getPosition().second - soldiers.at(j)->getPosition().second, 2);
@@ -182,9 +200,15 @@ void Model::update(float coeff){
                     if(distance < 200 and i != j)
 					{
 						if(projectiles.size() < 100)
-						{
-							projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first, (int)soldiers.at(j)->getPosition().second));
-						}
+						{	
+							temps1=clock()/1000;
+							//if((temps1-temps0) > -10){
+								float devia= (rand()/(double)RAND_MAX);
+								projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first+(devia * 10.0), (int)soldiers.at(j)->getPosition().second-(devia * 10.0)));
+								temps0=clock()/1000;
+							//}	
+						}   
+						
                     }
 					if(distance < distanceMax)
                     {
@@ -193,71 +217,71 @@ void Model::update(float coeff){
                     }
 				}
             }
-			float alea= (rand()/(double)RAND_MAX);
-			int x = soldiers.at(i)->getPosition().first;
-			int y = soldiers.at(i)->getPosition().second;
-			int dx = soldiers.at(direction)->getPosition().first;
-			int dy = soldiers.at(direction)->getPosition().second;
-			
-			if (distanceMax < 200){
-				if(alea < 0.25)
-					soldiers.at(i)->moveRight(coeff);
-				if(alea >= 0.25 and alea < 0.5)
-					soldiers.at(i)->moveLeft(coeff);
-				if(alea >= 0.5 and alea < 0.75)
-					soldiers.at(i)->moveUp(coeff);
-				if(alea >= 0.75 and alea <= 1.0)
-					soldiers.at(i)->moveBack(coeff);
+			if(!soldiers.at(i)->isDead() and !soldiers.at(direction)->isDead()){
+				int x = soldiers.at(i)->getPosition().first;
+				int y = soldiers.at(i)->getPosition().second;
+				int dx = soldiers.at(direction)->getPosition().first;
+				int dy = soldiers.at(direction)->getPosition().second;
 				
-			}
-			else{
-				if(x < dx){
-					if(alea < 0.5)
+				if (distanceMax < 190){
+					if(alea < 0.3)
 						soldiers.at(i)->moveRight(coeff);
-					if(alea >= 0.5 and alea < 0.75)
+					if(alea >= 0.3 and alea < 0.53)
 						soldiers.at(i)->moveLeft(coeff);
-					if(alea >= 0.75 and alea < 0.75)
+					if(alea >= 0.53 and alea < 0.76)
 						soldiers.at(i)->moveUp(coeff);
-					if(alea >= 0.875 and alea <= 1.0)
-						soldiers.at(i)->moveBack(coeff);
-				}
-					
-				if(x > dx){
-					if(alea < 0.5)
-						soldiers.at(i)->moveLeft(coeff);
-					if(alea >= 0.5 and alea < 0.625)
-						soldiers.at(i)->moveRight(coeff);
-					if(alea >= 0.625 and alea < 0.75)
-						soldiers.at(i)->moveUp(coeff);
-					if(alea >= 0.875 and alea <= 1.0)
-						soldiers.at(i)->moveBack(coeff);
-				}
-				if(y > dy){
-					if(alea < 0.5)
-						soldiers.at(i)->moveUp(coeff);
-					if(alea >= 0.5 and alea < 0.625)
-						soldiers.at(i)->moveLeft(coeff);
-					if(alea >= 0.625 and alea < 0.75)
-						soldiers.at(i)->moveRight(coeff);
-					if(alea >= 0.875 and alea <= 1.0)
+					if(alea >= 0.76 and alea <= 1.0)
 						soldiers.at(i)->moveBack(coeff);
 					
 				}
-				if(y < dy){
-					if(alea < 0.5)
-						soldiers.at(i)->moveBack(coeff);
-					if(alea >= 0.5 and alea < 0.625)
-						soldiers.at(i)->moveLeft(coeff);
-					if(alea >= 0.625 and alea < 0.75)
-						soldiers.at(i)->moveUp(coeff);
-					if(alea >= 0.875 and alea <= 1.0)
-						soldiers.at(i)->moveRight(coeff);
+				else{
+					if(x < dx){
+						if(alea < 0.7)
+							soldiers.at(i)->moveRight(coeff);
+						if(alea >= 0.7 and alea < 0.8)
+							soldiers.at(i)->moveLeft(coeff);
+						if(alea >= 0.8 and alea < 0.9)
+							soldiers.at(i)->moveUp(coeff);
+						if(alea >= 0.9 and alea <= 1.0)
+							soldiers.at(i)->moveBack(coeff);
+					}
+					
+					if(x > dx){
+						if(alea < 0.7)
+							soldiers.at(i)->moveLeft(coeff);
+						if(alea >= 0.7 and alea < 0.8)
+							soldiers.at(i)->moveRight(coeff);
+						if(alea >= 0.8 and alea < 0.9)
+							soldiers.at(i)->moveUp(coeff);
+						if(alea >= 0.9 and alea <= 1.0)
+							soldiers.at(i)->moveBack(coeff);
+					}
+					if(y > dy){
+						if(alea < 0.7)
+							soldiers.at(i)->moveUp(coeff);
+						if(alea >= 0.7 and alea < 0.8)
+							soldiers.at(i)->moveLeft(coeff);
+						if(alea >= 0.8 and alea < 0.9)
+							soldiers.at(i)->moveRight(coeff);
+						if(alea >= 0.9 and alea <= 1.0)
+							soldiers.at(i)->moveBack(coeff);
+						
+					}
+					if(y < dy){
+						if(alea < 0.7)
+							soldiers.at(i)->moveBack(coeff);
+						if(alea >= 0.7 and alea < 0.8)
+							soldiers.at(i)->moveLeft(coeff);
+						if(alea >= 0.8 and alea < 0.9)
+							soldiers.at(i)->moveUp(coeff);
+						if(alea >= 0.9 and alea <= 1.0)
+							soldiers.at(i)->moveRight(coeff);
+						
+					}
 					
 				}
-											
-			}
-            
+			}	
         }
     }
 }	
-	
+

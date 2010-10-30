@@ -11,7 +11,8 @@ BotSoldier::BotSoldier(int _nujoueur,int _team,int _x,int _y):Soldier(_nujoueur,
 {
 	speed = 1;
 	symbole='b';
-	speed = 300;
+	speed = 600;
+	dead=false;
 }
 
 void BotSoldier::moveUp(float coeff){

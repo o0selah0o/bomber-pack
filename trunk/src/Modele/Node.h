@@ -17,15 +17,25 @@ public:
 	~Node();
 	
 	void addChild(Node &rchild);
+	
 	void removeChild(int i);
+	
 	void setPosition(int _x, int _y);
+	
 	std::pair<int,int> getPosition();
+	
 	void setBoundingBox(int _h, int _l);
+	
 	std::pair<int,int> getBoundingBox();
+	
 	void setParent(Node* _parent);
+	
 	char getNodeAtPosXY(int _x,int _y);
+	
 	char getSymbole();
+	
 	std::vector< Node* >  cross(int x, int y, int hauteur,int longueur);
+	
 	std::vector<Node*> getChild();
 	
 protected:

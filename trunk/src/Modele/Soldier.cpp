@@ -12,9 +12,10 @@ Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	nujoueur=_nujoueur;
 	longueur=20;
 	hauteur=10;
-	speed=600;
+	speed=800;
 	activ=true;
 	symbole='c';
+	dead=false;
 }
 
 Soldier::~Soldier(){
@@ -45,6 +46,10 @@ bool Soldier::isActiv(){
 	return activ;
 }
 
+bool Soldier::isDead(){
+	return dead;
+}
+
 int Soldier::getNuJoueur(){
 	return nujoueur;
 }
@@ -71,10 +76,14 @@ float Soldier::getSpeed(){
 
 void Soldier::hit(int damages){
 	hp=hp-damages;
+	if(hp <= 0){
+		dead=true;
+	}
 }
 
 
 Bullet* Soldier::fire(int _dx,int _dy){
+	
 	Bullet* bul=new Bullet(x,y,_dx,_dy);
 	return bul;
 	
