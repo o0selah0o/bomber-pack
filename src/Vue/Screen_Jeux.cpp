@@ -89,30 +89,36 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(sGrass);
 		
 		// Affichage des textures que voit le soldat
-		// WARNING : unfinished
-		for(int i = 0; i < 1; i++)
+		std::vector<Node*> vNode = _model->FieldOfView(0,0,App.GetView().GetRect().GetWidth(),App.GetView().GetRect().GetHeight());
+		for(int i = 0; i < (int) vNode.size(); i++)
 		{
-			int x = 0;
-			int y = 0;
-			int h = 0;
-			int l = 0;
+			int x = vNode.at(i)->getPosition().first;
+			int y = vNode.at(i)->getPosition().second;
+			int h = vNode.at(i)->getBoundingBox().first;
+			int l = vNode.at(i)->getBoundingBox().second;
 			
 			sf::Sprite temp;
-			char symbol = 'w'; 
-			switch (symbol) {
-				case 'w':
-					temp.SetImage(beton);
-					break;
-				case 's':
-					temp.SetImage(sand);
-					break;
-				case 'a':
-					temp.SetImage(water);
-					break;
-				default:
-					break;
+			char symbol = vNode.at(i)->getSymbole(); 
+			if(symbol != 'g')
+			{
+				std::cout << symbol << std::endl;
+				switch (symbol) {
+					case 'w':
+						temp.SetImage(beton);
+						break;
+					case 's':
+						temp.SetImage(sand);
+						break;
+					case 'a':
+						temp.SetImage(water);
+						break;
+					default:
+						break;
+				}
+				temp.Resize(l,h);
+				temp.SetPosition(x-1,y);
 			}
-			temp.SetPosition(x,y);
+			
 			
 			App.Draw(temp);
 			

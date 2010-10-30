@@ -28,6 +28,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
 	
 	Sprite.SetScale((App.GetView().GetRect().GetWidth() / 500), (App.GetView().GetRect().GetHeight() / 375));
     Sprite.SetImage(Image);
+	Sprite.SetPosition(-1,-1);
 	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
