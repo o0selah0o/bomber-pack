@@ -68,7 +68,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	}
 }
 
-void Projectile::parcourir(){
+void Projectile::parcourir(float coeff){
 	double xb,yb,facteur,distanceDA;
 	if( ( x < dx) and (y < dy)){
 		distanceDA= pow(dx - x,2) + pow(dy - y,2);
@@ -128,6 +128,7 @@ void Projectile::parcourir(){
 	parcouru+=speed;
 	
 }
+
 
 
 int Projectile::getParcouru(){

@@ -14,7 +14,7 @@ public:
 	~Projectile();
 	
 	//fonction qui déplace la balle
-	void parcourir();
+	void parcourir(float coeff);
 	
 	//Getters and Setters
 	
@@ -41,7 +41,7 @@ protected:
 	// la portée du projectile
 	int range;
 	//la vitesse du projectile
-	int speed;
+	double speed;
 	// la puissance du projectile : le nombre de points de vie qu'il enlève
 	int power;
 	

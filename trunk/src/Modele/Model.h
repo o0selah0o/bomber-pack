@@ -36,7 +36,7 @@ public:
 	std::vector<Node*> FieldOfView(int _x,int _y,int hauteurfov,int longueurfov);
 	std::vector<Projectile*> getProjectiles();
 	void addProjectiles(Projectile* _projectile);
-
+	void fire(int _dx,int _dy);
 	
 	
 
@@ -50,6 +50,7 @@ private:
 	
 	std::vector<Projectile*> projectiles;
 	
+	int lastFired;
 };
 
 

@@ -34,6 +34,7 @@ Model::Model(std::string fichier){
 	}
 	vehicles=wholeMap.getVehicles();
 	soldiers=wholeMap.getSoldiers();
+	lastFired=clock();
 }
 
 Map Model::getMap(){
@@ -130,6 +131,13 @@ bool Model::moveRight(int i,float coeff){
 	
 }
 
+void Model::fire(int _dx,int _dy){
+	if ((clock()-lastFired) > 5000){
+		projectiles.push_back(soldiers.at(0)->fire(_dx,_dy));
+		lastFired=clock();
+	}
+}
+
 std::vector<Projectile*> Model::getProjectiles()
 {
 	return projectiles;
@@ -184,7 +192,7 @@ void Model::update(float coeff){
 				}
 				
 				if(!testrange and !testhit and !testblock){
-					projectiles.at(i)->parcourir();
+					projectiles.at(i)->parcourir(coeff);
 				}
 			}	
 		}
