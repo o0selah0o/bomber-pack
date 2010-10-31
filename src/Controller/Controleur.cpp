@@ -33,7 +33,11 @@ void Controleur::Event(std::string _action, float Time)
 	}
 	if(_action == "E")
 	{
-		// ToDo
+		if(model->getSoldiers().at(0)->isActiv())
+			model->enterVehicle(0);
+		else
+			model->leaveVehicle(0);
+
 	}
 }
 
