@@ -13,6 +13,9 @@ SET(Vue_inc
 	screens.h
 	Screen_0.h
 	Screen_Jeux.h
+	Screen_Multi.h
+	Screen_Multi2.h
+	Screen_Select.h
 )
 
 # les fichiers 'source'
@@ -20,6 +23,9 @@ SET(Vue_src
 	Screen_0.cpp
 	Screen_Jeux.cpp
 	View.cpp
+	Screen_Multi.cpp
+	Screen_Multi2.cpp
+	Screen_Select.cpp
 )
 
 # On cree une librairie
