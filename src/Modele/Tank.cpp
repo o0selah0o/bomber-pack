@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include "Obus.h"
 
 Tank::Tank(int _x, int _y): Vehicle(_x,_y)
 {
@@ -10,5 +11,18 @@ Tank::Tank(int _x, int _y): Vehicle(_x,_y)
 
 
 Tank::~Tank(){
+	
+}
+
+
+
+
+Projectile* Tank::fire(int _dx,int _dy){
+	if(used){
+		Obus* ob=new Obus(x,y,_dx,_dy);
+		return ob;
+	}else {
+		return NULL;
+	}
 	
 }

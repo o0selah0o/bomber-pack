@@ -36,12 +36,12 @@ public:
 	std::vector<Node*> FieldOfView(int _x,int _y,int hauteurfov,int longueurfov);
 	std::vector<Projectile*> getProjectiles();
 	void addProjectiles(Projectile* _projectile);
-	void fire(int _dx,int _dy);
+	void fire(int _dx,int _dy,int Soldati);
 	Vehicle* isAtPosition(int _x,int _y,std::vector<Vehicle*> vehicles);
 	
 	bool enterVehicle(int Soldati);
 	bool leaveVehicle(int Soldati);
-
+	void calcAngle(int _i,int _dx, int _dy);
 private:
 	//Toute la carte de jeu. 
 	Map wholeMap;
@@ -52,7 +52,7 @@ private:
 	
 	std::vector<Projectile*> projectiles;
 	
-	int lastFired;
+	double lastFired;
 };
 
 
