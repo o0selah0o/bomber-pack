@@ -76,7 +76,7 @@ bool Map::ReadFileMap(std::string fichier){
 				l=std::atoi(caseInf.at(2).c_str());
 				addSpecificNode(coorx,coory,h,l,typeToAdd);
 			}
-						
+			
 		}
 	}
 	
@@ -165,7 +165,7 @@ bool Map::ReadFileSoldiers(std::string fichier){
 }
 
 
-	
+
 void Map::addSpecificNode(int coorx,int coory, int _hauteur, int _longueur, char type ){
 	if (type=='t'){
 		Tank* tank= new Tank(coorx,coory);
