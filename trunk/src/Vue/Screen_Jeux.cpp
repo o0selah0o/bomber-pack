@@ -82,11 +82,25 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::SoundBuffer Buffer;
+	if (!Buffer.LoadFromFile("../../Images/bar.wav"))
+	{
+		std::cout << "Musique pas trouvée" << std::endl;
+	}
+	
+	sf::Sound Sound;
+	Sound.SetBuffer(Buffer); // Buffer est un sfSoundBuffer
+	
+	sf::Clock Clock;
+	
     while (Running)
     {
 		float Time = App.GetFrameTime();
+		float Time2 = Clock.GetElapsedTime();
+		
 		unsigned int dx = App.GetInput().GetMouseX();
 		unsigned int dy = App.GetInput().GetMouseY();
+		
 		//Key pressed			
 		if (App.GetInput().IsKeyDown(sf::Key::Q)) _controleur->Event("Left",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
@@ -94,6 +108,11 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
+		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
+		{
+			Sound.Play();
+			Clock.Reset();
+		}
 		
         //Verifying events
         while (App.GetEvent(Event))
@@ -117,7 +136,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		// Affichage des textures que voit le soldat
 		std::cout << "Texture" << std::endl;
 		std::vector<Node*> vNode = _model->getMap().getChild();
-
+		
 		for(int i = 0; i < (int) vNode.size(); i++)
 		{
 			int x = vNode.at(i)->getPosition().first;
@@ -144,17 +163,14 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				}
 				temp.Resize(l,h);
 				temp.SetPosition(x-1,y);
+				App.Draw(temp);
 			}
-			
-			
-			App.Draw(temp);
-			
 		}
 		
 		int cpt_rouge = 0;
 		int cpt_vert = 0;
 		
-				std::cout << "Soldat" << std::endl;
+		std::cout << "Soldat" << std::endl;
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
@@ -179,7 +195,15 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 					default:
 						break;
 				}
-								temp.Resize(25, 25);
+				temp.Resize(25, 25);
+				
+				if(i == 0)
+				{
+					float angle = atan2(temp.GetPosition().y - dy, temp.GetPosition().x - dx) * 180 / 3.14;	
+					temp.SetCenter(25,25);
+					temp.SetRotation(-angle + 90);	
+				}
+
 				App.Draw(temp);
 			}
 		}
