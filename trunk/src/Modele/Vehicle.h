@@ -1,6 +1,7 @@
 #ifndef __VEHICLE__
 #define __VEHICLE__
 #include "Node.h"
+#include "Projectile.h"
 /** 
  Sous classe de node, représentant un véhicule **/
 
@@ -22,7 +23,6 @@ public:
 	//fait avancer l'élément vers l'Est
 	void moveRight(float coeff,int h,int l);
 	//fait tirer un projectile à l'élément
-	void fire(int _dx,int _dy);
 	
 	void setUsed(bool used);
 	bool isUsed();
@@ -30,6 +30,7 @@ public:
 	void hit(int damages);
 	bool isDestroyed();
 	void setDestroyed(bool state);
+	Projectile* fire(int _dx,int _dy);
 	
 protected:
 	// sa vitesse de déplacement

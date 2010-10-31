@@ -24,7 +24,7 @@ public:
 	//fait avancer l'élément vers l'Est
 	void moveRight(float coeff,int h,int l);
 	//fait tirer un projectile à l'élément
-	Bullet* fire(int _dx,int _dy);
+	Projectile* fire(int _dx,int _dy);
 	
 	bool isActiv();
 	
@@ -50,6 +50,10 @@ public:
 	void leaveVehicle();
 	
 	Vehicle* getVehicle();
+	
+	void setAngle(double degre);
+	
+	double getAngle();
 protected:
 	// sa vitesse de déplacement
 	float speed;
@@ -62,6 +66,7 @@ protected:
 	bool dead;
 	int nujoueur;
 	Vehicle* vehicleUti;
+	double angle;
 		
 	
 };

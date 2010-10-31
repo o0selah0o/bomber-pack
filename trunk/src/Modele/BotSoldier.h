@@ -12,7 +12,10 @@ public:
 	BotSoldier();
 	~BotSoldier();
 	BotSoldier(int _nujoueur,int _team,int _x,int _y);
+	
 
+private:
+	double angle;
 	
 };
 

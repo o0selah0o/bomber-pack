@@ -42,7 +42,7 @@ void Controleur::Event(std::string _action, int _dx, int _dy)
 	if(_action == "lClick" and !model->getSoldiers().at(0)->isDead())
 	{
 		//model->getProjectiles().push_back(model->getSoldiers().at(0)->fire(_dx,_dy));
-		model->fire(_dx,_dy);
+		model->fire(_dx,_dy,0);
  	}
 	if(_action == "rClick")
 	{

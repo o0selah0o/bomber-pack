@@ -1,6 +1,8 @@
 #include "Node.h"
 #include "Soldier.h"
 #include "Bullet.h"
+#include "Obus.h"
+#include "Tank.h"
 
 Soldier::Soldier():Node()
 {
@@ -10,13 +12,14 @@ Soldier::Soldier():Node()
 Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	team=_team;
 	nujoueur=_nujoueur;
-	hp= 100;
+	hp= 300;
 	longueur=20;
 	hauteur=10;
 	speed=300;
 	activ=true;
 	symbole='c';
 	dead=false;
+	vehicleUti=NULL;
 }
 
 Soldier::~Soldier(){
@@ -136,7 +139,23 @@ void Soldier::leaveVehicle(){
 }
 
 
-Bullet* Soldier::fire(int _dx,int _dy){
-	Bullet* bul=new Bullet(x,y,_dx,_dy);
-	return bul;
+Projectile* Soldier::fire(int _dx,int _dy){
+	
+	if(activ){
+		Bullet* bul=new Bullet(x,y,_dx,_dy);
+		return bul;
+	}
+	else{
+			Projectile* ob = vehicleUti->fire(_dx, _dy);
+			return ob;		
+	}
+	   
+}
+
+void Soldier::setAngle(double degre){
+	angle=degre;
+}
+
+double Soldier::getAngle(){
+	return angle;
 }

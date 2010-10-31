@@ -1,5 +1,6 @@
 #include "Vehicle.h"
 #include "Node.h"
+#include "Bullet.h"
 
 
 Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,hauteur)
@@ -64,6 +65,16 @@ void Vehicle::hit(int damages){
 
 bool Vehicle::isDestroyed(){
 	return destroyed;
+}
+
+Projectile* Vehicle::fire(int _dx,int _dy){
+	if(used){
+		Bullet* bul=new Bullet(x,y,_dx,_dy);
+		return bul;
+	}else {
+		return NULL;
+	}
+
 }
 
 void Vehicle::setDestroyed(bool state){

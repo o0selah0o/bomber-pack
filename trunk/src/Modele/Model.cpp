@@ -91,7 +91,7 @@ bool Model::leaveVehicle(int Soldati){
 
 bool Model::moveUp(int i,float coeff){
 	char typepred;
-	bool vehipred;
+	Vehicle* vehipred;
 	if(soldiers.at(i)->isActiv()){
 		int posy=soldiers.at(i)->getPosition().second;
 		int nextPosy=posy-(soldiers.at(i)->getSpeed()*coeff+10)+soldiers.at(i)->getBoundingBox().first;
@@ -113,7 +113,7 @@ bool Model::moveUp(int i,float coeff){
 
 bool Model::moveBack(int i,float coeff){
 	char typepred;
-	bool vehipred;
+	Vehicle* vehipred;
 	if(soldiers.at(i)->isActiv()){
 		int posy=soldiers.at(i)->getPosition().second+soldiers.at(i)->getBoundingBox().first;
 		int nextPosy=posy+(soldiers.at(i)->getSpeed()*coeff-10);
@@ -136,7 +136,7 @@ bool Model::moveBack(int i,float coeff){
 
 bool Model::moveLeft(int i,float coeff){
 	char typepred;
-	bool vehipred;
+	Vehicle* vehipred;
 	if(soldiers.at(i)->isActiv()){
 		int posx=soldiers.at(i)->getPosition().first;
 		int nextPosx=posx-(soldiers.at(i)->getSpeed()*coeff+25)+soldiers.at(i)->getBoundingBox().second;
@@ -160,7 +160,7 @@ bool Model::moveLeft(int i,float coeff){
 
 bool Model::moveRight(int i,float coeff){
 	char typepred;
-	bool vehipred;
+	Vehicle* vehipred;
 	if(soldiers.at(i)->isActiv()){
 		int posx=soldiers.at(i)->getPosition().first;
 		int nextPosx=posx+(soldiers.at(i)->getSpeed()*coeff-10)+soldiers.at(i)->getBoundingBox().second;
@@ -173,7 +173,7 @@ bool Model::moveRight(int i,float coeff){
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(i)->getPosition().second)->getSymbole();
 		vehipred=isAtPosition(nextPosx,vehicles.at(i)->getPosition().second,vehicles);
 	}
-	if (typepred == 's' or typepred== 'w' or typepred =='a' or vehipred!=NULL ){
+	if (typepred == 's' or typepred== 'w' or typepred =='a' or vehipred != NULL ){
 		return false;
 	}
 	
@@ -182,11 +182,27 @@ bool Model::moveRight(int i,float coeff){
 	
 }
 
-void Model::fire(int _dx,int _dy){
-	if ((clock()-lastFired) > 5000){
-		projectiles.push_back(soldiers.at(0)->fire(_dx,_dy));
-		lastFired=clock();
+void Model::fire(int _dx,int _dy,int Soldati){
+	if (soldiers.at(Soldati)->getVehicle()==NULL){
+		double elapsed= (clock() - lastFired) / (CLOCKS_PER_SEC / (double) 1000.0);
+		if (elapsed > 50.0){
+			Projectile* proj=soldiers.at(Soldati)->fire(_dx,_dy);
+			if(proj != NULL ){
+				projectiles.push_back(proj);
+				lastFired=clock();
+			}
+		}
 	}
+	else {
+		if ((clock()-lastFired) > 0){
+			Projectile* proj=soldiers.at(Soldati)->fire(_dx,_dy);
+			if(proj != NULL ){
+				projectiles.push_back(proj);
+				lastFired=clock();
+			}
+		}
+	}
+
 }
 
 std::vector<Projectile*> Model::getProjectiles()
@@ -218,6 +234,11 @@ Vehicle* Model::isAtPosition(int _x,int _y,std::vector<Vehicle*> vehicles){
 		}  
 	}
 	return res;
+}
+
+void Model::calcAngle(int _i,int _dx, int _dy){
+	double angle = atan2( abs(soldiers.at(_i)->getPosition().second - _dy), abs(soldiers.at(_i)->getPosition().first - _dx)) * 180 / 3.14;
+	soldiers.at(_i)->setAngle((-angle + 90));
 }
 
 void Model::update(float coeff){
@@ -286,11 +307,10 @@ void Model::update(float coeff){
                     float distance = sqrt( x + y );
                     if(distance < 200 and i != j)
 					{
-						
 						if(projectiles.size() < 100)
 						{	
 							temps1=clock()/1000;
-							if((temps1-temps0) > 0.005){
+							if((temps1-temps0) > 0.995){
 								float devia= (rand()/(double)RAND_MAX);
 								projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first+(devia * 10.0), (int)soldiers.at(j)->getPosition().second-(devia * 10.0)));
 								temps0=clock()/1000;
@@ -303,9 +323,11 @@ void Model::update(float coeff){
                     {
                         distanceMax = (int) distance;
                         direction = j;
+						calcAngle(i,soldiers.at(direction)->getPosition().first, soldiers.at(direction)->getPosition().second);
                     }
 				}
             }
+			
 			if(!soldiers.at(i)->isDead() and !soldiers.at(direction)->isDead()){
 				int x = soldiers.at(i)->getPosition().first;
 				int y = soldiers.at(i)->getPosition().second;
