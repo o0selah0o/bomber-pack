@@ -3,8 +3,7 @@
 #include "Node.h"
 #include <vector>
 #include "Bullet.h"
-
-
+#include "Vehicle.h"
 /** 
  Sous classe de node, représentant un soldat **/
 
@@ -45,6 +44,12 @@ public:
 	void setActiv(bool b);
 	
 	void hit(int damages);
+	
+	void enterVehicle(Vehicle* vehicle);
+	
+	void leaveVehicle();
+	
+	Vehicle* getVehicle();
 protected:
 	// sa vitesse de déplacement
 	float speed;
@@ -56,6 +61,7 @@ protected:
 	bool activ;
 	bool dead;
 	int nujoueur;
+	Vehicle* vehicleUti;
 		
 	
 };
