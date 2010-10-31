@@ -68,6 +68,12 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image soldier;
+	
+	if(!soldier.LoadFromFile("../../Images/soldier.png"))
+	{
+		App.Close();
+	}
 	
     while (Running)
     {
@@ -114,7 +120,6 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			char symbol = vNode.at(i)->getSymbole(); 
 			if(symbol != 'g')
 			{
-				std::cout << symbol << " at " << x << " , " << y << std::endl;
 				switch (symbol) {
 					case 'w':
 						temp.SetImage(beton);
@@ -148,10 +153,15 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
 				
+				sf::Sprite temp;
 				switch (_model->getSoldiers().at(i)->getTeam()) {
 					case 1:
-						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
+						//App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
 						cpt_vert++;
+						temp.SetPosition(x,y);
+						temp.SetImage(soldier);
+						temp.Resize(25, 25);
+						App.Draw(temp);
 						break;
 					case 2:
 						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
@@ -162,6 +172,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				}
 			}
 		}
+		
 		sf::String game;
 		if(cpt_vert == 0)
 		{
@@ -176,9 +187,9 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		game.SetSize(45);
 		game.SetX(App.GetView().GetRect().GetWidth() / 2 - 50);
 		game.SetY(App.GetView().GetRect().GetHeight() / 2 + 50);
-		//game.SetCenter(App.GetView().GetRect().GetWidth() / 2,App.GetView().GetRect().GetHeight() / 2);
 		game.SetColor(sf::Color(0, 0, 0, 255));
 		App.Draw(game);
+		
 		//Affichage des balles
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
