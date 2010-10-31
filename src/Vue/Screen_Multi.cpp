@@ -1,10 +1,23 @@
 #include "Screen_Multi.h"
 #include <SFML/Network.hpp>
 #include <utility>
-
+#include <sstream>
 
 Screen_Multi::Screen_Multi (void)
 {
+}
+
+bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,char*> > list)
+{
+	if(list.size() < 1)
+		return false;
+	for(int i = 0; i < (int) list.size(); i++)
+	{
+		if(list.at(i).first == address)
+			return true;
+	}
+	return false;
+	
 }
 
 int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
@@ -13,6 +26,8 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
     bool Running = true;
 	sf::Font Font;
 	std::vector<std::pair<sf::IPAddress,char*> > listClient;
+	// Création du socket UDP
+	sf::SocketUDP Socket;
 	sf::SocketUDP Socket2;
 	Socket2.SetBlocking(false);
 	
@@ -154,22 +169,17 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		}
 		
 		// ToDo
-		/*
-		if(Sender in listeClient)
+		
+		if(isIn(Sender,listClient))
 		{
-			
+			for(int i = 0; i < (int) listClient.size(); i++)
+				if(listClient.at(i).first == Sender)
+					listClient.at(i).second = Buffer2;
 		}
 		else 
 		{
-			
-		}*/
-		
-		std::cout << "J'ai recu un message" << std::endl;
-		// On affiche l'adresse et le port de l'expéditeur
-		std::cout << Sender << ":" << Port << std::endl;
-		
-		// On affiche le message reçu
-		std::cout << Buffer2[0] << std::endl;
+			listClient.push_back(std::pair<sf::IPAddress,char*>(Sender,Buffer2));
+		}
 		
 		_model->update(Time);
 		
@@ -245,7 +255,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 					temp.SetCenter(25,25);
 					temp.SetRotation(-angle + 90);	
 				}
-
+				
 				App.Draw(temp);
 			}
 		}
@@ -307,6 +317,40 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		}
 		
 		App.Display();
+		
+		// Création du tableau d'octets à envoyer
+		// ToDo : WARNING
+		
+		std::string s;
+		std::stringstream out;
+		out << _model->getSoldiers().at(0)->getPosition().first << ' ';
+		out << _model->getSoldiers().at(0)->getPosition().second << ' ';
+		out << _model->getSoldiers().at(0)->getTeam();
+		s = out.str();
+		
+		char* Buffer = (char*)s.c_str();
+		
+		// Envoi des données à tous les clients sur le port 6000
+		if(listClient.size() > 0)
+		{
+			for(int i = 0; i < (int) listClient.size(); i++)
+			{
+				for(int j = 0; j < (int) listClient.size(); j++)
+				{
+					if(i != j)
+					{
+						if (Socket.Send(listClient.at(j).second, sizeof(listClient.at(j).second), listClient.at(i).first, 6000) != sf::Socket::Done)
+						{
+							std::cout << "Souci non ?" << std::endl;
+						}
+					}
+				}
+				if (Socket.Send(Buffer, sizeof(Buffer), listClient.at(i).first, 6000) != sf::Socket::Done)
+				{
+					std::cout << "Souci non ?" << std::endl;
+				}
+			}
+		}
     }
 	
     //Never reaching this point normally, but just in case, exit the application

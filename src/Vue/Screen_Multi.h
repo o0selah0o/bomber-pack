@@ -5,6 +5,9 @@
  
 class Screen_Multi : public Screen
 {
+private:
+	bool isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,char*> > list);
+	
 public:
     Screen_Multi (void);
     virtual int Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur);

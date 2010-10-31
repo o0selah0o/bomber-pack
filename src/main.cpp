@@ -14,7 +14,7 @@ int main()
 	view->Run();
 	std::cout << "Destruction de l'application" << std::endl;
 	
-	
+	/*
 	Model mod= Model("../../Images/map2");
 	Map mappy= mod.getMap();
 	std::vector<Vehicle*> vehicles = mod.getVehicles();
@@ -24,7 +24,7 @@ int main()
 	}
 	char c;
 	std::cin >> c;
-	
+	*/
 	return 0;
 	 
 }
