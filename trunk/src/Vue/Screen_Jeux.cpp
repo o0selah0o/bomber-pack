@@ -8,6 +8,12 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 {
     sf::Event Event;
     bool Running = true;
+	sf::Font Font;
+	
+	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
+    {
+        std::cerr << "Error loading font" << std::endl;
+    }
 	
 	sf::Image grass;
 	
@@ -96,7 +102,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(sGrass);
 		
 		// Affichage des textures que voit le soldat
-		std::vector<Node*> vNode = _model->FieldOfView(0,0,App.GetView().GetRect().GetWidth(),App.GetView().GetRect().GetHeight());
+		std::vector<Node*> vNode = _model->getMap().getChild();
 		for(int i = 0; i < (int) vNode.size(); i++)
 		{
 			int x = vNode.at(i)->getPosition().first;
@@ -131,6 +137,9 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			
 		}
 		
+		int cpt_rouge = 0;
+		int cpt_vert = 0;
+		
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
@@ -142,16 +151,34 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				switch (_model->getSoldiers().at(i)->getTeam()) {
 					case 1:
 						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
+						cpt_vert++;
 						break;
 					case 2:
 						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+						cpt_rouge++;
 						break;
 					default:
 						break;
 				}
 			}
 		}
+		sf::String game;
+		if(cpt_vert == 0)
+		{
+			game.SetText("Team 2 - Win");
+		}
+		else if(cpt_rouge == 0)
+		{
+			game.SetText("Team 1 - Win");
+		}
 		
+		game.SetFont(Font);
+		game.SetSize(45);
+		game.SetX(App.GetView().GetRect().GetWidth() / 2 - 50);
+		game.SetY(App.GetView().GetRect().GetHeight() / 2 + 50);
+		//game.SetCenter(App.GetView().GetRect().GetWidth() / 2,App.GetView().GetRect().GetHeight() / 2);
+		game.SetColor(sf::Color(0, 0, 0, 255));
+		App.Draw(game);
 		//Affichage des balles
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
