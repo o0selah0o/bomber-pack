@@ -4,12 +4,15 @@
 
 Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,hauteur)
 {
-	
+	used=false;
+	destroyed=false;
 	hp=100;
 }
 
 Vehicle::Vehicle(int _x, int _y):Node(_x,_y)
-{
+{	
+	used=false;
+	destroyed=false;
 	hp=100;
 }
 
