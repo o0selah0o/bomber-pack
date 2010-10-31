@@ -75,6 +75,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image soldier2;
+	
+	if(!soldier2.LoadFromFile("../../Images/soldier2.png"))
+	{
+		App.Close();
+	}
+	
     while (Running)
     {
 		float Time = App.GetFrameTime();
@@ -108,7 +115,9 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(sGrass);
 		
 		// Affichage des textures que voit le soldat
+		std::cout << "Texture" << std::endl;
 		std::vector<Node*> vNode = _model->getMap().getChild();
+
 		for(int i = 0; i < (int) vNode.size(); i++)
 		{
 			int x = vNode.at(i)->getPosition().first;
@@ -145,6 +154,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		int cpt_rouge = 0;
 		int cpt_vert = 0;
 		
+				std::cout << "Soldat" << std::endl;
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
@@ -154,25 +164,27 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
 				
 				sf::Sprite temp;
+				temp.SetPosition(x,y);
 				switch (_model->getSoldiers().at(i)->getTeam()) {
 					case 1:
 						//App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Green, 1, sf::Color::Black));
 						cpt_vert++;
-						temp.SetPosition(x,y);
 						temp.SetImage(soldier);
-						temp.Resize(25, 25);
-						App.Draw(temp);
 						break;
 					case 2:
-						App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+						//App.Draw(sf::Shape::Circle(x, y, 7, sf::Color::Red, 1, sf::Color::Black));
+						temp.SetImage(soldier2);
 						cpt_rouge++;
 						break;
 					default:
 						break;
 				}
+								temp.Resize(25, 25);
+				App.Draw(temp);
 			}
 		}
 		
+		std::cout << "Gagnant" << std::endl;
 		sf::String game;
 		if(cpt_vert == 0)
 		{
@@ -191,11 +203,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(game);
 		
 		//Affichage des balles
+		std::cout << "Balles" << std::endl;
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 3, sf::Color::Blue, 1, sf::Color::Black));
 		
 		//Affichage des vehicules
+		std::cout << "Vehicules" << std::endl;
 		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
 		{
 			int x = _model->getVehicles().at(i)->getPosition().first;
