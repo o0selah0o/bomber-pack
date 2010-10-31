@@ -2,7 +2,8 @@
 #include "Screen.h"
 #include "Screen_0.h"
 #include "Screen_Jeux.h"
-
+#include "Screen_Multi.h"
+#include "Screen_Select.h"
 
 View::View(std::string _path, std::string _name, int _x, int _y)
 {
@@ -44,12 +45,16 @@ void View::Run()
     screens.push_back(s0);
     Screen_Jeux s1;
     screens.push_back(&s1);
+	Screen_Select s2;
+	screens.push_back(&s2);
+	Screen_Multi s3;
+	screens.push_back(&s3);
 	
     //Main loop
     while (screen >= 0)
     {
         screen = screens[screen]->Run(App,model,controleur);
-		if(screen == 2)
+		if(screen == 4)
 		{
 			model = new Model(path);
 			controleur = new Controleur(model);

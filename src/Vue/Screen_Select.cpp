@@ -1,14 +1,15 @@
-#include "Screen_0.h"
+#include "Screen_Select.h"
+#include "Screen_Multi2.h"
+#include <string>
 
-Screen_0::Screen_0(std::string _path)
+Screen_Select::Screen_Select()
 {
     alpha_max = 3*255;
     alpha_div = 3;
     playing = false;
-	path = _path;
 }
 
-int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
+int Screen_Select::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
 {
     sf::Event Event;
     bool Running = true;
@@ -16,12 +17,13 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     sf::Sprite Sprite;
     int alpha = 0;
     sf::Font Font;
+	sf::String Menu0;
     sf::String Menu1;
     sf::String Menu2;
     sf::String Menu3;
     sf::String Menu4;
-    sf::String Menu5;
     int menu = 2;
+	std::string ip;
 	
 	sf::SoundBuffer Buffer;
 	if (!Buffer.LoadFromFile("../../Images/theme.wav"))
@@ -47,31 +49,31 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
         std::cerr << "Error loading font" << std::endl;
     }
 	
+    Menu0.SetFont(Font);
+    Menu0.SetSize(25);
+    Menu0.SetText("Pour Client, tapez l'ip en remplacant les . par des ;");
+    Menu0.SetX(30);
+    Menu0.SetY(App.GetView().GetRect().GetHeight() / 2 - 120);
     Menu1.SetFont(Font);
     Menu1.SetSize(25);
-    Menu1.SetText("Play");
+    Menu1.SetText("Client");
     Menu1.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
     Menu1.SetY(App.GetView().GetRect().GetHeight() / 2 - 42);
     Menu2.SetFont(Font);
     Menu2.SetSize(25);
-    Menu2.SetText("Exit");
+    Menu2.SetText("Serveur");
     Menu2.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
-    Menu2.SetY(App.GetView().GetRect().GetHeight() / 2 + 50);
+    Menu2.SetY(App.GetView().GetRect().GetHeight() / 2);
     Menu3.SetFont(Font);
     Menu3.SetSize(25);
-    Menu3.SetText("Continue");
+    Menu3.SetText("Retour");
     Menu3.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
-    Menu3.SetY(App.GetView().GetRect().GetHeight() / 2 - 42);
+    Menu3.SetY(App.GetView().GetRect().GetHeight() / 2 + 100);
 	Menu4.SetFont(Font);
     Menu4.SetSize(25);
-    Menu4.SetText("Restart");
+    Menu4.SetText(ip);
     Menu4.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
-    Menu4.SetY(App.GetView().GetRect().GetHeight() / 2);
-	Menu5.SetFont(Font);
-    Menu5.SetSize(25);
-    Menu5.SetText("Multi-Player");
-    Menu5.SetX(App.GetView().GetRect().GetWidth() / 2 - 30);
-    Menu5.SetY(App.GetView().GetRect().GetHeight() / 2);
+    Menu4.SetY(App.GetView().GetRect().GetHeight() / 2 + 50);
 	
 	App.Clear();
 	
@@ -111,33 +113,54 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
 						if(menu == 2)
 							menu--;
                         break;
+					case sf::Key::Num0 :
+						ip = ip + "O";
+						break;
+					case sf::Key::Num1 :
+						ip = ip + "1";
+						break;
+					case sf::Key::Num2 :
+						ip = ip + "2";
+						break;
+					case sf::Key::Num3 :
+						ip = ip + "3";
+						break;
+					case sf::Key::Num4 :
+						ip = ip + "4";
+						break;
+					case sf::Key::Num5 :
+						ip = ip + "5";
+						break;
+					case sf::Key::Num6 :
+						ip = ip + "6";
+						break;
+					case sf::Key::Num7 :
+						ip = ip + "7";
+						break;
+					case sf::Key::Num8 :
+						ip = ip + "8";
+						break;
+					case sf::Key::Num9 :
+						ip = ip + "9";
+						break;
+					case sf::Key::SemiColon :
+						ip = ip + ".";
+						break;
                     case sf::Key::Return:
 						Sound.Stop();
                         if (menu == 2)
                         {
-							if(playing == false)
-								playing = true;
-                            return (1);
+							Screen_Multi2* s4 = new Screen_Multi2(ip);
+							return (s4->Run(App,_model,_controleur));
                         }
 						if (menu == 1)
 						{
-							if(playing)
-							{
-								return 4;
-							}
-							else 
-							{
-								return 2;
-							}
+							//Serveur
+							return 3;
 						}
                         else
                         {
-							if(playing)
-							{
-								playing = false;
-								return 0;
-                            }
-							return (-1);
+                            return 0;
                         }
                         break;
                     default :
@@ -155,40 +178,28 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
         {
             Menu1.SetColor(sf::Color(255, 0, 0, 255));
             Menu2.SetColor(sf::Color(0, 0, 0, 255));
-            Menu3.SetColor(sf::Color(255, 0, 0, 255));
-			Menu4.SetColor(sf::Color(0, 0, 0, 255));
-			Menu5.SetColor(sf::Color(0, 0, 0, 255));
+            Menu3.SetColor(sf::Color(0, 0, 0, 255));
         }
 		else if (menu == 1)
         {
             Menu1.SetColor(sf::Color(0, 0, 0, 255));
-            Menu2.SetColor(sf::Color(0, 0, 0, 255));
+            Menu2.SetColor(sf::Color(255, 0, 0, 255));
             Menu3.SetColor(sf::Color(0, 0, 0, 255));
-			Menu4.SetColor(sf::Color(255, 0, 0, 255));
-			Menu5.SetColor(sf::Color(255, 0, 0, 255));
         }
         else
         {
             Menu1.SetColor(sf::Color(0, 0, 0, 255));
-            Menu2.SetColor(sf::Color(255, 0, 0, 255));
-            Menu3.SetColor(sf::Color(0, 0, 0, 255));
-			Menu4.SetColor(sf::Color(0, 0, 0, 255));
-			Menu5.SetColor(sf::Color(0, 0, 0, 255));
+            Menu2.SetColor(sf::Color(0, 0, 0, 255));
+            Menu3.SetColor(sf::Color(255, 0, 0, 255));
         }
 		
         //Drawing
         App.Draw(Sprite);
-		
-		if (playing)
-		{
-			App.Draw(Menu3);
-			App.Draw(Menu4); 
-		}
-		else
-		{
-			App.Draw(Menu1);
-			App.Draw(Menu5);
-		}
+		Menu4.SetText(ip);
+		App.Draw(Menu0);
+		App.Draw(Menu3);
+		App.Draw(Menu4); 
+		App.Draw(Menu1);
 		App.Draw(Menu2);
 		
         App.Display();
