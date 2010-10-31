@@ -7,6 +7,7 @@ Projectile::Projectile(){
 Projectile::~Projectile(){
 	
 }
+
 Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	dx=_dx;
 	dy=_dy;
@@ -15,7 +16,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x < _dx) and (_y < _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= 10/distanceDA;
+		facteur= (int) 30/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -24,7 +25,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x > dx) and (_y < _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= 10/distanceDA;
+		facteur= (int) 30/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -33,7 +34,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x > _dx) and (_y > _dy)){
 		distanceDA= pow(dx - x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= 10/distanceDA;
+		facteur=(int) 30/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -42,7 +43,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x < _dx) and (_y > _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= 10/distanceDA;
+		facteur=(int) 30/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -50,21 +51,21 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	}
 	if (_x==_dx and  _y < _dy){
 		x=_dx;
-		y=_y+10;
+		y=_y+15;
 	}
 	if (_y==_dy and _x <_dx){
-		x=_x+10;
+		x=_x+15;
 		y=_dy;
 	}
 	
 	if (_y==_dy and _dx < _x){
-		x=_x-10;
+		x=_x-15;
 		y=_dy;
 	}
 	
 	if (_x==_dx and _dy < _y){
 		x=_dx;
-		y=_y-10;
+		y=_y-15;
 	}
 }
 
@@ -109,25 +110,26 @@ void Projectile::parcourir(float coeff){
 	
 	if (x==dx and  y < dy){
 		x=dx;
-		y=y+10;
+		y=y+speed;
 	}
 	if (y==dy and x <dx){
-		x=x+10;
+		x=x+speed;
 		y=dy;
 	}
 	
 	if (y==dy and dx < x){
-		x=x-10;
+		x=x-speed;
 		y=dy;
 	}
 	
 	if (x==dx and dy < y){
 		x=dx;
-		y=y-10;
+		y=y-speed;
 	}
 	parcouru+=speed;
 	
 }
+
 
 
 

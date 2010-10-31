@@ -37,8 +37,10 @@ public:
 	std::vector<Projectile*> getProjectiles();
 	void addProjectiles(Projectile* _projectile);
 	void fire(int _dx,int _dy);
+	Vehicle* isAtPosition(int _x,int _y,std::vector<Vehicle*> vehicles);
 	
-	
+	bool enterVehicle(int Soldati);
+	bool leaveVehicle(int Soldati);
 
 private:
 	//Toute la carte de jeu. 

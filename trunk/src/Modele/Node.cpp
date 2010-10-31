@@ -3,7 +3,7 @@
 #include "math.h"
 #include "Map.h"
 #include <iostream>
-
+#include "Grass.h"
 Node::Node()
 {
 	x = 0;
@@ -14,8 +14,6 @@ Node::Node(int _x, int _y)
 {
 	x = _x;
 	y = _y;
-	longueur = 0;
-	hauteur = 0;
 }
 
 Node::Node(int _x, int _y, int _l, int _h)
@@ -156,10 +154,10 @@ std::vector<Node*> Node::cross(int _x, int _y, int hauteur,int longueur)
 	return res;
 }
 
-char Node::getNodeAtPosXY(int _x,int _y){
+Node* Node::getNodeAtPosXY(int _x,int _y){
 	unsigned int i;
 	unsigned int length= child.size();
-	char c= 'g';
+	Node* res= new Grass();
 	int xno,yno,xse,yse;
 	for(i=0;i<length;i++){
 		xno=child.at(i)->getPosition().first;
@@ -167,10 +165,10 @@ char Node::getNodeAtPosXY(int _x,int _y){
 		xse=child.at(i)->getPosition().first+ child.at(i)->getBoundingBox().second;
 		yse=child.at(i)->getPosition().second + child.at(i)->getBoundingBox().first;
 		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y and child.at(i)->getSymbole() != 'g'){
-			c= child.at(i)->getSymbole();
+			res= child.at(i);
 		}  
 	}
-	return c;
+	return res;
 }
 
 
