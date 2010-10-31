@@ -1,6 +1,6 @@
 //hauteur longueur
 SIZE 
-2000 | 1000 
+1000 | 1000 
  
 WALL
 400 390 | 130 15

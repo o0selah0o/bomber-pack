@@ -222,7 +222,7 @@ void Model::update(float coeff){
 						if(projectiles.size() < 100)
 						{	
 							temps1=clock()/1000;
-							if((temps1-temps0) > 0.05){
+							if((temps1-temps0) > 0.005){
 								float devia= (rand()/(double)RAND_MAX);
 								projectiles.push_back(soldiers.at(i)->fire((int)soldiers.at(j)->getPosition().first+(devia * 10.0), (int)soldiers.at(j)->getPosition().second-(devia * 10.0)));
 								temps0=clock()/1000;
