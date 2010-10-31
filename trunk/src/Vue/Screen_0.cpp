@@ -23,6 +23,15 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
     sf::String Menu5;
     int menu = 2;
 	
+	sf::SoundBuffer Buffer;
+	if (!Buffer.LoadFromFile("../../Images/theme.wav"))
+	{
+		std::cout << "Musique pas trouvée" << std::endl;
+	}
+	
+	sf::Sound Sound;
+	Sound.SetBuffer(Buffer); // Buffer est un sfSoundBuffer
+	
     if (!Image.LoadFromFile("../../Images/bf2.jpg"))
     {
         std::cerr << "Error loading bf2.jpg" << std::endl;
@@ -71,8 +80,12 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
         alpha = alpha_max;
     }
 	
+	Sound.Play();
+	Sound.SetLoop(true);
+	
     while (Running)
     {
+		
         //Verifying events
         while (App.GetEvent(Event))
         {
@@ -99,6 +112,7 @@ int Screen_0::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur
 							menu--;
                         break;
                     case sf::Key::Return:
+						Sound.Stop();
                         if (menu == 2)
                         {
 							if(playing == false)
