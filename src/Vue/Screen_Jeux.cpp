@@ -257,7 +257,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			//std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
 			temp.Resize(h,l);
 			temp.SetPosition(x-1,y);
-			
+			temp.SetRotation(_model->getVehicles().at(i)->getAngle());
 			
 			App.Draw(temp);
 			

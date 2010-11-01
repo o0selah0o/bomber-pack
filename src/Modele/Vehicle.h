@@ -31,6 +31,7 @@ public:
 	bool isDestroyed();
 	void setDestroyed(bool state);
 	Projectile* fire(int _dx,int _dy);
+	double getAngle();
 	
 protected:
 	// sa vitesse de déplacement
@@ -39,6 +40,7 @@ protected:
 	int hp;
 	bool destroyed;
 	bool used;
+	double angle;
 	
 	
 };
