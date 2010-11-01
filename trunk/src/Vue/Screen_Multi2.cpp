@@ -5,11 +5,29 @@ Screen_Multi2::Screen_Multi2 (std::string _ip)
 	ip = _ip;
 }
 
+
+bool Screen_Multi2::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,std::string> > list)
+{
+	if(list.size() < 1)
+		return false;
+	for(int i = 0; i < (int) list.size(); i++)
+	{
+		if(list.at(i).first == address)
+			return true;
+	}
+	return false;	
+}
+
 int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _controleur)
 {
     sf::Event Event;
     bool Running = true;
 	sf::Font Font;
+	std::vector<std::pair<sf::IPAddress,std::string> > listClient;
+	// Création du socket UDP
+	sf::SocketUDP Socket;
+	sf::SocketUDP Socket2;
+	Socket2.SetBlocking(false);
 	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
@@ -64,7 +82,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 	
 	sf::Image tank;
 	
-	if(!tank.LoadFromFile("../../Images/tankbox.png"))
+	if(!tank.LoadFromFile("../../Images/tBox.png"))
 	{
 		App.Close();
 	}

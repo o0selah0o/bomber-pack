@@ -167,28 +167,29 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		{
 			std::cout << "Ps reussi a recevoir" << std::endl;
 		}
-		
-		// ToDo
-		
-		if(isIn(Sender,listClient))
-		{
-			std::string s;
-			std::stringstream temp;
-			temp << Buffer2;
-			s = temp.str();
+		else {
+			if(isIn(Sender,listClient))
+			{
+				std::string s;
+				std::stringstream temp;
+				temp << Buffer2;
+				s = temp.str();
+				
+				for(int i = 0; i < (int) listClient.size(); i++)
+					if(listClient.at(i).first == Sender)
+						listClient.at(i).second = s;
+			}
+			else 
+			{
+				std::string s;
+				std::stringstream temp;
+				temp << Buffer2;
+				s = temp.str();
+				
+				listClient.push_back(std::pair<sf::IPAddress,std::string>(Sender,s));
+			}
 			
-			for(int i = 0; i < (int) listClient.size(); i++)
-				if(listClient.at(i).first == Sender)
-					listClient.at(i).second = s;
-		}
-		else 
-		{
-			std::string s;
-			std::stringstream temp;
-			temp << Buffer2;
-			s = temp.str();
 			
-			listClient.push_back(std::pair<sf::IPAddress,std::string>(Sender,s));
 		}
 		
 		_model->update(Time);
@@ -275,9 +276,18 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		{
 			if(listClient.size() > 0)
 			{
-				int x = 0;
-				int y = 0;
-				int team = 0;
+				std::string str = listClient.at(i).second;
+				std::string buf; // Have a buffer string
+				std::stringstream ss(str); // Insert the string into a stream
+				
+				std::vector<std::string> tokens; // Create vector to hold our words
+				
+				while (ss >> buf)
+					tokens.push_back(buf);
+				std::cout << "Here i am" << std::endl; 
+				int x = atoi(tokens.at(0).c_str());
+				int y = atoi(tokens.at(1).c_str());
+				int team = atoi(tokens.at(2).c_str());
 				
 				sf::Sprite temp;
 				temp.SetPosition(x,y);
