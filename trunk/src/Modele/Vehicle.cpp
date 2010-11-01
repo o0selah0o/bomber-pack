@@ -5,6 +5,7 @@
 
 Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,hauteur)
 {
+	angle = 0;
 	used=false;
 	destroyed=false;
 	hp=100000;
@@ -12,6 +13,7 @@ Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,
 
 Vehicle::Vehicle(int _x, int _y):Node(_x,_y)
 {	
+	angle = 0;
 	used=false;
 	destroyed=false;
 	hp=1000000;
@@ -27,6 +29,7 @@ void Vehicle::moveUp(float coeff,int h,int l){
 	if((int)(y - deca - hauteur)>0){
 		printf("moveUP\n");
 		y= y - deca;
+		angle=-90;
 	}
 		
 }
@@ -37,6 +40,7 @@ void Vehicle::moveBack(float coeff,int h,int l){
 	if(temp+5+hauteur < l){
 		printf("moveBACK\n");
 		y=y + deca;
+		angle=90;
 	}
 		
 }
@@ -46,6 +50,7 @@ void Vehicle::moveLeft(float coeff,int h,int l){
 	if( (int)(x - deca - longueur)>0){
 		printf("moveLEFT\n");
 		x=x - deca ;
+		angle=0;
 	}
 		
 }
@@ -56,6 +61,7 @@ void Vehicle::moveRight(float coeff,int h,int l){
 	if(temp-5-longueur < h){
 		printf("moveRIGHT\n");
 		x=x + deca;
+		angle=180;
 	}
 		
 }
@@ -95,4 +101,8 @@ void Vehicle::setDestroyed(bool state){
 
 bool Vehicle::isUsed(){
 	return used;
+}
+
+double Vehicle::getAngle(){
+	return angle;
 }
