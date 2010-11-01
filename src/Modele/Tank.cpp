@@ -4,9 +4,10 @@
 Tank::Tank(int _x, int _y): Vehicle(_x,_y)
 {
 	symbole = 't';
-	speed=30;
+	speed=400;
 	hauteur=60;
 	longueur=120;
+	destroyed=false;
 }
 
 

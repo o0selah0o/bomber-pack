@@ -162,7 +162,7 @@ Node* Node::getNodeAtPosXY(int _x,int _y){
 	for(i=0;i<length;i++){
 		xno=child.at(i)->getPosition().first;
 		yno=child.at(i)->getPosition().second;
-		xse=child.at(i)->getPosition().first+ child.at(i)->getBoundingBox().second;
+		xse=child.at(i)->getPosition().first + child.at(i)->getBoundingBox().second;
 		yse=child.at(i)->getPosition().second + child.at(i)->getBoundingBox().first;
 		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y and child.at(i)->getSymbole() != 'g'){
 			res= child.at(i);

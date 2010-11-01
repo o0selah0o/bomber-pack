@@ -27,49 +27,41 @@ Soldier::~Soldier(){
 }
 
 void Soldier::moveUp(float coeff,int h,int l){
-	if(activ){
 		float deca=(int)	(speed * coeff);
 		if((int)(y - deca)>0)
 			y= y - deca;
-	}
-	else{
+	
+	if(!activ){
 		vehicleUti->moveUp(coeff, h, l);
 	}
 }
 
 void Soldier::moveBack(float coeff,int h,int l){
-	if(activ){
 		int deca=(int)(speed * coeff);
 		int temp = y+deca;
 		if(temp+5 < l)
 			y=y + deca;
-	}
-	else{
+	if(!activ){
 		vehicleUti->moveBack(coeff, h, l);
 	}
 	
 }
 
 void Soldier::moveLeft(float coeff,int h,int l){
-	if(activ){
 		float deca=(int)	(speed * coeff )	;
 		if( (int)(x - deca)>0)
 			x=x - deca ;
-	}
-	else {
+	if(!activ){
 		vehicleUti->moveLeft(coeff, h, l);
 	}
-
 }
 
 void Soldier::moveRight(float coeff,int h,int l){
-	if(activ){
 		int deca=	(int)(speed* coeff );
 		int temp = x+deca;
 		if(temp-5 < h)
 			x=x + deca;
-	}
-	else{
+	if(!activ){
 		vehicleUti->moveRight(coeff, h, l);
 	}
 }
@@ -134,7 +126,7 @@ void Soldier::enterVehicle(Vehicle* vehicle){
 }
 
 void Soldier::leaveVehicle(){
-	delete vehicleUti;
+	vehicleUti= NULL;
 	activ=true;
 }
 
