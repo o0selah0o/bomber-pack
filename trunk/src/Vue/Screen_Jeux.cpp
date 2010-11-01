@@ -244,12 +244,15 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			switch (symbol) {
 				case 'j':
 					temp.SetImage(jeep);
+					temp.SetCenter(300,175);
 					break;
 				case 'p':
 					temp.SetImage(plane);
+					temp.SetCenter(170,125);
 					break;
 				case 't':
 					temp.SetImage(tank);
+					temp.SetCenter(450,210);
 					break;
 				default:
 					break;
