@@ -135,7 +135,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(sGrass);
 		
 		// Affichage des textures que voit le soldat
-		std::cout << "Texture" << std::endl;
+		//std::cout << "Texture" << std::endl;
 		std::vector<Node*> vNode = _model->getMap().getChild();
 		
 		for(int i = 0; i < (int) vNode.size(); i++)
@@ -171,7 +171,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		int cpt_rouge = 0;
 		int cpt_vert = 0;
 		
-		std::cout << "Soldat" << std::endl;
+		//std::cout << "Soldat" << std::endl;
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
@@ -209,7 +209,6 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			}
 		}
 		
-		std::cout << "Gagnant" << std::endl;
 		sf::String game;
 		if(cpt_vert == 0)
 		{
@@ -228,13 +227,11 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Draw(game);
 		
 		//Affichage des balles
-		std::cout << "Balles" << std::endl;
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
 		//Affichage des vehicules
-		std::cout << "Vehicules" << std::endl;
 		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
 		{
 			int x = _model->getVehicles().at(i)->getPosition().first;
@@ -257,7 +254,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				default:
 					break;
 			}
-			std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
+			//std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
 			temp.Resize(h,l);
 			temp.SetPosition(x-1,y);
 			

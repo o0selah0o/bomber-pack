@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "math.h"
 #include "time.h"
+#include "Jeep.h"
 #include <iostream>
 Model::Model(){
 	
@@ -55,8 +56,9 @@ bool Model::enterVehicle(int Soldati){
 		Vehicle* vehicleS=isAtPosition(soldiers.at(Soldati)->getPosition().first,soldiers.at(Soldati)->getPosition().second+15,vehicles);
 		Vehicle* vehicleE=isAtPosition(soldiers.at(Soldati)->getPosition().first+15,soldiers.at(Soldati)->getPosition().second,vehicles);
 		Vehicle* vehicleO=isAtPosition(soldiers.at(Soldati)->getPosition().first-15,soldiers.at(Soldati)->getPosition().second,vehicles);
-		if(vehicleN !=NULL and vehicleS !=NULL and vehicleE !=NULL and vehicleO !=NULL){
+		if(vehicleN ==NULL and vehicleS ==NULL and vehicleE ==NULL and vehicleO ==NULL){
 			return false;
+			
 		}
 		else{
 			if (vehicleN !=NULL and !vehicleN->isDestroyed()){
@@ -82,7 +84,6 @@ bool Model::enterVehicle(int Soldati){
 
 bool Model::leaveVehicle(int Soldati){
 	if(!soldiers.at(Soldati)->isActiv()){
-		soldiers.at(Soldati)->setActiv(true);
 		soldiers.at(Soldati)->getVehicle()->setUsed(false);
 		soldiers.at(Soldati)->leaveVehicle();
 	}	
@@ -145,7 +146,7 @@ bool Model::moveLeft(int i,float coeff){
 	}
 	else {
 		int posx=vehicles.at(i)->getPosition().first;
-		int nextPosx=posx-(vehicles.at(i)->getSpeed()*coeff+25)+vehicles.at(i)->getBoundingBox().second;
+		int nextPosx=posx-(vehicles.at(i)->getSpeed()*coeff+60)+vehicles.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(i)->getPosition().second)->getSymbole();
 		vehipred=isAtPosition(nextPosx,vehicles.at(i)->getPosition().second,vehicles);
 	}
@@ -169,7 +170,7 @@ bool Model::moveRight(int i,float coeff){
 	}
 	else {
 		int posx=vehicles.at(i)->getPosition().first;
-		int nextPosx=posx+(vehicles.at(i)->getSpeed()*coeff-10)+vehicles.at(i)->getBoundingBox().second;
+		int nextPosx=posx+(vehicles.at(i)->getSpeed()*coeff-130)+vehicles.at(i)->getBoundingBox().second;
 		typepred= wholeMap.getNodeAtPosXY(nextPosx,vehicles.at(i)->getPosition().second)->getSymbole();
 		vehipred=isAtPosition(nextPosx,vehicles.at(i)->getPosition().second,vehicles);
 	}
@@ -223,17 +224,17 @@ Vehicle* Model::isAtPosition(int _x,int _y,std::vector<Vehicle*> vehicles){
 	unsigned int i;
 	unsigned int length= vehicles.size();
 	int xno,yno,xse,yse;
-	Vehicle* res=NULL;
 	for(i=0;i<length;i++){
 		xno=vehicles.at(i)->getPosition().first;
 		yno=vehicles.at(i)->getPosition().second;
 		xse=vehicles.at(i)->getPosition().first+ vehicles.at(i)->getBoundingBox().second;
 		yse=vehicles.at(i)->getPosition().second + vehicles.at(i)->getBoundingBox().first;
 		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y){
-			 res=vehicles.at(i);
+			//printf("vehicule? %c \n",vehicles.at(i)->getSymbole());
+			return vehicles.at(i);
 		}  
 	}
-	return res;
+	return NULL;
 }
 
 void Model::calcAngle(int _i,int _dx, int _dy){
