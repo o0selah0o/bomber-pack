@@ -63,7 +63,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 	
 	sf::Image tank;
 	
-	if(!tank.LoadFromFile("../../Images/tankbox.png"))
+	if(!tank.LoadFromFile("../../Images/tBox.png"))
 	{
 		App.Close();
 	}
@@ -175,7 +175,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
-			if(!_model->getSoldiers().at(i)->isDead())
+			if(!_model->getSoldiers().at(i)->isDead() and _model->getSoldiers().at(i)->isActiv())
 			{
 				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
@@ -204,7 +204,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 					temp.SetCenter(25,25);
 					temp.SetRotation(-angle + 90);	
 				}
-
+				
 				App.Draw(temp);
 			}
 		}
@@ -239,8 +239,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		{
 			int x = _model->getVehicles().at(i)->getPosition().first;
 			int y = _model->getVehicles().at(i)->getPosition().second;
-			int h = _model->getVehicles().at(i)->getBoundingBox().first;
-			int l = _model->getVehicles().at(i)->getBoundingBox().second;
+			int l = _model->getVehicles().at(i)->getBoundingBox().first;
+			int h = _model->getVehicles().at(i)->getBoundingBox().second;
 			
 			sf::Sprite temp;
 			char symbol = _model->getVehicles().at(i)->getSymbole(); 
@@ -257,7 +257,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				default:
 					break;
 			}
-			temp.Resize(l,h);
+			std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
+			temp.Resize(h,l);
 			temp.SetPosition(x-1,y);
 			
 			
