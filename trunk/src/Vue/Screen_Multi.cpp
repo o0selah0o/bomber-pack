@@ -7,7 +7,7 @@ Screen_Multi::Screen_Multi (void)
 {
 }
 
-bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,char*> > list)
+bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,std::string> > list)
 {
 	if(list.size() < 1)
 		return false;
@@ -25,7 +25,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
     sf::Event Event;
     bool Running = true;
 	sf::Font Font;
-	std::vector<std::pair<sf::IPAddress,char*> > listClient;
+	std::vector<std::pair<sf::IPAddress,std::string> > listClient;
 	// Création du socket UDP
 	sf::SocketUDP Socket;
 	sf::SocketUDP Socket2;
@@ -172,13 +172,23 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		
 		if(isIn(Sender,listClient))
 		{
+			std::string s;
+			std::stringstream temp;
+			temp << Buffer2;
+			s = temp.str();
+			
 			for(int i = 0; i < (int) listClient.size(); i++)
 				if(listClient.at(i).first == Sender)
-					listClient.at(i).second = Buffer2;
+					listClient.at(i).second = s;
 		}
 		else 
 		{
-			listClient.push_back(std::pair<sf::IPAddress,char*>(Sender,Buffer2));
+			std::string s;
+			std::stringstream temp;
+			temp << Buffer2;
+			s = temp.str();
+			
+			listClient.push_back(std::pair<sf::IPAddress,std::string>(Sender,s));
 		}
 		
 		_model->update(Time);
@@ -254,6 +264,36 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 					float angle = atan2(temp.GetPosition().y - dy, temp.GetPosition().x - dx) * 180 / 3.14;	
 					temp.SetCenter(25,25);
 					temp.SetRotation(-angle + 90);	
+				}
+				
+				App.Draw(temp);
+			}
+		}
+		
+		std::cout << "Soldat reseau" << std::endl;
+		for(int i = 0; i < (int) listClient.size(); i++)
+		{
+			if(listClient.size() > 0)
+			{
+				int x = 0;
+				int y = 0;
+				int team = 0;
+				
+				sf::Sprite temp;
+				temp.SetPosition(x,y);
+				
+				switch(team)
+				{
+					case 1 :
+						cpt_vert++;
+						temp.SetImage(soldier);
+						break;
+					case 2 :
+						cpt_vert++;
+						temp.SetImage(soldier2);
+						break;
+					default:
+						break;
 				}
 				
 				App.Draw(temp);
@@ -339,7 +379,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				{
 					if(i != j)
 					{
-						if (Socket.Send(listClient.at(j).second, sizeof(listClient.at(j).second), listClient.at(i).first, 6000) != sf::Socket::Done)
+						if (Socket.Send(listClient.at(j).second.c_str(), sizeof(listClient.at(j).second.c_str()), listClient.at(i).first, 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
