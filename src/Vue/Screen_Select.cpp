@@ -51,7 +51,7 @@ int Screen_Select::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 	
     Menu0.SetFont(Font);
     Menu0.SetSize(25);
-    Menu0.SetText("Pour Client, tapez l'ip en remplacant les . par des ;");
+    Menu0.SetText("Pour jouer en Client, tapez l'ip en remplacant les . de l'adresse par des ;");
     Menu0.SetX(30);
     Menu0.SetY(App.GetView().GetRect().GetHeight() / 2 - 120);
     Menu1.SetFont(Font);
@@ -145,6 +145,10 @@ int Screen_Select::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 						break;
 					case sf::Key::SemiColon :
 						ip = ip + ".";
+						break;
+					case sf::Key::Back :
+						if(ip.size() > 0)
+							ip.erase(ip.end()-1);
 						break;
                     case sf::Key::Return:
 						Sound.Stop();
