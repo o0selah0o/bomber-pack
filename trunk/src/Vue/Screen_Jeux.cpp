@@ -106,9 +106,9 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
-		if (App.GetInput().IsKeyDown(sf::Key::E)) _controleur->Event("E",Time);
-		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
+		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
+		
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
 		{
 			Sound.Play();
@@ -122,7 +122,9 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
             if (Event.Type == sf::Event::Closed)
             {
                 return (-1);
-            }
+            }		
+			
+			if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::E)) _controleur->Event("E",Time);
 			
         }
 		
