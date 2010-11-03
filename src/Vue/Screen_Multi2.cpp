@@ -1,4 +1,7 @@
 #include "Screen_Multi2.h"
+#include <SFML/Network.hpp>
+#include <utility>
+#include <sstream>
 
 Screen_Multi2::Screen_Multi2 (std::string _ip)
 {
@@ -6,7 +9,7 @@ Screen_Multi2::Screen_Multi2 (std::string _ip)
 }
 
 
-bool Screen_Multi2::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,std::string> > list)
+bool Screen_Multi2::isIn(int address, std::vector<std::pair<int,std::string> > list)
 {
 	if(list.size() < 1)
 		return false;
@@ -23,7 +26,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
     sf::Event Event;
     bool Running = true;
 	sf::Font Font;
-	std::vector<std::pair<sf::IPAddress,std::string> > listClient;
+	std::vector<std::pair<int,std::string> > listClient;
 	// Création du socket UDP
 	sf::SocketUDP Socket;
 	sf::SocketUDP Socket2;
@@ -148,6 +151,64 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		//Clearing screen
 		App.Clear();
 		
+		
+		// On le lit au port 4567
+		if (!Socket2.Bind(6000))
+		{
+			std::cout << "Not binding ;-) " << std::endl;
+		}
+		
+		std::cout << "Binding if not not biding" << std::endl;
+		
+		char Buffer2[128];
+		std::size_t Received;
+		sf::IPAddress Sender;
+		unsigned short Port;
+		
+		if(Socket2.Receive(Buffer2, sizeof(Buffer2), Received, Sender, Port) != sf::Socket::Done)
+		{
+			std::cout << "Pas reussi a recevoir" << std::endl;
+		}
+		else {
+			
+			int client = 0;
+			
+			std::string s;
+			std::stringstream temp;
+			temp << Buffer2;
+			s = temp.str();
+			
+			std::string buf; // Have a buffer string
+			std::stringstream ss(s); // Insert the string into a stream
+			
+			std::vector<std::string> tokens; // Create vector to hold our words
+			std::cout << "Spliting the data" << std::endl;
+			
+			while (ss >> buf)
+			{
+				std::cout << buf << std::endl;
+				tokens.push_back(buf);
+			}
+			if(tokens.size() > 1)
+			{
+				std::cout << "Data received - Size : " << tokens.size() << std::endl;
+				client = atoi(tokens.at(0).c_str());
+				
+				if(isIn(client,listClient))
+				{
+					for(int i = 0; i < (int) listClient.size(); i++)
+						if(listClient.at(i).first == client)
+							listClient.at(i).second = s;
+				}
+				else 
+				{
+					listClient.push_back(std::pair<int,std::string>(client,s));
+				}
+			}
+			
+			
+		}
+		
 		_model->update(Time);
 		
 		App.Draw(sGrass);
@@ -222,7 +283,49 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 					temp.SetCenter(25,25);
 					temp.SetRotation(-angle + 90);	
 				}
-
+				
+				App.Draw(temp);
+			}
+		}
+		
+		
+		std::cout << "Soldat reseau" << std::endl;
+		for(int i = 0; i < (int) listClient.size(); i++)
+		{
+			std::cout << listClient.size() << std::endl;
+			if(listClient.size() > 0)
+			{
+				std::string str = listClient.at(i).second;
+				std::cout << str << std::endl;
+				std::string buf; // Have a buffer string
+				std::stringstream ss(str); // Insert the string into a stream
+				
+				std::vector<std::string> tokens; // Create vector to hold our words
+				
+				while (ss >> buf)
+					tokens.push_back(buf);
+				std::cout << "Here i am" << std::endl; 
+				int x = atoi(tokens.at(1).c_str());
+				int y = atoi(tokens.at(2).c_str());
+				int team = atoi(tokens.at(3).c_str());
+				
+				sf::Sprite temp;
+				temp.SetPosition(x,y);
+				
+				switch(team)
+				{
+					case 1 :
+						cpt_vert++;
+						temp.SetImage(soldier);
+						break;
+					case 2 :
+						cpt_vert++;
+						temp.SetImage(soldier2);
+						break;
+					default:
+						break;
+				}
+				
 				App.Draw(temp);
 			}
 		}
@@ -284,6 +387,21 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		}
 		
 		App.Display();
+		
+		
+		std::string s;
+		std::stringstream out;
+		out << _model->getSoldiers().at(0)->getPosition().first << ' ';
+		out << _model->getSoldiers().at(0)->getPosition().second << ' ';
+		out << _model->getSoldiers().at(0)->getTeam();
+		s = out.str();
+		
+		char* Buffer = (char*)s.c_str();
+		
+		if (Socket.Send(Buffer, sizeof(Buffer), ip, 6000) != sf::Socket::Done)
+		{
+			std::cout << "Souci non ?" << std::endl;
+		}
     }
 	
     //Never reaching this point normally, but just in case, exit the application

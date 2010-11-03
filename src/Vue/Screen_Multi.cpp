@@ -168,24 +168,20 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			std::cout << "Ps reussi a recevoir" << std::endl;
 		}
 		else {
+			
+			std::string s;
+			std::stringstream temp;
+			temp << Buffer2;
+			s = temp.str();
+			
 			if(isIn(Sender,listClient))
-			{
-				std::string s;
-				std::stringstream temp;
-				temp << Buffer2;
-				s = temp.str();
-				
+			{	
 				for(int i = 0; i < (int) listClient.size(); i++)
 					if(listClient.at(i).first == Sender)
 						listClient.at(i).second = s;
 			}
 			else 
 			{
-				std::string s;
-				std::stringstream temp;
-				temp << Buffer2;
-				s = temp.str();
-				
 				listClient.push_back(std::pair<sf::IPAddress,std::string>(Sender,s));
 			}
 			
@@ -373,6 +369,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		
 		std::string s;
 		std::stringstream out;
+		out << '0' << ' ';
 		out << _model->getSoldiers().at(0)->getPosition().first << ' ';
 		out << _model->getSoldiers().at(0)->getPosition().second << ' ';
 		out << _model->getSoldiers().at(0)->getTeam();
@@ -389,7 +386,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				{
 					if(i != j)
 					{
-						if (Socket.Send(listClient.at(j).second.c_str(), sizeof(listClient.at(j).second.c_str()), listClient.at(i).first, 6000) != sf::Socket::Done)
+						if (Socket.Send((char)(i)+' '+listClient.at(j).second.c_str(), sizeof(listClient.at(j).second.c_str() + 2), listClient.at(i).first, 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
