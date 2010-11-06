@@ -216,7 +216,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 				else 
 				{
 					listClient.push_back(std::pair<int,int>(client,(int)listClient.size()));
-					_model->getSoldiers().push_back(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
+					_model->addSoldier(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 				}
 			}
 			
