@@ -57,6 +57,8 @@ public:
 	
 	void setAngle(double degre);
 	
+	void setDead(bool val);
+	
 	double getAngle();
 protected:
 	// sa vitesse de déplacement

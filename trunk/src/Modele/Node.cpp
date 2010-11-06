@@ -56,20 +56,8 @@ void Node::removeChild(int i)
 
 void Node::setPosition(int _x, int _y)
 {
-	if(parent != NULL)
-	{ 
-		if (( _x >= (parent->getPosition().first) && _x <= (parent->getPosition().first + parent->getBoundingBox().first)) 
-			&& ( _y >= (parent->getPosition().second) && _y <= (parent->getPosition().second + parent->getBoundingBox().second) )) 
-		{
-			x = _x;
-			y = _y;
-		}
-	}
-	else
-	{
 		x = _x;
-		y = _y;
-	}
+		y = _y;	
 }
 
 std::pair<int,int> Node::getPosition()
@@ -80,21 +68,8 @@ std::pair<int,int> Node::getPosition()
 
 void Node::setBoundingBox(int _h, int _l)
 {
-	if(parent != NULL)
-	{
-		if(( (x + _h) >= (parent->getPosition().first) && (x + _h) <= (parent->getPosition().first + parent->getBoundingBox().first)) 
-		   && ( (y + _l) >= (parent->getPosition().second) && (y + _l) <= (parent->getPosition().second + parent->getBoundingBox().second) )) 
-		{
-			hauteur = _h;
-			longueur = _l;
-		}
-	}
-	else
-	{
 		hauteur = _h;
 		longueur = _l;
-	}
-	
 }
 
 char Node::getSymbole(){
@@ -111,6 +86,38 @@ void Node::setParent(Node* _parent)
 {
 	parent = _parent;
 }
+/*
+bool Node::Collision(Node* node){
+	
+	xnoF=node->getPosition().first;
+	ynoF=node->getPosition().second + node->getBoundingBox().first;
+	
+	xseF=node->getPosition().first + node->getBoundingBox().second;
+	yseF=node->getPosition().second;
+	
+	xneF=node->getPosition().first +node->getBoundingBox().second;
+	yneF=node->getPosition().second + node->getBoundingBox().first;
+	
+	xsoF=node->getPosition().first;
+	ysoF=node->getPosition().second;
+	
+	
+	xnoS=node->getPosition().first;
+	ynoS=node->getPosition().second + node->getBoundingBox().first;
+	
+	xseS=node->getPosition().first + node->getBoundingBox().second;
+	yseS=node->getPosition().second;
+	
+	xneS=node->getPosition().first +node->getBoundingBox().second;
+	yneS=node->getPosition().second + node->getBoundingBox().first;
+	
+	xsoS=node->getPosition().first;
+	ysoS=node->getPosition().second;
+	
+	
+	
+}
+*/
 
 std::vector<Node*> Node::cross(int _x, int _y, int hauteur,int longueur)
 {
@@ -171,8 +178,44 @@ Node* Node::getNodeAtPosXY(int _x,int _y){
 	return res;
 }
 
+void Node::rotate(int _angle){
+	int xcenter;
+	int ycenter;
+	if (_angle==0 || _angle ==180){
+		xcenter=x+longueur/2;
+		ycenter=y+hauteur/2;
+		x=xcenter-hauteur/2;
+		y=ycenter-longueur/2;
+		int htemp=hauteur;
+		hauteur=longueur;
+		longueur=htemp;
+	}
+	else {
+		xcenter=x+longueur/2;
+		ycenter=y+hauteur/2;
+		x=xcenter-longueur/2;
+		y=ycenter-hauteur/2;
+		int htemp=hauteur;
+		hauteur=longueur;
+		longueur=htemp;
+	}
+}	
+	
+
 
 std::vector<Node*> Node::getChild(){
 	return child;
+}
+
+int Node::getCenterY(){
+	int centerY;
+	centerY=y+hauteur/2;
+	return centerY;
+}
+
+int Node::getCenterX(){
+	int centerX;
+	centerX=x+longueur/2;
+	return centerX;
 }
 

@@ -33,7 +33,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 	Socket2.SetBlocking(false);
 	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
 	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
-	int id = Address.ToInteger();
+	int id = Address.ToInteger()/1000;
 	
 	_model->getSoldiers().at(0)->setNuJoueur(id);
 	

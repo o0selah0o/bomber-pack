@@ -68,6 +68,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image turret;
+	
+	if(!turret.LoadFromFile("../../Images/tTurret.png"))
+	{
+		App.Close();
+	}
+	
 	sf::Image soldier;
 	
 	if(!soldier.LoadFromFile("../../Images/soldier.png"))
@@ -88,8 +95,22 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		std::cout << "Musique pas trouvée" << std::endl;
 	}
 	
-	sf::Sound Sound;
-	Sound.SetBuffer(Buffer); // Buffer est un sfSoundBuffer
+	sf::SoundBuffer ObusSound;
+	if (!ObusSound.LoadFromFile("../../Images/obus.wav"))
+	{
+		std::cout << "Musique pas trouvée" << std::endl;
+	}
+	
+	
+	sf::Sound SoundObus;
+	sf::Sound SoundBullet;
+	SoundObus.SetBuffer(ObusSound);
+	SoundBullet.SetBuffer(Buffer);
+	
+	
+	
+	
+	 // Buffer est un sfSoundBuffer
 	
 	sf::Clock Clock;
 	
@@ -109,10 +130,20 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
 		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
 		
-		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
-		{
-			Sound.Play();
-			Clock.Reset();
+		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) )
+		{	
+			printf("USED %c ",_model->getUsedVehicle());
+			if(_model->getUsedVehicle()== 't' and Time2 >= 1.0){
+				SoundObus.Play();
+				Clock.Reset();
+			}
+			
+			if(_model->getUsedVehicle()== 'n'and Time2 >= 0.50){
+				SoundBullet.Play();
+				Clock.Reset();
+			}
+			
+			
 		}
 		
         //Verifying events
@@ -238,13 +269,15 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		{
 			int x = _model->getVehicles().at(i)->getPosition().first;
 			int y = _model->getVehicles().at(i)->getPosition().second;
-			int l = _model->getVehicles().at(i)->getBoundingBox().first;
-			int h = _model->getVehicles().at(i)->getBoundingBox().second;
+			int l = _model->getVehicles().at(i)->getBoundingBox().second;
+			int h = _model->getVehicles().at(i)->getBoundingBox().first;
 			
 			sf::Sprite temp;
+			sf::Sprite tempt;
 			char symbol = _model->getVehicles().at(i)->getSymbole();
-			temp.SetPosition(x,y);
-			switch (symbol) {
+			temp.SetPosition(x+l/2,y+h/2);
+			tempt.SetPosition(x+l/2,y+h/2);
+			switch (symbol){
 				case 'j':
 					temp.SetImage(jeep);
 					temp.SetCenter(300,175);
@@ -256,14 +289,27 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				case 't':
 					temp.SetImage(tank);
 					temp.SetCenter(450,210);
+					tempt.SetImage(turret);
+					tempt.SetCenter(670,186);
+					
 					break;
 				default:
 					break;
 			}
 			//std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
+			temp.Resize(l,h);
+			tempt.Resize(l,h);
 			temp.SetRotation(_model->getVehicles().at(i)->getAngle());
-			temp.Resize(h,l);
 			App.Draw(temp);
+			if(symbol=='t' ){
+				float angle = atan2(tempt.GetPosition().y - dy, tempt.GetPosition().x - dx) * 180 / 3.14;	
+				if(_model->getVehicles().at(i)->isUsed()){
+					tempt.SetRotation(-angle);
+				}
+				
+				App.Draw(tempt);
+			}
+			
 			
 		}
 		

@@ -42,7 +42,8 @@ public:
 	bool enterVehicle(int Soldati);
 	bool leaveVehicle(int Soldati);
 	void calcAngle(int _i,int _dx, int _dy);
-private:
+	char getUsedVehicle();
+	private:
 	//Toute la carte de jeu. 
 	Map wholeMap;
 	//tableau contenant les personnages de la carte. Le premier est le joueur, le reste sont des bots
@@ -52,6 +53,7 @@ private:
 	
 	std::vector<Projectile*> projectiles;
 	
+	char usedVehicle;
 	double lastFired;
 };
 

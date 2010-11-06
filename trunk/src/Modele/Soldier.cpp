@@ -12,10 +12,10 @@ Soldier::Soldier():Node()
 Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	team=_team;
 	nujoueur=_nujoueur;
-	hp= 300;
+	hp= 10000;
 	longueur=20;
 	hauteur=10;
-	speed=300;
+	speed=400;
 	activ=true;
 	symbole='c';
 	dead=false;
@@ -84,6 +84,9 @@ bool Soldier::isDead(){
 	return dead;
 }
 
+void Soldier::setDead(bool val){
+	dead=val;
+}
 int Soldier::getNuJoueur(){
 	return nujoueur;
 }
@@ -131,27 +134,32 @@ Vehicle* Soldier::getVehicle(){
 void Soldier::enterVehicle(Vehicle* vehicle){
 	if(!vehicle->isUsed()){
 		vehicleUti=vehicle;
+		vehicleUti->setUsed(true);
 		activ=false;
 	}
 }
 
 void Soldier::leaveVehicle(){
+	vehicleUti->setUsed(false);
 	vehicleUti= NULL;
 	activ=true;
 }
 
 
 Projectile* Soldier::fire(int _dx,int _dy){
-	
+	Projectile* ob;
 	if(activ){
 		Bullet* bul=new Bullet(x,y,_dx,_dy);
 		return bul;
 	}
 	else{
-		Projectile* ob = vehicleUti->fire(_dx, _dy);
-		return ob;		
+		if(vehicleUti->getSymbole()){
+			ob = ((Tank*)vehicleUti)->fire(_dx, _dy);
+			return ob;
+		}
+				
 	}
-	
+	return ob;
 }
 
 void Soldier::setAngle(double degre){
