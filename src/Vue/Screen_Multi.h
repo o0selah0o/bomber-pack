@@ -6,7 +6,7 @@
 class Screen_Multi : public Screen
 {
 private:
-	bool isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,std::string> > list);
+	bool isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,int> > list);
 	
 public:
     Screen_Multi (void);

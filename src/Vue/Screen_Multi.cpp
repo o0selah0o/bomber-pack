@@ -7,7 +7,7 @@ Screen_Multi::Screen_Multi (void)
 {
 }
 
-bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,std::string> > list)
+bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddress,int> > list)
 {
 	if(list.size() < 1)
 		return false;
@@ -25,11 +25,21 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
     sf::Event Event;
     bool Running = true;
 	sf::Font Font;
-	std::vector<std::pair<sf::IPAddress,std::string> > listClient;
+	std::vector<std::pair<sf::IPAddress,int> > listClient;
 	// Création du socket UDP
 	sf::SocketUDP Socket;
 	sf::SocketUDP Socket2;
 	Socket2.SetBlocking(false);
+	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
+	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
+	
+	int id = Address.ToInteger();
+	
+	_model->getSoldiers().at(0)->setNuJoueur(id);
+	
+	int Random = sf::Randomizer::Random(1, 2);
+	
+	_model->getSoldiers().at(0)->setTeam(Random);
 	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
@@ -84,7 +94,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 	
 	sf::Image tank;
 	
-	if(!tank.LoadFromFile("../../Images/tankbox.png"))
+	if(!tank.LoadFromFile("../../Images/tBox.png"))
 	{
 		App.Close();
 	}
@@ -127,7 +137,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
-		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
+		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 6;
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
 		{
@@ -165,26 +175,48 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		
 		if(Socket2.Receive(Buffer2, sizeof(Buffer2), Received, Sender, Port) != sf::Socket::Done)
 		{
-			std::cout << "Ps reussi a recevoir" << std::endl;
+			std::cout << "Pas reussi a recevoir de messages" << std::endl;
 		}
-		else {
+		else 
+		{
+			int client = 0;
 			
 			std::string s;
 			std::stringstream temp;
 			temp << Buffer2;
 			s = temp.str();
 			
-			if(isIn(Sender,listClient))
-			{	
-				for(int i = 0; i < (int) listClient.size(); i++)
-					if(listClient.at(i).first == Sender)
-						listClient.at(i).second = s;
-			}
-			else 
-			{
-				listClient.push_back(std::pair<sf::IPAddress,std::string>(Sender,s));
-			}
+			std::string buf; // Have a buffer string
+			std::stringstream ss(s); // Insert the string into a stream
 			
+			std::vector<std::string> tokens; // Create vector to hold our words
+			std::cout << "Spliting the data" << std::endl;
+			
+			while (ss >> buf)
+			{
+				std::cout << buf << std::endl;
+				tokens.push_back(buf);
+			}
+			if(tokens.size() > 1)
+			{
+				std::cout << "Data received - Size : " << tokens.size() << std::endl;
+				client = atoi(tokens.at(0).c_str());
+				
+				if(isIn(Sender,listClient))
+				{
+					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
+						{
+							_model->getSoldiers().at(i)->setPosition(atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str()));
+							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+						}
+				}
+				else 
+				{
+					listClient.push_back(std::pair<sf::IPAddress,int>(Sender,(int)listClient.size()));
+					_model->getSoldiers().push_back(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
+				}
+			}
 			
 		}
 		
@@ -267,44 +299,53 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			}
 		}
 		
-		std::cout << "Soldat reseau" << std::endl;
-		for(int i = 0; i < (int) listClient.size(); i++)
-		{
-			if(listClient.size() > 0)
-			{
-				std::string str = listClient.at(i).second;
-				std::string buf; // Have a buffer string
-				std::stringstream ss(str); // Insert the string into a stream
-				
-				std::vector<std::string> tokens; // Create vector to hold our words
-				
-				while (ss >> buf)
-					tokens.push_back(buf);
-				std::cout << "Here i am" << std::endl; 
-				int x = atoi(tokens.at(0).c_str());
-				int y = atoi(tokens.at(1).c_str());
-				int team = atoi(tokens.at(2).c_str());
-				
-				sf::Sprite temp;
-				temp.SetPosition(x,y);
-				
-				switch(team)
-				{
-					case 1 :
-						cpt_vert++;
-						temp.SetImage(soldier);
-						break;
-					case 2 :
-						cpt_vert++;
-						temp.SetImage(soldier2);
-						break;
-					default:
-						break;
-				}
-				
-				App.Draw(temp);
-			}
-		}
+		/*
+		 std::cout << "Soldat reseau" << std::endl;
+		 std::cout << listClient.size() << std::endl;
+		 for(int i = 0; i < (int) listClient.size(); i++)
+		 {
+		 if(listClient.size() > 0)
+		 {
+		 std::string str = listClient.at(i).second;
+		 
+		 std::cout << str << std::endl;
+		 
+		 std::string buf; // Have a buffer string
+		 std::stringstream ss(str); // Insert the string into a stream
+		 
+		 std::vector<std::string> tokens; // Create vector to hold our words
+		 
+		 while (ss >> buf)
+		 tokens.push_back(buf);
+		 std::cout << "Here i am" << std::endl; 
+		 int x = atoi(tokens.at(0).c_str());
+		 int y = atoi(tokens.at(1).c_str());
+		 int team = atoi(tokens.at(2).c_str());
+		 
+		 std::cout << "x : " << x << " ; y : " << y << " ; team : " << team << std::endl;
+		 
+		 sf::Sprite temp;
+		 temp.SetPosition(x,y);
+		 
+		 switch(team)
+		 {
+		 case 1 :
+		 cpt_vert++;
+		 temp.SetImage(soldier);
+		 break;
+		 case 2 :
+		 cpt_vert++;
+		 temp.SetImage(soldier2);
+		 break;
+		 default:
+		 break;
+		 }
+		 
+		 temp.Resize(25, 25);
+		 
+		 App.Draw(temp);
+		 }
+		 }*/
 		
 		std::cout << "Gagnant" << std::endl;
 		sf::String game;
@@ -367,34 +408,32 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		// Création du tableau d'octets à envoyer
 		// ToDo : WARNING
 		
-		std::string s;
-		std::stringstream out;
-		out << '0' << ' ';
-		out << _model->getSoldiers().at(0)->getPosition().first << ' ';
-		out << _model->getSoldiers().at(0)->getPosition().second << ' ';
-		out << _model->getSoldiers().at(0)->getTeam();
-		s = out.str();
-		
-		char* Buffer = (char*)s.c_str();
-		
 		// Envoi des données à tous les clients sur le port 6000
 		if(listClient.size() > 0)
 		{
-			for(int i = 0; i < (int) listClient.size(); i++)
+			for(int i = 0; i < (int)_model->getSoldiers().size(); i++)
 			{
+				
+				std::string s;
+				std::stringstream out;
+				out << _model->getSoldiers().at(i)->getNuJoueur() << ' ';
+				out << _model->getSoldiers().at(i)->getPosition().first << ' ';
+				out << _model->getSoldiers().at(i)->getPosition().second << ' ';
+				out << _model->getSoldiers().at(i)->getTeam() << ' ';
+				out << _model->getSoldiers().at(i)->getLife();
+				s = out.str();
+				
+				char* Buffer = (char*)s.c_str();
+				
 				for(int j = 0; j < (int) listClient.size(); j++)
 				{
-					if(i != j)
+					if(_model->getSoldiers().at(i)->getNuJoueur() != (int)listClient.at(j).first.ToInteger())
 					{
-						if (Socket.Send((char)(i)+' '+listClient.at(j).second.c_str(), sizeof(listClient.at(j).second.c_str() + 2), listClient.at(i).first, 6000) != sf::Socket::Done)
+						if (Socket.Send(Buffer, 128, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
 					}
-				}
-				if (Socket.Send(Buffer, sizeof(Buffer), listClient.at(i).first, 6000) != sf::Socket::Done)
-				{
-					std::cout << "Souci non ?" << std::endl;
 				}
 			}
 		}

@@ -30,6 +30,10 @@ public:
 	
 	int getNuJoueur();
 	
+	int getLife();
+	
+	void setLife(int _hp);
+	
 	
 	bool isDead();
 	int getTeam();

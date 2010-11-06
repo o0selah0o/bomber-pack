@@ -60,5 +60,16 @@ void View::Run()
 			controleur = new Controleur(model);
 			screen = 1;
 		}
+		if(screen == 2 or screen == 3)
+		{
+			model = new Model("../../Images/map1");
+			controleur = new Controleur(model);
+		}
+		if(screen == 6)
+		{
+			model = new Model(path);
+			controleur = new Controleur(model);
+			screen = 0;
+		}
     }
 }

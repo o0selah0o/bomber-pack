@@ -26,10 +26,20 @@ Soldier::~Soldier(){
 	
 }
 
+
+int Soldier::getLife()
+{
+	return hp;
+}
+
+void Soldier::setLife(int _hp) {
+	hp = _hp;
+}
+
 void Soldier::moveUp(float coeff,int h,int l){
-		float deca=(int)	(speed * coeff);
-		if((int)(y - deca)>0)
-			y= y - deca;
+	float deca=(int)	(speed * coeff);
+	if((int)(y - deca)>0)
+		y= y - deca;
 	
 	if(!activ){
 		vehicleUti->moveUp(coeff, h, l);
@@ -37,10 +47,10 @@ void Soldier::moveUp(float coeff,int h,int l){
 }
 
 void Soldier::moveBack(float coeff,int h,int l){
-		int deca=(int)(speed * coeff);
-		int temp = y+deca;
-		if(temp+5 < l)
-			y=y + deca;
+	int deca=(int)(speed * coeff);
+	int temp = y+deca;
+	if(temp+5 < l)
+		y=y + deca;
 	if(!activ){
 		vehicleUti->moveBack(coeff, h, l);
 	}
@@ -48,19 +58,19 @@ void Soldier::moveBack(float coeff,int h,int l){
 }
 
 void Soldier::moveLeft(float coeff,int h,int l){
-		float deca=(int)	(speed * coeff )	;
-		if( (int)(x - deca)>0)
-			x=x - deca ;
+	float deca=(int)	(speed * coeff )	;
+	if( (int)(x - deca)>0)
+		x=x - deca ;
 	if(!activ){
 		vehicleUti->moveLeft(coeff, h, l);
 	}
 }
 
 void Soldier::moveRight(float coeff,int h,int l){
-		int deca=	(int)(speed* coeff );
-		int temp = x+deca;
-		if(temp-5 < h)
-			x=x + deca;
+	int deca=	(int)(speed* coeff );
+	int temp = x+deca;
+	if(temp-5 < h)
+		x=x + deca;
 	if(!activ){
 		vehicleUti->moveRight(coeff, h, l);
 	}
@@ -111,7 +121,7 @@ void Soldier::hit(int damages){
 			dead=true;
 		}
 	}
-	   
+	
 }
 
 Vehicle* Soldier::getVehicle(){
@@ -138,10 +148,10 @@ Projectile* Soldier::fire(int _dx,int _dy){
 		return bul;
 	}
 	else{
-			Projectile* ob = vehicleUti->fire(_dx, _dy);
-			return ob;		
+		Projectile* ob = vehicleUti->fire(_dx, _dy);
+		return ob;		
 	}
-	   
+	
 }
 
 void Soldier::setAngle(double degre){
