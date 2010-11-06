@@ -206,7 +206,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				
 				if(isIn(Sender,listClient))
 				{
-					std::cout << "Here" << std::endl;
+					std::cout << "Here nb soldier " << _model->getSoldiers().size() << std::endl;
 					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 					{
 						std::cout << _model->getSoldiers().at(i)->getNuJoueur() << std::endl;
@@ -217,8 +217,6 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 							int ytemp = atoi(tokens.at(2).c_str());
 							std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
 							_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
-
-							
 							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 						}
 					}

@@ -209,7 +209,11 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
-							_model->getSoldiers().at(i)->setPosition(atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str()));
+							std::cout << "Ici" << std::endl;
+							int xtemp = atoi(tokens.at(1).c_str());
+							int ytemp = atoi(tokens.at(2).c_str());
+							std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
+							_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
 							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 						}
 				}
