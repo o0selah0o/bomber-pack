@@ -13,6 +13,7 @@ bool Screen_Multi::isIn(sf::IPAddress address, std::vector<std::pair<sf::IPAddre
 		return false;
 	for(int i = 0; i < (int) list.size(); i++)
 	{
+		std::cout << "List : " << list.at(i).first << " Wanted " << address << std::endl;
 		if(list.at(i).first == address)
 			return true;
 	}
@@ -33,7 +34,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
 	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
 	
-	int id = Address.ToInteger();
+	int id = Address.ToInteger()/1000;
 	
 	_model->getSoldiers().at(0)->setNuJoueur(id);
 	
@@ -201,18 +202,27 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			{
 				std::cout << "Data received - Size : " << tokens.size() << std::endl;
 				client = atoi(tokens.at(0).c_str());
+				std::cout << "Client : " << client << " mon num : " << _model->getSoldiers().at(0)->getNuJoueur() << std::endl;
 				
 				if(isIn(Sender,listClient))
 				{
+					std::cout << "Here" << std::endl;
 					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
-							_model->getSoldiers().at(i)->setPosition(atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str()));
+							std::cout << "Ici" << std::endl;
+							int xtemp = atoi(tokens.at(1).c_str());
+							int ytemp = atoi(tokens.at(2).c_str());
+							std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
+							_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
+
+							
 							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 						}
 				}
 				else 
 				{
+					std::cout << "No Here" << std::endl;
 					listClient.push_back(std::pair<sf::IPAddress,int>(Sender,(int)listClient.size()));
 					_model->getSoldiers().push_back(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 				}
@@ -405,11 +415,27 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		
 		App.Display();
 		
+		std::string s;
+		std::stringstream out;
+		out << _model->getSoldiers().at(0)->getNuJoueur()  + 100 << ' ';
+		out << _model->getSoldiers().at(0)->getPosition().first  - 10 << ' ';
+		out << _model->getSoldiers().at(0)->getPosition().second  - 10<< ' ';
+		out << (_model->getSoldiers().at(0)->getTeam() % 2) + 1<< ' ';
+		out << _model->getSoldiers().at(0)->getLife();
+		s = out.str();
+		
+		char* Buffer = (char*)s.c_str();
+		
+		if (Socket.Send(Buffer, 128, Address.ToString(), 6000) != sf::Socket::Done)
+		{
+			std::cout << "Souci non ?" << std::endl;
+		}
+		
 		// Création du tableau d'octets à envoyer
 		// ToDo : WARNING
 		
 		// Envoi des données à tous les clients sur le port 6000
-		if(listClient.size() > 0)
+		/*if(listClient.size() > 0)
 		{
 			for(int i = 0; i < (int)_model->getSoldiers().size(); i++)
 			{
@@ -427,6 +453,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				
 				for(int j = 0; j < (int) listClient.size(); j++)
 				{
+					
 					if(_model->getSoldiers().at(i)->getNuJoueur() != (int)listClient.at(j).first.ToInteger())
 					{
 						if (Socket.Send(Buffer, 128, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
@@ -436,7 +463,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 					}
 				}
 			}
-		}
+		}*/
     }
 	
     //Never reaching this point normally, but just in case, exit the application
