@@ -242,7 +242,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			int h = _model->getVehicles().at(i)->getBoundingBox().second;
 			
 			sf::Sprite temp;
-			char symbol = _model->getVehicles().at(i)->getSymbole(); 
+			char symbol = _model->getVehicles().at(i)->getSymbole();
+			temp.SetPosition(x,y);
 			switch (symbol) {
 				case 'j':
 					temp.SetImage(jeep);
@@ -260,10 +261,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 					break;
 			}
 			//std::cout << "Vehicules " << symbol << " : " << h << " " << l << std::endl;
-			temp.Resize(h,l);
-			temp.SetPosition(x-1,y);
 			temp.SetRotation(_model->getVehicles().at(i)->getAngle());
-			
+			temp.Resize(h,l);
 			App.Draw(temp);
 			
 		}

@@ -9,7 +9,7 @@ Screen_Multi2::Screen_Multi2 (std::string _ip)
 }
 
 
-bool Screen_Multi2::isIn(int address, std::vector<std::pair<int,std::string> > list)
+bool Screen_Multi2::isIn(int address, std::vector<std::pair<int,int> > list)
 {
 	if(list.size() < 1)
 		return false;
@@ -26,11 +26,21 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
     sf::Event Event;
     bool Running = true;
 	sf::Font Font;
-	std::vector<std::pair<int,std::string> > listClient;
+	std::vector<std::pair<int,int> > listClient;
 	// Création du socket UDP
 	sf::SocketUDP Socket;
 	sf::SocketUDP Socket2;
 	Socket2.SetBlocking(false);
+	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
+	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
+	int id = Address.ToInteger();
+	
+	_model->getSoldiers().at(0)->setNuJoueur(id);
+	
+	int Random = sf::Randomizer::Random(1, 2);
+	
+	_model->getSoldiers().at(0)->setTeam(Random);
+	
 	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
@@ -128,7 +138,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		if (App.GetInput().IsKeyDown(sf::Key::D)) _controleur->Event("Right",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::Z)) _controleur->Event("Up",Time);
 		if (App.GetInput().IsKeyDown(sf::Key::S)) _controleur->Event("Down",Time);
-		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 0;
+		if (App.GetInput().IsKeyDown(sf::Key::Escape))  return 6;
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
 		{
@@ -196,13 +206,17 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 				
 				if(isIn(client,listClient))
 				{
-					for(int i = 0; i < (int) listClient.size(); i++)
-						if(listClient.at(i).first == client)
-							listClient.at(i).second = s;
+					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
+						{
+							_model->getSoldiers().at(i)->setPosition(atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str()));
+							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+						}
 				}
 				else 
 				{
-					listClient.push_back(std::pair<int,std::string>(client,s));
+					listClient.push_back(std::pair<int,int>(client,(int)listClient.size()));
+					_model->getSoldiers().push_back(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 				}
 			}
 			
@@ -288,47 +302,49 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 			}
 		}
 		
-		
-		std::cout << "Soldat reseau" << std::endl;
-		for(int i = 0; i < (int) listClient.size(); i++)
-		{
-			std::cout << listClient.size() << std::endl;
-			if(listClient.size() > 0)
-			{
-				std::string str = listClient.at(i).second;
-				std::cout << str << std::endl;
-				std::string buf; // Have a buffer string
-				std::stringstream ss(str); // Insert the string into a stream
-				
-				std::vector<std::string> tokens; // Create vector to hold our words
-				
-				while (ss >> buf)
-					tokens.push_back(buf);
-				std::cout << "Here i am" << std::endl; 
-				int x = atoi(tokens.at(1).c_str());
-				int y = atoi(tokens.at(2).c_str());
-				int team = atoi(tokens.at(3).c_str());
-				
-				sf::Sprite temp;
-				temp.SetPosition(x,y);
-				
-				switch(team)
-				{
-					case 1 :
-						cpt_vert++;
-						temp.SetImage(soldier);
-						break;
-					case 2 :
-						cpt_vert++;
-						temp.SetImage(soldier2);
-						break;
-					default:
-						break;
-				}
-				
-				App.Draw(temp);
-			}
-		}
+		/*
+		 std::cout << "Soldat reseau" << std::endl;
+		 for(int i = 0; i < (int) listClient.size(); i++)
+		 {
+		 std::cout << listClient.size() << std::endl;
+		 if(listClient.size() > 0)
+		 {
+		 std::string str = listClient.at(i).second;
+		 std::cout << str << std::endl;
+		 std::string buf; // Have a buffer string
+		 std::stringstream ss(str); // Insert the string into a stream
+		 
+		 std::vector<std::string> tokens; // Create vector to hold our words
+		 
+		 while (ss >> buf)
+		 tokens.push_back(buf);
+		 std::cout << "Here i am" << std::endl; 
+		 int x = atoi(tokens.at(1).c_str());
+		 int y = atoi(tokens.at(2).c_str());
+		 int team = atoi(tokens.at(3).c_str());
+		 
+		 sf::Sprite temp;
+		 temp.SetPosition(x,y);
+		 
+		 switch(team)
+		 {
+		 case 1 :
+		 cpt_vert++;
+		 temp.SetImage(soldier);
+		 break;
+		 case 2 :
+		 cpt_vert++;
+		 temp.SetImage(soldier2);
+		 break;
+		 default:
+		 break;
+		 }
+		 
+		 temp.Resize(25, 25);
+		 App.Draw(temp);
+		 }
+		 }
+		 */
 		
 		std::cout << "Gagnant" << std::endl;
 		sf::String game;
@@ -388,19 +404,24 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		
 		App.Display();
 		
-		
-		std::string s;
-		std::stringstream out;
-		out << _model->getSoldiers().at(0)->getPosition().first << ' ';
-		out << _model->getSoldiers().at(0)->getPosition().second << ' ';
-		out << _model->getSoldiers().at(0)->getTeam();
-		s = out.str();
-		
-		char* Buffer = (char*)s.c_str();
-		
-		if (Socket.Send(Buffer, sizeof(Buffer), ip, 6000) != sf::Socket::Done)
+		for(int i = 0; i < (int)_model->getSoldiers().size(); i++)
 		{
-			std::cout << "Souci non ?" << std::endl;
+			
+			std::string s;
+			std::stringstream out;
+			out << _model->getSoldiers().at(i)->getNuJoueur() << ' ';
+			out << _model->getSoldiers().at(i)->getPosition().first << ' ';
+			out << _model->getSoldiers().at(i)->getPosition().second << ' ';
+			out << _model->getSoldiers().at(i)->getTeam() << ' ';
+			out << _model->getSoldiers().at(i)->getLife();
+			s = out.str();
+			
+			char* Buffer = (char*)s.c_str();
+			
+			if (Socket.Send(Buffer, 128, ip, 6000) != sf::Socket::Done)
+			{
+				std::cout << "Souci non ?" << std::endl;
+			}
 		}
     }
 	

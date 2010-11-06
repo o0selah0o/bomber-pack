@@ -8,7 +8,7 @@ class Screen_Multi2 : public Screen
 {
 private:
 	std::string ip;
-	bool isIn(int address, std::vector<std::pair<int,std::string> > list);
+	bool isIn(int address, std::vector<std::pair<int,int> > list);
 	
 public:
     Screen_Multi2(std::string _ip);
