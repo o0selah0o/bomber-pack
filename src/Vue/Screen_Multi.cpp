@@ -435,7 +435,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		// ToDo : WARNING
 		
 		// Envoi des données à tous les clients sur le port 6000
-		/*if(listClient.size() > 0)
+		if(listClient.size() > 0)
 		{
 			for(int i = 0; i < (int)_model->getSoldiers().size(); i++)
 			{
@@ -463,7 +463,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 					}
 				}
 			}
-		}*/
+		}
     }
 	
     //Never reaching this point normally, but just in case, exit the application
