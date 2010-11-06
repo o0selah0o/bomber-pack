@@ -41,6 +41,7 @@ protected:
 	bool destroyed;
 	bool used;
 	double angle;
+	double anglePrec;
 	
 	
 };

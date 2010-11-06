@@ -38,12 +38,20 @@ public:
 	
 	std::vector<Node*> getChild();
 	
+	void rotate(int _angle);
+	
+	int getCenterX();
+	
+	int getCenterY();
+
+	
 protected:
 	Node* parent;
 	std::vector<Node*> child;
 	char symbole;
 	int x;
 	int y;
+
 	int longueur;
 	int hauteur;
 	

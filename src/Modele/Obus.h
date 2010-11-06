@@ -8,7 +8,7 @@ class Obus:public Projectile
 public:
 	
 	Obus();
-	Obus(int _x,int _y,int _dx,int _dy);
+	Obus(int _x,int _y,int _dx,int _dy,int _h,int _l);
 	~Obus();	
 	
 };

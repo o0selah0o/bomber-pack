@@ -6,14 +6,17 @@
 Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,hauteur)
 {
 	angle = 0;
+	anglePrec=0;
 	used=false;
 	destroyed=false;
 	hp=100000;
+	
 }
 
 Vehicle::Vehicle(int _x, int _y):Node(_x,_y)
 {	
 	angle = 0;
+	anglePrec=0;
 	used=false;
 	destroyed=false;
 	hp=1000000;
@@ -26,52 +29,55 @@ Vehicle::~Vehicle()
 
 void Vehicle::moveUp(float coeff,int h,int l){
 	float deca=(int)	(speed * coeff);
+	angle=270;
 	if((int)(y - deca - hauteur)>0){
-		printf("moveUP\n");
 		y= y - deca;
-		angle=-90;
-	}
 		
+	}
+	
 }
 
 void Vehicle::moveBack(float coeff,int h,int l){
 	int deca=(int)(speed * coeff);
+	angle=90;
 	int temp = y+deca;
 	if(temp+5+hauteur < l){
-		printf("moveBACK\n");
 		y=y + deca;
-		angle=90;
 	}
-		
+	
+	
 }
 
 void Vehicle::moveLeft(float coeff,int h,int l){
 	float deca=(int)	(speed * coeff )	;
+	angle=0;
 	if( (int)(x - deca - longueur)>0){
-		printf("moveLEFT\n");
 		x=x - deca ;
-		angle=0;
-	}
 		
+	}
+	
 }
 
 void Vehicle::moveRight(float coeff,int h,int l){
 	int deca=	(int)(speed* coeff );
+	angle=180;
+	
+	
 	int temp = x+deca;
 	if(temp-5-longueur < h){
-		printf("moveRIGHT\n");
 		x=x + deca;
-		angle=180;
-	}
 		
+		
+	}
+	
 }
 
 int Vehicle::getSpeed(){
 	return speed;
 }
 
-void Vehicle::setUsed(bool used){
-	used=used;
+void Vehicle::setUsed(bool _used){
+	used=_used;
 }
 
 void Vehicle::hit(int damages){
@@ -92,7 +98,7 @@ Projectile* Vehicle::fire(int _dx,int _dy){
 	}else {
 		return NULL;
 	}
-
+	
 }
 
 void Vehicle::setDestroyed(bool state){
