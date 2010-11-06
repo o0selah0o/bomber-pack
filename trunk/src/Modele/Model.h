@@ -28,6 +28,8 @@ public:
 	std::vector<Soldier*> getSoldiers();
 	std::vector<Vehicle*> getVehicles();
 	
+	void addSoldier(Soldier* _soldier){soldiers.push_back(_soldier);};
+	
 	bool moveUp(int i,float coeff);
 	bool moveBack(int i,float coeff);
 	bool moveRight(int i,float coeff);

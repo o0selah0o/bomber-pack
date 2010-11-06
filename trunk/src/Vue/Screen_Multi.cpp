@@ -208,6 +208,8 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				{
 					std::cout << "Here" << std::endl;
 					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+					{
+						std::cout << _model->getSoldiers().at(i)->getNuJoueur() << std::endl;
 						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
 							std::cout << "Ici" << std::endl;
@@ -219,12 +221,13 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 							
 							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 						}
+					}
 				}
 				else 
 				{
 					std::cout << "No Here" << std::endl;
 					listClient.push_back(std::pair<sf::IPAddress,int>(Sender,(int)listClient.size()));
-					_model->getSoldiers().push_back(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
+					_model->addSoldier(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 				}
 			}
 			
@@ -414,7 +417,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		}
 		
 		App.Display();
-		
+		/*
 		std::string s;
 		std::stringstream out;
 		out << _model->getSoldiers().at(0)->getNuJoueur()  + 100 << ' ';
@@ -430,7 +433,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		{
 			std::cout << "Souci non ?" << std::endl;
 		}
-		
+		*/
 		// Création du tableau d'octets à envoyer
 		// ToDo : WARNING
 		
