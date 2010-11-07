@@ -220,12 +220,14 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 								int ytemp = atoi(tokens.at(2).c_str());
 								std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
 								_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
-								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+								if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
+									_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 								_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
 							}
 							else 
 							{
-								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+								if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
+									_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
 								_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
 							}
 							
