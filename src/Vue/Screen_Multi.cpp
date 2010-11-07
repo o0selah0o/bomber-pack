@@ -212,12 +212,20 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 						std::cout << _model->getSoldiers().at(i)->getNuJoueur() << std::endl;
 						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
-							std::cout << "Ici" << std::endl;
-							int xtemp = atoi(tokens.at(1).c_str());
-							int ytemp = atoi(tokens.at(2).c_str());
-							std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
-							_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
-							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							if(client != _model->getSoldiers().at(0)->getNuJoueur())
+							{
+								std::cout << "Ici" << std::endl;
+								int xtemp = atoi(tokens.at(1).c_str());
+								int ytemp = atoi(tokens.at(2).c_str());
+								std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
+								_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
+								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							}
+							else 
+							{
+								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							}
+							
 						}
 					}
 				}
@@ -383,56 +391,56 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
 		/*
-		//Affichage des vehicules
-		std::cout << "Vehicules" << std::endl;
-		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
-		{
-			int x = _model->getVehicles().at(i)->getPosition().first;
-			int y = _model->getVehicles().at(i)->getPosition().second;
-			int h = _model->getVehicles().at(i)->getBoundingBox().first;
-			int l = _model->getVehicles().at(i)->getBoundingBox().second;
-			
-			sf::Sprite temp;
-			char symbol = _model->getVehicles().at(i)->getSymbole(); 
-			switch (symbol) {
-				case 'j':
-					temp.SetImage(jeep);
-					break;
-				case 'p':
-					temp.SetImage(plane);
-					break;
-				case 't':
-					temp.SetImage(tank);
-					break;
-				default:
-					break;
-			}
-			temp.Resize(l,h);
-			temp.SetPosition(x-1,y);
-			
-			
-			App.Draw(temp);
-			
-		}
-		*/
+		 //Affichage des vehicules
+		 std::cout << "Vehicules" << std::endl;
+		 for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
+		 {
+		 int x = _model->getVehicles().at(i)->getPosition().first;
+		 int y = _model->getVehicles().at(i)->getPosition().second;
+		 int h = _model->getVehicles().at(i)->getBoundingBox().first;
+		 int l = _model->getVehicles().at(i)->getBoundingBox().second;
+		 
+		 sf::Sprite temp;
+		 char symbol = _model->getVehicles().at(i)->getSymbole(); 
+		 switch (symbol) {
+		 case 'j':
+		 temp.SetImage(jeep);
+		 break;
+		 case 'p':
+		 temp.SetImage(plane);
+		 break;
+		 case 't':
+		 temp.SetImage(tank);
+		 break;
+		 default:
+		 break;
+		 }
+		 temp.Resize(l,h);
+		 temp.SetPosition(x-1,y);
+		 
+		 
+		 App.Draw(temp);
+		 
+		 }
+		 */
 		App.Display();
 		/*
-		std::string s;
-		std::stringstream out;
-		out << _model->getSoldiers().at(0)->getNuJoueur()  + 100 << ' ';
-		out << _model->getSoldiers().at(0)->getPosition().first  - 10 << ' ';
-		out << _model->getSoldiers().at(0)->getPosition().second  - 10<< ' ';
-		out << (_model->getSoldiers().at(0)->getTeam() % 2) + 1<< ' ';
-		out << _model->getSoldiers().at(0)->getLife();
-		s = out.str();
-		
-		char* Buffer = (char*)s.c_str();
-		
-		if (Socket.Send(Buffer, 128, Address.ToString(), 6000) != sf::Socket::Done)
-		{
-			std::cout << "Souci non ?" << std::endl;
-		}
-		*/
+		 std::string s;
+		 std::stringstream out;
+		 out << _model->getSoldiers().at(0)->getNuJoueur()  + 100 << ' ';
+		 out << _model->getSoldiers().at(0)->getPosition().first  - 10 << ' ';
+		 out << _model->getSoldiers().at(0)->getPosition().second  - 10<< ' ';
+		 out << (_model->getSoldiers().at(0)->getTeam() % 2) + 1<< ' ';
+		 out << _model->getSoldiers().at(0)->getLife();
+		 s = out.str();
+		 
+		 char* Buffer = (char*)s.c_str();
+		 
+		 if (Socket.Send(Buffer, 128, Address.ToString(), 6000) != sf::Socket::Done)
+		 {
+		 std::cout << "Souci non ?" << std::endl;
+		 }
+		 */
 		// Création du tableau d'octets à envoyer
 		// ToDo : WARNING
 		
@@ -456,13 +464,13 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				for(int j = 0; j < (int) listClient.size(); j++)
 				{
 					
-					//if(_model->getSoldiers().at(i)->getNuJoueur() != (listClient.at(j).first.ToInteger() % 10000))
-					//{
+					if(_model->getSoldiers().at(i)->getNuJoueur() != (int)(listClient.at(j).first.ToInteger() % 10000))
+					{
 						if (Socket.Send(Buffer, 128, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
-					//}
+					}
 				}
 			}
 		}
