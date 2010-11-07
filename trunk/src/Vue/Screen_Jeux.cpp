@@ -1,4 +1,6 @@
 #include "Screen_Jeux.h"
+#include <utility>
+#include <sstream>
 
 Screen_Jeux::Screen_Jeux (void)
 {
@@ -229,7 +231,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
-			if(!_model->getSoldiers().at(i)->isDead() and _model->getSoldiers().at(i)->isActiv())
+			if(!_model->getSoldiers().at(i)->isDead())
 			{
 				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
@@ -258,8 +260,8 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 					temp.SetCenter(25,25);
 					temp.SetRotation(-angle + 90);	
 				}
-				
-				App.Draw(temp);
+				if(_model->getSoldiers().at(i)->isActiv())
+					App.Draw(temp);
 			}
 		}
 		
@@ -279,6 +281,20 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		game.SetY(App.GetView().GetRect().GetHeight() / 2 + 50);
 		game.SetColor(sf::Color(0, 0, 0, 255));
 		App.Draw(game);
+		
+		sf::String life;
+		
+		std::string lif;
+		std::stringstream lifo;
+		lifo << _model->getSoldiers().at(0)->getLife();
+		lif = lifo.str(); 
+		life.SetText(lif);
+		life.SetFont(Font);
+		life.SetSize(35);
+		life.SetX(0);
+		life.SetY(App.GetView().GetRect().GetHeight() - 50);
+		life.SetColor(sf::Color(0, 0, 255, 255));
+		App.Draw(life);
 		
 		//Affichage des balles
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
