@@ -28,7 +28,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 	
 	sf::Image sand;
 	
-	if (!sand.LoadFromFile("../../Images/sand.jpg"))
+	if (!sand.LoadFromFile("../../Images/sandbags.jpg"))
 	{
 		App.Close();
 	}
@@ -89,6 +89,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image impact;
+	
+	if(!impact.LoadFromFile("../../Images/explosion.png"))
+	{
+		App.Close();
+	}
+	
 	sf::SoundBuffer Buffer;
 	if (!Buffer.LoadFromFile("../../Images/bar.wav"))
 	{
@@ -113,7 +120,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 	 // Buffer est un sfSoundBuffer
 	
 	sf::Clock Clock;
-	
+	sf::Clock ClockImpa;
     while (Running)
     {
 		float Time = App.GetFrameTime();
@@ -264,6 +271,25 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
+		
+		//Affichage des Impacts d'obus
+		for(int i = (int) _model->getImpacts().size() - 1; i >= 0  ; i--){
+			sf::Sprite im;
+			im.SetImage(impact);
+			im.SetCenter(230,200);
+			im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
+			im.Resize(_model->getImpacts().at(i)->getBoundingBox().first,_model->getImpacts().at(i)->getBoundingBox().second);
+			App.Draw(im);
+						  
+		}
+		float Time3 = ClockImpa.GetElapsedTime();
+		if(Time3 > 0.5){
+			_model->clearImpacts();
+			ClockImpa.Reset();
+		}
+		
+		
+					
 		//Affichage des vehicules
 		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
 		{
@@ -275,12 +301,12 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			sf::Sprite temp;
 			sf::Sprite tempt;
 			char symbol = _model->getVehicles().at(i)->getSymbole();
-			temp.SetPosition(x+l/2,y+h/2);
-			tempt.SetPosition(x+l/2,y+h/2);
+			temp.SetPosition(x+(l/2),y+(h/2));
+			tempt.SetPosition(x+(l/2),y+(h/2));
 			switch (symbol){
 				case 'j':
 					temp.SetImage(jeep);
-					temp.SetCenter(300,175);
+					temp.SetCenter(450,210);
 					break;
 				case 'p':
 					temp.SetImage(plane);
@@ -306,7 +332,6 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				if(_model->getVehicles().at(i)->isUsed()){
 					tempt.SetRotation(-angle);
 				}
-				
 				App.Draw(tempt);
 			}
 			

@@ -10,6 +10,7 @@
 #include "Vehicle.h"
 #include "Map.h"
 #include "Projectile.h"
+#include "Impact.h"
 
 /**
  Model a une map ( un arbre de nodes) et un vecteur de personnages
@@ -45,7 +46,10 @@ public:
 	bool leaveVehicle(int Soldati);
 	void calcAngle(int _i,int _dx, int _dy);
 	char getUsedVehicle();
+	void clearImpacts();
+	std::vector<Impact*>  getImpacts();
 	private:
+	
 	//Toute la carte de jeu. 
 	Map wholeMap;
 	//tableau contenant les personnages de la carte. Le premier est le joueur, le reste sont des bots
@@ -55,6 +59,7 @@ public:
 	
 	std::vector<Projectile*> projectiles;
 	
+	std::vector<Impact*> impacts;
 	char usedVehicle;
 	double lastFired;
 };

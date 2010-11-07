@@ -12,7 +12,7 @@ Soldier::Soldier():Node()
 Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	team=_team;
 	nujoueur=_nujoueur;
-	hp= 10000;
+	hp= 100;
 	longueur=20;
 	hauteur=10;
 	speed=400;
@@ -38,6 +38,9 @@ void Soldier::setLife(int _hp) {
 
 void Soldier::moveUp(float coeff,int h,int l){
 	float deca=(int)	(speed * coeff);
+	if(!activ){
+		deca=(int)	(vehicleUti->getSpeed() * coeff );
+	}
 	if((int)(y - deca)>0)
 		y= y - deca;
 	
@@ -48,6 +51,9 @@ void Soldier::moveUp(float coeff,int h,int l){
 
 void Soldier::moveBack(float coeff,int h,int l){
 	int deca=(int)(speed * coeff);
+	if(!activ){
+		deca=(int)	(vehicleUti->getSpeed() * coeff );
+	}
 	int temp = y+deca;
 	if(temp+5 < l)
 		y=y + deca;
@@ -58,7 +64,10 @@ void Soldier::moveBack(float coeff,int h,int l){
 }
 
 void Soldier::moveLeft(float coeff,int h,int l){
-	float deca=(int)	(speed * coeff )	;
+	float deca=(int)	(speed * coeff );
+	if(!activ){
+		deca=(int)	(vehicleUti->getSpeed() * coeff );
+	}
 	if( (int)(x - deca)>0)
 		x=x - deca ;
 	if(!activ){
@@ -68,6 +77,9 @@ void Soldier::moveLeft(float coeff,int h,int l){
 
 void Soldier::moveRight(float coeff,int h,int l){
 	int deca=	(int)(speed* coeff );
+	if(!activ){
+		deca=(int)	(vehicleUti->getSpeed() * coeff );
+	}
 	int temp = x+deca;
 	if(temp-5 < h)
 		x=x + deca;
@@ -148,8 +160,11 @@ void Soldier::leaveVehicle(){
 
 Projectile* Soldier::fire(int _dx,int _dy){
 	Projectile* ob;
+	int _x=getCenterX();
+	int _y=getCenterY();
 	if(activ){
-		Bullet* bul=new Bullet(x,y,_dx,_dy);
+		
+		Bullet* bul=new Bullet(_x,_y,_dx,_dy);
 		return bul;
 	}
 	else{
