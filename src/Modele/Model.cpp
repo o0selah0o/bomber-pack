@@ -282,7 +282,7 @@ void Model::update(float coeff){
 						y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
 						distance = sqrt( x + y );				
 					}
-					if (distance < 13 and !testhit and !testrange and !testblock){
+					if (distance < 10 and !testhit and !testrange and !testblock){
 						soldiers.at(j)->hit(projectiles.at(i)->getPower());
 						projectiles.erase(projectiles.begin()+i);
 						testhit=true;
