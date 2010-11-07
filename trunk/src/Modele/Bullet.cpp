@@ -16,7 +16,7 @@ Bullet::Bullet(int _x ,int _y, int _dx, int _dy): Projectile(_x,_y,_dx,_dy)
 	hauteur=2;
 	speed=3;
 	range=600;
-	power=10;
+	power=50;
 	symbole='o';
 }
 
