@@ -288,7 +288,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
         //Affichage des soldats
 		for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 		{
-			if(!_model->getSoldiers().at(i)->isDead())
+			if(!_model->getSoldiers().at(i)->isDead() and _model->getSoldiers().at(i)->getLife() > 0)
 			{
 				int x = (int)_model->getSoldiers().at(i)->getPosition().first;
 				int y = (int) _model->getSoldiers().at(i)->getPosition().second;
