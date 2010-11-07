@@ -34,7 +34,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
 	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
 	
-	int id = Address.ToInteger()/1000;
+	int id = Address.ToInteger() % 10000;
 	
 	_model->getSoldiers().at(0)->setNuJoueur(id);
 	
@@ -382,6 +382,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
+		/*
 		//Affichage des vehicules
 		std::cout << "Vehicules" << std::endl;
 		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
@@ -413,7 +414,7 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			App.Draw(temp);
 			
 		}
-		
+		*/
 		App.Display();
 		/*
 		std::string s;
@@ -455,13 +456,13 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				for(int j = 0; j < (int) listClient.size(); j++)
 				{
 					
-					if(_model->getSoldiers().at(i)->getNuJoueur() != (int)listClient.at(j).first.ToInteger())
-					{
+					//if(_model->getSoldiers().at(i)->getNuJoueur() != (listClient.at(j).first.ToInteger() % 10000))
+					//{
 						if (Socket.Send(Buffer, 128, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
-					}
+					//}
 				}
 			}
 		}
