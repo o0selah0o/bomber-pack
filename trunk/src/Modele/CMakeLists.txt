@@ -26,7 +26,7 @@ SET(Modele_inc
 	tokenize.h
 	Grass.h
 	Impact.h
-	
+	Body.h	
 )
 
 # les fichiers 'source'
@@ -49,6 +49,7 @@ SET(Modele_src
 	Aircraft.cpp
 	Grass.cpp
 	Impact.cpp
+	Body.cpp
 )
 
 # On cree une librairie

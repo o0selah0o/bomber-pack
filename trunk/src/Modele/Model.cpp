@@ -47,6 +47,10 @@ std::vector<Soldier*> Model::getSoldiers(){
 	return soldiers;
 }
 
+std::vector<Body*> Model::getBodies(){
+	return bodies;
+}
+
 std::vector<Vehicle*> Model::getVehicles(){
 	return vehicles;
 }
