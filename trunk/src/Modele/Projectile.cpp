@@ -16,7 +16,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x < _dx) and (_y < _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= (int) 45/distanceDA;
+		facteur= (int) 25/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -25,16 +25,16 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x > dx) and (_y < _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur= (int) 45/distanceDA;
+		facteur= (int) 25/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
 		y=yb;
 	}
 	if( ( _x > _dx) and (_y > _dy)){
-		distanceDA= pow(dx - x,2) + pow(_dy - _y,2);
+		distanceDA= pow(dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur=(int) 45/distanceDA;
+		facteur=(int) 25/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -43,7 +43,7 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	if( ( _x < _dx) and (_y > _dy)){
 		distanceDA= pow(_dx - _x,2) + pow(_dy - _y,2);
 		distanceDA=sqrt(distanceDA);
-		facteur=(int) 45/distanceDA;
+		facteur=(int) 25/distanceDA;
 		xb= ((_dx-_x)* facteur)+_x;
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
@@ -51,21 +51,21 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	}
 	if (_x==_dx and  _y < _dy){
 		x=_dx;
-		y=_y+30;
+		y=_y+25;
 	}
 	if (_y==_dy and _x <_dx){
-		x=_x+30;
+		x=_x+25;
 		y=_dy;
 	}
 	
 	if (_y==_dy and _dx < _x){
-		x=_x-30;
+		x=_x-25;
 		y=_dy;
 	}
 	
 	if (_x==_dx and _dy < _y){
 		x=_dx;
-		y=_y-30;
+		y=_y-25;
 	}
 }
 
