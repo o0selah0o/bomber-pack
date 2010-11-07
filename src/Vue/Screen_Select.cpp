@@ -23,7 +23,7 @@ int Screen_Select::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
     sf::String Menu3;
     sf::String Menu4;
     int menu = 2;
-	std::string ip;
+	std::string ip = "";
 	
 	sf::SoundBuffer Buffer;
 	if (!Buffer.LoadFromFile("../../Images/theme.wav"))

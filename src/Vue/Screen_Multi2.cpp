@@ -179,8 +179,10 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		{
 			std::cout << "Pas reussi a recevoir" << std::endl;
 		}
-		else 
+		else if(Sender != Address)
 		{
+			
+			std::cout << "Recu " << Buffer2 << std::endl;
 			int client = 0;
 			
 			std::string s;
