@@ -1,6 +1,7 @@
 #include "Vehicle.h"
 #include "Node.h"
 #include "Bullet.h"
+#include "Obus.h"
 
 
 Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,hauteur)
@@ -9,7 +10,7 @@ Vehicle::Vehicle(int _x, int _y, int longueur, int hauteur):Node(_x,_y,longueur,
 	anglePrec=0;
 	used=false;
 	destroyed=false;
-	hp=100000;
+	hp=100;
 	
 }
 
@@ -30,7 +31,7 @@ Vehicle::~Vehicle()
 void Vehicle::moveUp(float coeff,int h,int l){
 	float deca=(int)	(speed * coeff);
 	angle=270;
-	if((int)(y - deca - hauteur)>0){
+	if((int)(getCenterY() - deca - longueur/2)>0){
 		y= y - deca;
 		
 	}
@@ -40,8 +41,8 @@ void Vehicle::moveUp(float coeff,int h,int l){
 void Vehicle::moveBack(float coeff,int h,int l){
 	int deca=(int)(speed * coeff);
 	angle=90;
-	int temp = y+deca;
-	if(temp+5+hauteur < l){
+	int temp = getCenterY()+deca+longueur/2;
+	if(temp+5 < l){
 		y=y + deca;
 	}
 	
@@ -51,7 +52,7 @@ void Vehicle::moveBack(float coeff,int h,int l){
 void Vehicle::moveLeft(float coeff,int h,int l){
 	float deca=(int)	(speed * coeff )	;
 	angle=0;
-	if( (int)(x - deca - longueur)>0){
+	if( (int)(getCenterX() - deca - longueur/2)>0){
 		x=x - deca ;
 		
 	}
@@ -61,10 +62,8 @@ void Vehicle::moveLeft(float coeff,int h,int l){
 void Vehicle::moveRight(float coeff,int h,int l){
 	int deca=	(int)(speed* coeff );
 	angle=180;
-	
-	
-	int temp = x+deca;
-	if(temp-5-longueur < h){
+	int temp = getCenterX()+deca+longueur/2;
+	if(temp-5 < h){
 		x=x + deca;
 		
 		
@@ -92,8 +91,10 @@ bool Vehicle::isDestroyed(){
 }
 
 Projectile* Vehicle::fire(int _dx,int _dy){
+	int _x=getCenterX();
+	int _y=getCenterY();
 	if(used){
-		Bullet* bul=new Bullet(x,y,_dx,_dy);
+		Obus* bul=new Obus(_x,_y,_dx,_dy);
 		return bul;
 	}else {
 		return NULL;

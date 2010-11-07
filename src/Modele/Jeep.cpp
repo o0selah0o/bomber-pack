@@ -7,6 +7,9 @@ Jeep::Jeep(int _x, int _y): Vehicle(_x,_y)
 	hauteur=60;
 	longueur=120;
 	destroyed=false;
+	angle = 0;
+	x=x-longueur;
+	y=y-hauteur;
 }
 
 Jeep::~Jeep(){

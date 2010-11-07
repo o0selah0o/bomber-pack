@@ -4,7 +4,7 @@
 Tank::Tank(int _x, int _y): Vehicle(_x,_y)
 {
 	symbole = 't';
-	speed=300;
+	speed=400;
 	hauteur=60;
 	longueur=120;
 	destroyed=false;
@@ -21,8 +21,10 @@ Tank::~Tank(){
 
 
 Projectile* Tank::fire(int _dx,int _dy){
+	int _x=getCenterX();
+	int _y=getCenterY();
 	if(used){
-		Obus* ob=new Obus(x,y,_dx,_dy,hauteur,longueur);
+		Obus* ob=new Obus(_x,_y,_dx,_dy);
 		return ob;
 	}else {
 		return NULL;

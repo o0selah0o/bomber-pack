@@ -25,6 +25,7 @@ SET(Modele_inc
 	Aircraft.h
 	tokenize.h
 	Grass.h
+	Impact.h
 	
 )
 
@@ -47,6 +48,7 @@ SET(Modele_src
 	Vehicle.cpp
 	Aircraft.cpp
 	Grass.cpp
+	Impact.cpp
 )
 
 # On cree une librairie

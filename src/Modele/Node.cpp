@@ -86,38 +86,7 @@ void Node::setParent(Node* _parent)
 {
 	parent = _parent;
 }
-/*
-bool Node::Collision(Node* node){
-	
-	xnoF=node->getPosition().first;
-	ynoF=node->getPosition().second + node->getBoundingBox().first;
-	
-	xseF=node->getPosition().first + node->getBoundingBox().second;
-	yseF=node->getPosition().second;
-	
-	xneF=node->getPosition().first +node->getBoundingBox().second;
-	yneF=node->getPosition().second + node->getBoundingBox().first;
-	
-	xsoF=node->getPosition().first;
-	ysoF=node->getPosition().second;
-	
-	
-	xnoS=node->getPosition().first;
-	ynoS=node->getPosition().second + node->getBoundingBox().first;
-	
-	xseS=node->getPosition().first + node->getBoundingBox().second;
-	yseS=node->getPosition().second;
-	
-	xneS=node->getPosition().first +node->getBoundingBox().second;
-	yneS=node->getPosition().second + node->getBoundingBox().first;
-	
-	xsoS=node->getPosition().first;
-	ysoS=node->getPosition().second;
-	
-	
-	
-}
-*/
+
 
 std::vector<Node*> Node::cross(int _x, int _y, int hauteur,int longueur)
 {

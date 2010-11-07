@@ -9,9 +9,8 @@ Obus::~Obus(){
 	
 }
 
-Obus::Obus(int _x,int _y,int _dx,int _dy,int _h,int _l){
-	_x=_x+_l/2;
-	_y=_y+_h/2;
+Obus::Obus(int _x,int _y,int _dx,int _dy){
+	symbole='f';
 	power=100;
 	speed=2;
 	range=1000;
