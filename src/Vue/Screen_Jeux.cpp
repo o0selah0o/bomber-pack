@@ -112,6 +112,13 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image body;
+	
+	if(!body.LoadFromFile("../../Images/body.png"))
+	{
+		App.Close();
+	}
+	
 	sf::SoundBuffer Buffer;
 	if (!Buffer.LoadFromFile("../../Images/bar.wav"))
 	{
@@ -301,6 +308,19 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
+		
+		//Affichage des corps
+		for(int i = (int) _model->getBodies().size() - 1; i >= 0  ; i--)
+		{
+				sf::Sprite bod;
+				bod.SetImage(body);
+				bod.SetCenter(64,64);
+				bod.SetPosition(_model->getBodies().at(i)->getPosition().first,_model->getBodies().at(i)->getPosition().second);
+				bod.Resize(_model->getBodies().at(i)->getBoundingBox().first,_model->getBodies().at(i)->getBoundingBox().second);
+				App.Draw(bod);
+		}
+				
+					
 		
 		//Affichage des Impacts
 		for(int i = (int) _model->getImpacts().size() - 1; i >= 0  ; i--){

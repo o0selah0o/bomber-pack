@@ -11,7 +11,7 @@ class Body : public Node
 	
 public:
 	Body();
-	Body(int _x, int _y, int longueur, int hauteur,char _symbole);
+	Body(int _x, int _y);
 	~Body();
 	
 };

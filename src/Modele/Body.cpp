@@ -5,9 +5,11 @@
 Body::Body():Node(){
 	symbole='x';
 }
-Body::Body(int _x, int _y, int longueur, int hauteur,char _symbole): Node(_x,_y,longueur,hauteur)
+Body::Body(int _x, int _y): Node(_x,_y)
 {
-	symbole = _symbole;
+	symbole = 'x';
+	longueur=40;
+	hauteur=40;
 }
 
 

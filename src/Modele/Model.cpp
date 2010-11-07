@@ -344,6 +344,14 @@ void Model::update(float coeff){
 	}	
 	for(int i = 0; i < (int)soldiers.size(); i++)
     {	
+		if(soldiers.at(i)->isDead() and i!=0){
+			if(soldiers.at(i)->isActiv()){
+				bodies.push_back(new Body(soldiers.at(i)->getCenterX(),soldiers.at(i)->getCenterY()));
+				soldiers.at(i)->setActiv(false);
+			}
+			
+		}
+		
         if(soldiers.at(i)->getSymbole() == 'b'  and !soldiers.at(i)->isDead())
         {
 			Vehicle* ecra=isAtPosition(soldiers.at(i)->getPosition().first,soldiers.at(i)->getPosition().second,vehicles);
