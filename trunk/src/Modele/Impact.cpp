@@ -5,9 +5,9 @@
 Impact::Impact():Node(){
 	symbole='i';
 }
-Impact::Impact(int _x, int _y, int longueur, int hauteur): Node(_x,_y,longueur,hauteur)
+Impact::Impact(int _x, int _y, int longueur, int hauteur,char _symbole): Node(_x,_y,longueur,hauteur)
 {
-	symbole = 'i';
+	symbole = _symbole;
 }
 
 
