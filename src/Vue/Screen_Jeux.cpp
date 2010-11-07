@@ -96,6 +96,20 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		App.Close();
 	}
 	
+	sf::Image smoke;
+	
+	if(!smoke.LoadFromFile("../../Images/impact.png"))
+	{
+		App.Close();
+	}
+	
+	sf::Image hemo;
+	
+	if(!hemo.LoadFromFile("../../Images/blood.png"))
+	{
+		App.Close();
+	}
+	
 	sf::SoundBuffer Buffer;
 	if (!Buffer.LoadFromFile("../../Images/bar.wav"))
 	{
@@ -272,15 +286,33 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		
 		
-		//Affichage des Impacts d'obus
+		//Affichage des Impacts
 		for(int i = (int) _model->getImpacts().size() - 1; i >= 0  ; i--){
-			sf::Sprite im;
-			im.SetImage(impact);
-			im.SetCenter(230,200);
-			im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
-			im.Resize(_model->getImpacts().at(i)->getBoundingBox().first,_model->getImpacts().at(i)->getBoundingBox().second);
-			App.Draw(im);
-						  
+			if(_model->getImpacts().at(i)->getSymbole()== 's'){
+				sf::Sprite im;
+				im.SetImage(impact);
+				im.SetCenter(230,200);
+				im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
+				im.Resize(_model->getImpacts().at(i)->getBoundingBox().first,_model->getImpacts().at(i)->getBoundingBox().second);
+				App.Draw(im);
+			}
+			
+			if(_model->getImpacts().at(i)->getSymbole()== 'i'){
+				sf::Sprite im;
+				im.SetImage(smoke);
+				im.SetCenter(64,64);
+				im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
+				im.Resize(20,20);
+				App.Draw(im);
+			}
+			if(_model->getImpacts().at(i)->getSymbole()== 'h'){
+				sf::Sprite im;
+				im.SetImage(hemo);
+				im.SetCenter(64,64);
+				im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
+				im.Resize(20,20);
+				App.Draw(im);
+			}
 		}
 		float Time3 = ClockImpa.GetElapsedTime();
 		if(Time3 > 0.5){

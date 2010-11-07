@@ -11,7 +11,7 @@ class Impact : public Node
 	
 public:
 	Impact();
-	Impact(int x, int y, int longueur, int hauteur );
+	Impact(int _x, int _y, int longueur, int hauteur,char _symbole);
 	~Impact();
 	
 };

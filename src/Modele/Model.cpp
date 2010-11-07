@@ -282,8 +282,25 @@ void Model::update(float coeff){
 						y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
 						distance = sqrt( x + y );				
 					}
-					if (distance < 10 and !testhit and !testrange and !testblock){
+					if (distance < 10 and !testhit and !testrange and !testblock and projectiles.at(i)->getSymbole() == 'o' ){
 						soldiers.at(j)->hit(projectiles.at(i)->getPower());
+						if(projectiles.at(i)->getSymbole() == 'f'){
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
+						}
+						if(projectiles.at(i)->getSymbole() == 'o'){
+							impacts.push_back(new Impact(projectiles.at(i)->getCenterX(),projectiles.at(i)->getCenterY(),50,50,'h'));
+						}
+						projectiles.erase(projectiles.begin()+i);
+						testhit=true;
+					}
+					if (distance < 25 and !testhit and !testrange and !testblock and projectiles.at(i)->getSymbole() == 'f' and projectiles.at(i)->getParcouru()> 80 ){
+						soldiers.at(j)->hit(projectiles.at(i)->getPower());
+						if(projectiles.at(i)->getSymbole() == 'f'){
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
+						}
+						if(projectiles.at(i)->getSymbole() == 'o'){
+							impacts.push_back(new Impact(projectiles.at(i)->getCenterX(),projectiles.at(i)->getCenterY(),50,50,'h'));
+						}
 						projectiles.erase(projectiles.begin()+i);
 						testhit=true;
 					}
@@ -291,7 +308,10 @@ void Model::update(float coeff){
 				if(!testhit and !testrange and !testblock){
 					if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
 						if(projectiles.at(i)->getSymbole() == 'f'){
-							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50));
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
+						}
+						if(projectiles.at(i)->getSymbole() == 'o'){
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'i'));
 						}
 						projectiles.erase(projectiles.begin()+i);
 						testrange=true;
@@ -302,7 +322,10 @@ void Model::update(float coeff){
 					char typepred= wholeMap.getNodeAtPosXY( projectiles.at(i)->getPosition().first, projectiles.at(i)->getPosition().second)->getSymbole();
 					if (typepred == 's' or typepred== 'w'){
 						if(projectiles.at(i)->getSymbole() == 'f'){
-							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50));
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
+						}
+						if(projectiles.at(i)->getSymbole() == 'o'){
+							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'i'));
 						}
 						projectiles.erase(projectiles.begin()+i);
 						testblock=true;
