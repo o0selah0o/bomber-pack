@@ -33,7 +33,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 	Socket2.SetBlocking(false);
 	// Your address in the local area network (like 192.168.1.100 -- the one you get with ipconfig)
 	sf::IPAddress Address = sf::IPAddress::GetLocalAddress();
-	int id = Address.ToInteger() / 1000;
+	int id = Address.ToInteger() % 10000;
 	
 	_model->getSoldiers().at(0)->setNuJoueur(id);
 	
@@ -373,7 +373,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
-		
+		/*
 		//Affichage des vehicules
 		std::cout << "Vehicules" << std::endl;
 		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
@@ -405,7 +405,7 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 			App.Draw(temp);
 			
 		}
-		
+		*/
 		App.Display();
 		
 		for(int i = 0; i < (int)_model->getSoldiers().size(); i++)

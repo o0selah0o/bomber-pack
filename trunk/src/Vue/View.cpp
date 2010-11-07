@@ -62,7 +62,7 @@ void View::Run()
 		}
 		if(screen == 2 or screen == 3)
 		{
-			model = new Model("../../Images/map1");
+			model = new Model("../../Images/map2");
 			controleur = new Controleur(model);
 		}
 		if(screen == 6)
