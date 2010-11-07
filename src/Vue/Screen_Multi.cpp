@@ -464,13 +464,13 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 				for(int j = 0; j < (int) listClient.size(); j++)
 				{
 					
-					if(_model->getSoldiers().at(i)->getNuJoueur() != (int)(listClient.at(j).first.ToInteger() % 10000))
-					{
+					//if(_model->getSoldiers().at(i)->getNuJoueur() != (int)(listClient.at(j).first.ToInteger() % 10000))
+					//{
 						if (Socket.Send(Buffer, 128, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
 						{
 							std::cout << "Souci non ?" << std::endl;
 						}
-					}
+					//}
 				}
 			}
 		}
