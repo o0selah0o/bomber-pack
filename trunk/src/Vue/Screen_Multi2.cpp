@@ -179,8 +179,8 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		{
 			std::cout << "Pas reussi a recevoir" << std::endl;
 		}
-		else {
-			
+		else 
+		{
 			int client = 0;
 			
 			std::string s;
@@ -209,12 +209,20 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
-							std::cout << "Ici" << std::endl;
-							int xtemp = atoi(tokens.at(1).c_str());
-							int ytemp = atoi(tokens.at(2).c_str());
-							std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
-							_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
-							_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							if(client != _model->getSoldiers().at(0)->getNuJoueur())
+							{
+								std::cout << "Ici" << std::endl;
+								int xtemp = atoi(tokens.at(1).c_str());
+								int ytemp = atoi(tokens.at(2).c_str());
+								std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
+								_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
+								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							}
+							else 
+							{
+								_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+							}
+							
 						}
 				}
 				else 
@@ -374,38 +382,38 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 			if(_model->getProjectiles().size() > 0)
 				App.Draw(sf::Shape::Circle(_model->getProjectiles().at(i)->getPosition().first, _model->getProjectiles().at(i)->getPosition().second, 2, sf::Color::Black, 1, sf::Color::Black));
 		/*
-		//Affichage des vehicules
-		std::cout << "Vehicules" << std::endl;
-		for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
-		{
-			int x = _model->getVehicles().at(i)->getPosition().first;
-			int y = _model->getVehicles().at(i)->getPosition().second;
-			int h = _model->getVehicles().at(i)->getBoundingBox().first;
-			int l = _model->getVehicles().at(i)->getBoundingBox().second;
-			
-			sf::Sprite temp;
-			char symbol = _model->getVehicles().at(i)->getSymbole(); 
-			switch (symbol) {
-				case 'j':
-					temp.SetImage(jeep);
-					break;
-				case 'p':
-					temp.SetImage(plane);
-					break;
-				case 't':
-					temp.SetImage(tank);
-					break;
-				default:
-					break;
-			}
-			temp.Resize(l,h);
-			temp.SetPosition(x-1,y);
-			
-			
-			App.Draw(temp);
-			
-		}
-		*/
+		 //Affichage des vehicules
+		 std::cout << "Vehicules" << std::endl;
+		 for(int i = (int) _model->getVehicles().size() - 1; i >= 0  ; i--)
+		 {
+		 int x = _model->getVehicles().at(i)->getPosition().first;
+		 int y = _model->getVehicles().at(i)->getPosition().second;
+		 int h = _model->getVehicles().at(i)->getBoundingBox().first;
+		 int l = _model->getVehicles().at(i)->getBoundingBox().second;
+		 
+		 sf::Sprite temp;
+		 char symbol = _model->getVehicles().at(i)->getSymbole(); 
+		 switch (symbol) {
+		 case 'j':
+		 temp.SetImage(jeep);
+		 break;
+		 case 'p':
+		 temp.SetImage(plane);
+		 break;
+		 case 't':
+		 temp.SetImage(tank);
+		 break;
+		 default:
+		 break;
+		 }
+		 temp.Resize(l,h);
+		 temp.SetPosition(x-1,y);
+		 
+		 
+		 App.Draw(temp);
+		 
+		 }
+		 */
 		App.Display();
 		
 		for(int i = 0; i < (int)_model->getSoldiers().size(); i++)
