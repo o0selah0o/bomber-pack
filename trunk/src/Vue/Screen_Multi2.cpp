@@ -41,6 +41,8 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 	
 	_model->getSoldiers().at(0)->setTeam(Random);
 	
+	listClient.push_back(std::pair<int,int>(id,(int)listClient.size()));
+	
 	
 	if (!Font.LoadFromFile("../../Images/GUNPLA3D.ttf"))
     {
