@@ -340,6 +340,21 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		game.SetColor(sf::Color(0, 0, 0, 255));
 		App.Draw(game);
 		
+		
+		sf::String life;
+		
+		std::string lif;
+		std::stringstream lifo;
+		lifo << _model->getSoldiers().at(0)->getLife();
+		lif = lifo.str(); 
+		life.SetText(lif);
+		life.SetFont(Font);
+		life.SetSize(35);
+		life.SetX(0);
+		life.SetY(App.GetView().GetRect().GetHeight() - 50);
+		life.SetColor(sf::Color(0, 0, 255, 255));
+		App.Draw(life);
+		
 		//Affichage des balles
 		std::cout << "Balles" << std::endl;
 		for(int i = (int) _model->getProjectiles().size() - 1; i >= 0  ; i--)
