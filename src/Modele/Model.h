@@ -11,7 +11,7 @@
 #include "Map.h"
 #include "Projectile.h"
 #include "Impact.h"
-
+#include "Body.h"
 /**
  Model a une map ( un arbre de nodes) et un vecteur de personnages
  **/
@@ -48,6 +48,7 @@ public:
 	char getUsedVehicle();
 	void clearImpacts();
 	std::vector<Impact*>  getImpacts();
+	std::vector<Body*> getBodies();
 	private:
 	
 	//Toute la carte de jeu. 
@@ -58,6 +59,8 @@ public:
 	std::vector<Vehicle*> vehicles;
 	
 	std::vector<Projectile*> projectiles;
+	
+	std::vector<Body*> bodies;
 	
 	std::vector<Impact*> impacts;
 	char usedVehicle;
