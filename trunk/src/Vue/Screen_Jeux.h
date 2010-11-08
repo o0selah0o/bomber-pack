@@ -3,6 +3,9 @@
 #include <iostream>
 #include "Screen.h"
  
+/**
+ * Ecran du jeu en mode solitaire
+ */
 class Screen_Jeux : public Screen
 {
 public:

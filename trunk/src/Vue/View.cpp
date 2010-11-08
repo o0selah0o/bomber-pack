@@ -35,7 +35,20 @@ void View::Run()
     int screen = 0;
 	
     //Window creation
-    sf::RenderWindow App(sf::VideoMode(x, y, 32), name);
+    sf::RenderWindow App(sf::VideoMode(x, y, 32), name,sf::Style::Fullscreen);//, sf::Style::Fullscreen, 4);
+	
+	
+	App.UseVerticalSync(true);
+	
+	sf::Image icon;
+	
+	if (!icon.LoadFromFile("../../Images/icon.png"))
+	{
+		App.Close();
+	}
+	
+	App.SetIcon(30, 30, icon.GetPixelsPtr());
+	App.SetFramerateLimit(60);
 	
     //Mouse cursor no more visible
     //App.ShowMouseCursor(false);

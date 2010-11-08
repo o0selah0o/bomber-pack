@@ -7,6 +7,9 @@
 #include "../Modele/Model.h"
 #include <string>
 
+/**
+ * Classe mere des differents ecrans
+ */
 class Screen
 {
 public :
