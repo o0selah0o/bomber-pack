@@ -17,6 +17,12 @@ Model::~Model()
 	for(i = 0 ; i < soldiers.size() ; i++){
 		delete soldiers.at(i);
 	}
+	for(i = 0 ; i < impacts.size() ; i++){
+		delete impacts.at(i);
+	}
+	for(i = 0 ; i < bodies.size() ; i++){
+		delete bodies.at(i);
+	}
 }
 
 Model::Model(std::string fichier){

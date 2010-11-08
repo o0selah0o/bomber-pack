@@ -9,12 +9,18 @@
 class BotSoldier: public Soldier
 {
 public:
+	//Constructeur
 	BotSoldier();
+	
+	//Destructeur
 	~BotSoldier();
+	
+	//Constructeur avec identifiant, équipe, coordonnées x et y
 	BotSoldier(int _nujoueur,int _team,int _x,int _y);
 	
 
 private:
+	//angle, la direction dans laquelle regarde le soldat
 	double angle;
 	
 };
