@@ -4,6 +4,9 @@
 #include <string>
 #include "Screen.h"
  
+/**
+ * Ecran du role en multi-joueur
+ */
 class Screen_Select : public Screen
 {
 private:
