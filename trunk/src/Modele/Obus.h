@@ -6,9 +6,13 @@
 class Obus:public Projectile
 {
 public:
-	
+	//constructeur
 	Obus();
+	
+	//constructeur avec coordonnées de départ, coordonnées de la destination
 	Obus(int _x,int _y,int _dx,int _dy);
+	
+	//destructeur
 	~Obus();	
 	
 };

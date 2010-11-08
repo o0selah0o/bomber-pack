@@ -346,7 +346,7 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 				im.SetImage(hemo);
 				im.SetCenter(64,64);
 				im.SetPosition(_model->getImpacts().at(i)->getPosition().first,_model->getImpacts().at(i)->getPosition().second);
-				im.Resize(20,20);
+				im.Resize(15,15);
 				App.Draw(im);
 			}
 		}

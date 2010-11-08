@@ -10,8 +10,13 @@ class Grass : public Node
 {
 	
 public:
+	//constructeur
 	Grass();
+	
+	//constructeur avec coordonnées, longueur et hauteur
 	Grass(int x, int y, int longueur, int hauteur );
+	
+	//destructeur
 	~Grass();
 	
 };

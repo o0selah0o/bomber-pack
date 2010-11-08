@@ -8,8 +8,14 @@
 class Jeep: public Vehicle
 {
 public:
+	
+	//Constructeur avec coordonnées d'apparition
 	Jeep(int _x, int _y);
+	
+	//Constructeur 
 	Jeep();
+	
+	//Destructeur
 	~Jeep();	
 	
 };

@@ -9,8 +9,13 @@
 class Projectile: public Node
 {
 public:
+	//constructeur
 	Projectile();
+	
+	//constructeur avec coordonnées de départ et coordonnées d'arrivée
 	Projectile(int _x,int _y,int _dx,int _dy);
+	
+	//destructeur
 	~Projectile();
 	
 	//fonction qui déplace la balle
@@ -18,18 +23,25 @@ public:
 	
 	//Getters and Setters
 	
+	//getter de la vitesse
 	int getSpeed();
-	//void setSpeed(int _s);
+	
+	//getter de la portée
 	int getRange();
-	//void setRange(int _r);
+	
+	//getter de la puissance
 	int getPower();
-	//void setPower(int _p);
+	
+	//getter du x de la destination
 	int getDx();
-	//void setDx(int _dx);
+	
+	//getter du y de la destination
 	int getDy();
-	std::pair<int,int> getMaxPoint();
-	//void setDy(int _dy);
+	
+	//getter de la droite déterminant la trajectoire du projectile
 	std::pair<double,double> getTrajectoryAB();
+	
+	//getter de la distance parcourue par le projectile
 	int getParcouru();
 
 
@@ -45,6 +57,7 @@ protected:
 	// la puissance du projectile : le nombre de points de vie qu'il enlève
 	int power;
 	
+	//la distance parcouru par le projectile depuis sa "mise à feu"
 	int parcouru;
 	
 	
