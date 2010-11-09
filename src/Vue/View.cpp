@@ -37,6 +37,11 @@ void View::Run()
     //Window creation
     sf::RenderWindow App(sf::VideoMode(x, y, 32), name,sf::Style::Fullscreen);//, sf::Style::Fullscreen, 4);
 	
+	model->getMap().setBoundingBox(App.GetView().GetRect().GetWidth(),App.GetView().GetRect().GetHeight());
+	
+	for(int i = 0; i < (int)model->getMap().getChild().size(); i++)
+		if(model->getMap().getChild().at(i)->getSymbole() == 'g')
+			model->getMap().getChild().at(i)->setBoundingBox(App.GetView().GetRect().GetWidth(),App.GetView().GetRect().GetHeight());
 	
 	App.UseVerticalSync(true);
 	
