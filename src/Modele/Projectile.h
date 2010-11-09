@@ -60,6 +60,10 @@ protected:
 	//la distance parcouru par le projectile depuis sa "mise à feu"
 	int parcouru;
 	
+	//facteur de deplacement
+	double facteur;
+
+	
 	
 };
 #endif
