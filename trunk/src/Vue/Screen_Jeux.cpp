@@ -144,10 +144,12 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 	
 	sf::Clock Clock;
 	sf::Clock ClockImpa;
+	sf::Clock refresh;
     while (Running)
     {
 		float Time = App.GetFrameTime();
 		float Time2 = Clock.GetElapsedTime();
+		float rTime = refresh.GetElapsedTime();
 		
 		unsigned int dx = App.GetInput().GetMouseX();
 		unsigned int dy = App.GetInput().GetMouseY();
@@ -193,8 +195,11 @@ int Screen_Jeux::Run (sf::RenderWindow &App, Model* _model, Controleur* _control
 		//Clearing screen
 		App.Clear();
 		
-		_model->update(Time);
-		
+		if(rTime > 0.01)
+		{
+			_model->update(Time);
+			refresh.Reset();
+		}
 		App.Draw(sGrass);
 		
 		// Affichage des textures que voit le soldat

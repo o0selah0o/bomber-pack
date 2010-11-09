@@ -205,27 +205,19 @@ bool Model::moveRight(int i,float coeff){
 }
 
 void Model::fire(int _dx,int _dy,int Soldati){
-	if (soldiers.at(Soldati)->getVehicle()==NULL){
-		double elapsed= (clock() - lastFired) / (CLOCKS_PER_SEC / (double) 1000.0);
-		if (elapsed > 50.0){
-			Projectile* proj=soldiers.at(Soldati)->fire(_dx,_dy);
-			if(proj != NULL ){
-				projectiles.push_back(proj);
-				lastFired=clock();
-			}
+	int tlaps = 50;
+	
+	if (soldiers.at(Soldati)->getVehicle() != NULL)
+		tlaps = 200;
+	
+	double elapsed= (clock() - lastFired) / (CLOCKS_PER_SEC / (double) 1000.0);
+	if (elapsed >= tlaps){
+		Projectile* proj = soldiers.at(Soldati)->fire(_dx,_dy);
+		if(proj != NULL ){
+			projectiles.push_back(proj);
+			lastFired=clock();
 		}
 	}
-	else {
-		double elapsed= (clock() - lastFired) / (CLOCKS_PER_SEC / (double) 1000.0);
-		if (elapsed >= 200.0){
-			Projectile* proj=soldiers.at(Soldati)->fire(_dx,_dy);
-			if(proj != NULL ){
-				projectiles.push_back(proj);
-				lastFired=clock();
-			}
-		}
-	}
-
 }
 
 std::vector<Projectile*> Model::getProjectiles()
@@ -246,17 +238,17 @@ Vehicle* Model::isAtPosition(int _x,int _y,std::vector<Vehicle*> vehicles){
 	unsigned int i;
 	unsigned int length= vehicles.size();
 	int xno,yno,xse,yse;
-	for(i=0;i<length;i++){
+	for(i=0;i<length;i++)
+	{
 		xno=vehicles.at(i)->getPosition().first;
 		yno=vehicles.at(i)->getPosition().second;
 		xse=vehicles.at(i)->getPosition().first+ vehicles.at(i)->getBoundingBox().second;
 		yse=vehicles.at(i)->getPosition().second + vehicles.at(i)->getBoundingBox().first;
-		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y){
-			return vehicles.at(i);
-		}  
+		if( (xno) < _x and (yno) < _y and (xse) > _x and (yse) > _y)
+			return vehicles.at(i);  
 	}
 	return NULL;
-
+	
 }
 void Model::clearImpacts(){
 	impacts.clear();
@@ -285,36 +277,39 @@ void Model::update(float coeff){
 		{	testrange = false;
 			testhit = false;
 			testblock = false;
-			for (int j=0;j < (int)soldiers.size();j++) {
-				if( !soldiers.at(j)->isDead()){
+			char symTemp = projectiles.at(i)->getSymbole();
+			for (int j=0;j < (int)soldiers.size();j++)
+			{	
+				if(!soldiers.at(j)->isDead()){
 					if (!testhit and !testrange and !testblock) {
 						x = pow(soldiers.at(j)->getPosition().first - projectiles.at(i)->getPosition().first, 2);
 						y = pow(soldiers.at(j)->getPosition().second - projectiles.at(i)->getPosition().second, 2);
 						distance = sqrt( x + y );				
 					}
-					if (distance < 10 and !testhit and !testrange and !testblock and projectiles.at(i)->getSymbole() == 'o' ){
+					if (distance < 10 and !testhit and !testrange and !testblock and symTemp == 'o' ){
 						soldiers.at(j)->hit(projectiles.at(i)->getPower());
-						if(projectiles.at(i)->getSymbole() == 'f'){
+						if(symTemp == 'f'){
 							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
 						}
-						if(projectiles.at(i)->getSymbole() == 'o'){
+						if(symTemp == 'o'){
 							impacts.push_back(new Impact(projectiles.at(i)->getCenterX(),projectiles.at(i)->getCenterY(),50,50,'h'));
 						}
 						projectiles.erase(projectiles.begin()+i);
 						testhit=true;
 					}
-					if (distance < 25 and !testhit and !testrange and !testblock and projectiles.at(i)->getSymbole() == 'f' and projectiles.at(i)->getParcouru()> 80 ){
+					if (distance < 25 and !testhit and !testrange and !testblock and symTemp == 'f' and projectiles.at(i)->getParcouru() > 80 ){
 						soldiers.at(j)->hit(projectiles.at(i)->getPower());
-						if(projectiles.at(i)->getSymbole() == 'f'){
+						if(symTemp == 'f'){
 							impacts.push_back(new Impact(projectiles.at(i)->getPosition().first,projectiles.at(i)->getPosition().second,50,50,'s'));
 						}
-						if(projectiles.at(i)->getSymbole() == 'o'){
+						if(symTemp == 'o'){
 							impacts.push_back(new Impact(projectiles.at(i)->getCenterX(),projectiles.at(i)->getCenterY(),50,50,'h'));
 						}
 						projectiles.erase(projectiles.begin()+i);
 						testhit=true;
 					}
 				}
+				
 				if(!testhit and !testrange and !testblock){
 					if(projectiles.at(i)->getParcouru() > projectiles.at(i)->getRange()){
 						if(projectiles.at(i)->getSymbole() == 'f'){
@@ -366,10 +361,10 @@ void Model::update(float coeff){
 					soldiers.at(i)->setDead(true);
 				}
 			}	
-				
+			
 		}
 	}	
-			
+	
 	
 	int distanceMax = 10000;
     int direction = 0;
