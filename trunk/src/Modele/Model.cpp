@@ -142,7 +142,7 @@ bool Model::moveUp(int i,float coeff){
 	if (typepred == 's' or typepred== 'w' or typepred =='a'  or vehipred!=NULL){
 		return false;
 	} 
-	 soldier->moveUp(coeff,wholeMap.getBoundingBox().first,wholeMap.getBoundingBox().second);
+	soldier->moveUp(coeff,wholeMap.getBoundingBox().first,wholeMap.getBoundingBox().second);
 	return true;
 }
 
@@ -335,7 +335,7 @@ void Model::update(float coeff){
 			projectileIY=projectileI->getPosition().second;
 			projectileICenterX=projectileI->getCenterX();
 			projectileICenterY=projectileI->getCenterY();
-
+			
 			char symTemp = projectiles.at(i)->getSymbole();
 			for (int j=0;j < (int)soldiers.size();j++)
 			{	
@@ -477,7 +477,7 @@ void Model::update(float coeff){
 				int y = soldierI->getPosition().second;
 				int dx = soldiers.at(direction)->getPosition().first;
 				int dy = soldiers.at(direction)->getPosition().second;
-				if(i!=0){
+				if(i != 0){
 					if (distanceMax < 190){
 						if(alea < 0.3)
 							moveRight(i,coeff);
