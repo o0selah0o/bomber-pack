@@ -168,16 +168,13 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 		{
 			if(listClient.size() > 0)
 			{
-				
-				for(int i = 0; i < (int)_model->getProjectiles().size(); i++)
-				{
 					std::string s;
 					std::stringstream out;
 					out << 'p' << ' ';
-					out << _model->getProjectiles().at(i)->getPosition().first << ' ';
-					out << _model->getProjectiles().at(i)->getPosition().second << ' ';
-					out << _model->getProjectiles().at(i)->getDx() << ' ';
-					out << _model->getProjectiles().at(i)->getDy() << ' '; 
+					out << _model->getSoldiers().at(0)->getPosition().first << ' ';
+					out << _model->getSoldiers().at(0)->getPosition().second << ' ';
+					out << dx << ' ';
+					out << dy << ' '; 
 					s = out.str();
 					
 					char* Buffer = (char*)s.c_str();
@@ -186,8 +183,6 @@ int Screen_Multi2::Run (sf::RenderWindow &App, Model* _model, Controleur* _contr
 					{
 						std::cout << "Souci non ?" << std::endl;
 					}
-					
-				}
 				
 			}
 			Sound.Play();
