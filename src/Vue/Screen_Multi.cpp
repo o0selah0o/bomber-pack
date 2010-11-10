@@ -164,32 +164,6 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left)) _controleur->Event("lClick",dx,dy);
 		if (App.GetInput().IsMouseButtonDown(sf::Mouse::Left) and Time2 >= 0.5)
 		{
-			if(listClient.size() > 0)
-			{
-				for(int i = 0; i < (int)_model->getProjectiles().size(); i++)
-				{
-					
-					std::string s;
-					std::stringstream out;
-					out << 'p' << ' ';
-					out << _model->getProjectiles().at(i)->getPosition().first << ' ';
-					out << _model->getProjectiles().at(i)->getPosition().second << ' ';
-					out << _model->getProjectiles().at(i)->getDx() << ' ';
-					out << _model->getProjectiles().at(i)->getDy() << ' '; 
-					s = out.str();
-					
-					char* Buffer = (char*)s.c_str();
-					
-					for(int j = 0; j < (int)listClient.size(); j++)
-					{
-						if (Socket.Send(Buffer, 100, listClient.at(j).first.ToString(), 6000) != sf::Socket::Done)
-						{
-							std::cout << "Souci non ?" << std::endl;
-						}
-					}
-				}
-			}
-			
 			Sound.Play();
 			Clock.Reset();
 		}
@@ -249,55 +223,46 @@ int Screen_Multi::Run (sf::RenderWindow &App, Model* _model, Controleur* _contro
 			if(tokens.size() > 1)
 			{
 				std::cout << "Data received - Size : " << tokens.size() << std::endl;
+				client = atoi(tokens.at(0).c_str());
+				std::cout << "Client : " << client << " mon num : " << _model->getSoldiers().at(0)->getNuJoueur() << std::endl;
 				
-				if(tokens.at(0) != "p")
+				if(isIn(Sender,listClient))
 				{
-					client = atoi(tokens.at(0).c_str());
-					std::cout << "Client : " << client << " mon num : " << _model->getSoldiers().at(0)->getNuJoueur() << std::endl;
-					
-					if(isIn(Sender,listClient))
+					std::cout << "Here nb soldier " << _model->getSoldiers().size() << std::endl;
+					for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
 					{
-						std::cout << "Here nb soldier " << _model->getSoldiers().size() << std::endl;
-						for(int i = 0; i < (int) _model->getSoldiers().size(); i++)
+						std::cout << _model->getSoldiers().at(i)->getNuJoueur() << std::endl;
+						if(_model->getSoldiers().at(i)->getNuJoueur() == client)
 						{
-							std::cout << _model->getSoldiers().at(i)->getNuJoueur() << std::endl;
-							if(_model->getSoldiers().at(i)->getNuJoueur() == client)
+							if(client != _model->getSoldiers().at(0)->getNuJoueur())
 							{
-								if(client != _model->getSoldiers().at(0)->getNuJoueur())
-								{
-									std::cout << "Ici" << std::endl;
-									int xtemp = atoi(tokens.at(1).c_str());
-									int ytemp = atoi(tokens.at(2).c_str());
-									std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
-									_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
-									if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
-										_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
-									_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
-								}
-								else 
-								{
-									std::cout << "Mise a jour de la vie" << std::endl;
-									if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
-										_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
-									_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
-								}
-								
+								std::cout << "Ici" << std::endl;
+								int xtemp = atoi(tokens.at(1).c_str());
+								int ytemp = atoi(tokens.at(2).c_str());
+								std::cout << "X : " << xtemp << " Y : " << ytemp << std::endl;
+								_model->getSoldiers().at(i)->setPosition(xtemp,ytemp);
+								if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
+									_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+								_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
 							}
+							else 
+							{
+								std::cout << "Mise a jour de la vie" << std::endl;
+								if(_model->getSoldiers().at(i)->getLife() > atoi(tokens.at(4).c_str()))
+									_model->getSoldiers().at(i)->setLife(atoi(tokens.at(4).c_str()));
+								_model->getSoldiers().at(i)->setDead((bool)(atoi(tokens.at(5).c_str())));
+							}
+							
 						}
-					}
-					else 
-					{
-						std::cout << "No Here" << std::endl;
-						listClient.push_back(std::pair<sf::IPAddress,int>(Sender,(int)listClient.size()));
-						_model->addSoldier(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 					}
 				}
 				else 
 				{
-					_model->addProjectiles(new Projectile(atoi(tokens.at(1).c_str()),atoi(tokens.at(2).c_str()),atoi(tokens.at(3).c_str()),atoi(tokens.at(4).c_str())));
-					
+					std::cout << "No Here" << std::endl;
+					listClient.push_back(std::pair<sf::IPAddress,int>(Sender,(int)listClient.size()));
+					_model->addSoldier(new Soldier(client,atoi(tokens.at(3).c_str()), atoi(tokens.at(1).c_str()), atoi(tokens.at(2).c_str())));
 				}
-
+				
 			}
 			
 		}

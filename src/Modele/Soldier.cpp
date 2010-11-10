@@ -12,7 +12,7 @@ Soldier::Soldier():Node()
 Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	team=_team;
 	nujoueur=_nujoueur;
-	hp= 10000000;
+	hp= 1000;
 	longueur=20;
 	hauteur=10;
 	speed=400;
