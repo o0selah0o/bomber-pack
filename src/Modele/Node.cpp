@@ -188,3 +188,13 @@ int Node::getCenterX(){
 	return centerX;
 }
 
+bool Node::operator==(const Node &_node)
+{
+	if(_node.symbole == symbole and _node.x == x)
+		if(_node.y == y and _node.longueur == longueur)
+			if(_node.hauteur == hauteur)
+				return true;
+	
+	return false;
+}
+

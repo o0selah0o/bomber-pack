@@ -67,6 +67,9 @@ public:
 	
 	//récupère le centre y de la bounding box du noeud courant
 	int getCenterY();
+	
+	// Surcharge operateur
+	bool operator==(const Node &_node);
 
 	
 protected:
