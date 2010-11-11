@@ -12,7 +12,7 @@ Soldier::Soldier():Node()
 Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 	team=_team;
 	nujoueur=_nujoueur;
-	hp= 1000;
+	hp= 500;
 	longueur=20;
 	hauteur=10;
 	speed=400;
@@ -23,7 +23,7 @@ Soldier::Soldier(int _nujoueur, int _team,int _x, int _y):Node(_x,_y){
 }
 
 Soldier::~Soldier(){
-	
+	delete vehicleUti;
 }
 
 

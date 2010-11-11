@@ -37,10 +37,16 @@ Node::~Node()
 {
 	
 	int i;
-	int size= child.size();
-	for (i=0; i<size; i++) {
-		//delete(child.at(i));
+	
+	if(!child.empty()){
+		int size= child.size();
+		for (i=0; i<size; i++) {
+			if(child.at(i)!=NULL){
+				//delete child.at(i);
+			}
+		}
 	}
+	//delete parent;
 	 
 }
 
