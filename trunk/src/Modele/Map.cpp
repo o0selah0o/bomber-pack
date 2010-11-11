@@ -23,6 +23,17 @@ Map::Map():Node()
 }
 
 Map::~Map(){
+	unsigned int i;
+	if(!vehicles.empty()){
+		for(i = 0; i < vehicles.size() ; i++){
+			//delete vehicles.at(i);
+		}
+	}
+	if(!soldiers.empty()){
+		for(i = 0 ; i < soldiers.size() ; i++){
+			//delete soldiers.at(i);
+		}
+	}
 	
 }
 
