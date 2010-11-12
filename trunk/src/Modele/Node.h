@@ -4,6 +4,15 @@
 #include <utility>
 #include <string>
 
+template <class T, class V> class bPair
+{
+public:
+	bPair(T _first, V _second){first = _first; second = _second;};
+	T first;
+	V second;
+};
+
+
 /**
  Classe modélisant un noeud dans l'arbre des éléments à afficher dans notre jeu.
  **/
@@ -36,13 +45,13 @@ public:
 	void setPosition(int _x, int _y);
 	
 	//getter des coordonnées du noeud
-	std::pair<int,int> getPosition();
+	bPair<int,int> getPosition();
 	
 	//défini la hauteur et la largeur du noeud
 	void setBoundingBox(int _h, int _l);
 	
 	//recupère la hauteur et la largeur du noeud
-	std::pair<int,int> getBoundingBox();
+	bPair<int,int> getBoundingBox();
 	
 	//défini le parend du noeud courants
 	void setParent(Node* _parent);
