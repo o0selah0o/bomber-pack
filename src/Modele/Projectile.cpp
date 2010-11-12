@@ -20,9 +20,11 @@ Projectile::Projectile(int _x,int _y,int _dx,int _dy){
 	yb= ((_dy-_y)* facteur)+_y;
 	x=xb;
 	y=yb;
-	
+	inix=x;
+	iniy=y;	
 }
 
+/*
 void Projectile::parcourir(float coeff){
 	double xb,yb,facteur,distanceDA;
 	distanceDA= pow(dx - x,2) + pow(dy - y,2);
@@ -35,10 +37,21 @@ void Projectile::parcourir(float coeff){
 	parcouru+=speed;
 	
 }
+*/
 
-
-
-
+void Projectile::parcourir(float coeff){
+	double xb,yb,facteur,distanceDA;
+	distanceDA= pow(dx - inix,2) + pow(dy - iniy,2);
+	distanceDA=sqrt(distanceDA);
+	
+	facteur= parcouru/distanceDA;
+	xb= ((dx-inix)* facteur)+inix;
+	yb= ((dy-iniy)* facteur)+iniy;
+	x=xb;
+	y=yb;
+	parcouru+=speed;
+	
+}
 
 int Projectile::getParcouru(){
 	return parcouru;
