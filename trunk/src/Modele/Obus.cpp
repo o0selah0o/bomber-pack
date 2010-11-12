@@ -12,7 +12,7 @@ Obus::~Obus(){
 Obus::Obus(int _x,int _y,int _dx,int _dy){
 	symbole='f';
 	power=100000;
-	speed=2;
+	speed=3;
 	range=1000;
 	dx=_dx;
 	dy=_dy;
@@ -25,4 +25,6 @@ Obus::Obus(int _x,int _y,int _dx,int _dy){
 		yb= ((_dy-_y)* facteur)+_y;
 		x=xb;
 		y=yb;
-	}
+	inix=x;
+	iniy=y;
+}

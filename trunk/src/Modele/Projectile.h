@@ -50,6 +50,9 @@ protected:
 	// les coordonnées de la direction dans laquelle va le projectile.
 	int dx;
 	int dy;
+	// les coordonnées initiale du projectile
+	int inix;
+	int iniy;
 	// la portée du projectile
 	int range;
 	//la vitesse du projectile
