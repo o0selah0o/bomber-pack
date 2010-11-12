@@ -66,9 +66,9 @@ void Node::setPosition(int _x, int _y)
 		y = _y;	
 }
 
-std::pair<int,int> Node::getPosition()
+bPair<int,int> Node::getPosition()
 {
-	std::pair<int,int> p (x, y); 
+	bPair<int,int> p (x, y); 
 	return p;
 }
 
@@ -81,9 +81,9 @@ void Node::setBoundingBox(int _h, int _l)
 char Node::getSymbole(){
 	return symbole;
 }
-std::pair<int,int> Node::getBoundingBox()
+bPair<int,int> Node::getBoundingBox()
 {
-	std::pair<int,int> p (hauteur, longueur); 
+	bPair<int,int> p (hauteur, longueur); 
 	
 	return p;
 }
